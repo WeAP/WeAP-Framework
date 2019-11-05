@@ -14,11 +14,24 @@ namespace WeAP { namespace Framework {
 class Daemon : public AppObject
 {
 public:
+    enum IntervalType
+    {
+        Fixed = 1,  ///< 固定时间的
+        Random = 2, ///< 在一定范围内随机
+    };
+
+public:
     Daemon();
     virtual ~Daemon();
 
     virtual void Dump();
 
+    void Execute(bool nochdir = false, bool noclose = false); //常驻进程，不退出
+
+protected:
+    virtual int DoExecute() = 0;
+    void Sleep();
+    virtual void Clear();
 
 private:
     Daemon(const Daemon& other);
@@ -27,10 +40,12 @@ private:
     void Init(const Daemon& other);
 
 protected:
-    virtual void Clear();
+    IntervalType intervalType;
+    int32_t intervalSeconds;   ///< 间隔时间(秒)
+    int32_t minIntervalSeconds;   ///< 间隔时间(秒)
+    int32_t maxIntervalSeconds;   ///< 间隔时间(秒)
 
-protected:
-
+    int loopCount;
 };
 
 }}

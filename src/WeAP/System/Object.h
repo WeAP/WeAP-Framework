@@ -2,6 +2,7 @@
 #define __WeAP_Object_H__
 
 #include "stdinc.h"
+#include "Logger.h"
 
 namespace WeAP { namespace System {
 
