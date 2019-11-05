@@ -19,38 +19,19 @@ public:
     StopWatch();
     virtual ~StopWatch();
 
-    /**
-     * 毫秒，ms
-     */
-    int GetCostMS();
-
-    /**
-     * 微秒，us
-     */
-    long GetCostUS();
-
-    /**
-     * 秒，s
-     */
-    int GetCostS();
-
-    /**
-     * 分，m
-     */
-    int GetCostM();
+    int GetCostMS();  ///< get cost time by millisecond
+    long GetCostUS(); ///< get cost time by microsecond
+    int GetCostS();   ///< get cost time by second
+    int GetCostM();   ///< get cost time by minute
     
 protected:
-
-    void Start();
-    
+    void Start();    
     void Stop();
-
     bool IsRunning();
 
 protected:        
-    struct timeval startTime;    
-    struct timeval stopTime;    
-
+    struct timeval startTime;
+    struct timeval stopTime;
     bool isRunning;
 };
 

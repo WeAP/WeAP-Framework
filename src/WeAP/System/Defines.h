@@ -15,16 +15,6 @@
 using std::string;
 namespace WeAP { namespace System {
 
-
-typedef short int int16;
-typedef unsigned short int uint16;
-
-typedef long int int32;
-typedef unsigned int uint32;
-
-typedef long long int int64;
-typedef unsigned long long int uint64;
-
 const unsigned int SIZE_1K = 1024;
 const unsigned int SIZE_2K = SIZE_1K * 2;
 const unsigned int SIZE_4K = SIZE_1K * 4;
@@ -51,8 +41,8 @@ const unsigned int SIZE_512M = SIZE_1M * 512;
 const int MinInt = std::numeric_limits<int>::min();
 const int MaxInt = std::numeric_limits<int>::max();
 
-const int64 MinInt64 = std::numeric_limits<int64>::min();
-const int64 MaxInt64 = std::numeric_limits<int64>::max();
+const int64_t MinInt64 = std::numeric_limits<int64_t>::min();
+const int64_t MaxInt64 = std::numeric_limits<int64_t>::max();
 
 
 }}

@@ -20,6 +20,17 @@ Daemon::Daemon(const Daemon& other)
     this->Init(other);
 }
 
+void Daemon::Init(IntervalType intervalType,
+                  int intervalSeconds,
+                  int minIntervalSeconds,
+                  int maxIntervalSeconds)
+{
+    this->intervalType = intervalType;
+    this->intervalSeconds = intervalSeconds;
+    this->minIntervalSeconds = minIntervalSeconds;
+    this->maxIntervalSeconds = maxIntervalSeconds;
+}
+
 Daemon::~Daemon()
 {
     this->Clear();

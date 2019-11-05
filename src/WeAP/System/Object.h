@@ -3,6 +3,9 @@
 
 #include "stdinc.h"
 #include "Logger.h"
+#include "Defines.h"
+
+using namespace std;
 
 namespace WeAP { namespace System {
 

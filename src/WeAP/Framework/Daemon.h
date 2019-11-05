@@ -24,6 +24,11 @@ public:
     Daemon();
     virtual ~Daemon();
 
+    void Init(IntervalType intervalType,
+              int intervalSeconds,
+              int minIntervalSeconds,
+              int maxIntervalSeconds);
+
     virtual void Dump();
 
     void Execute(bool nochdir = false, bool noclose = false); //常驻进程，不退出
@@ -41,9 +46,9 @@ private:
 
 protected:
     IntervalType intervalType;
-    int32_t intervalSeconds;   ///< 间隔时间(秒)
-    int32_t minIntervalSeconds;   ///< 间隔时间(秒)
-    int32_t maxIntervalSeconds;   ///< 间隔时间(秒)
+    int intervalSeconds;   ///< 间隔时间(秒)
+    int minIntervalSeconds;   ///< 间隔时间(秒)
+    int maxIntervalSeconds;   ///< 间隔时间(秒)
 
     int loopCount;
 };
