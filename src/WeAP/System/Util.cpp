@@ -3,6 +3,8 @@
 #include <sys/stat.h>
 #include <fcntl.h> 
 #include <net/if.h>
+#include "Exception.h"
+#include "Error.h"
 
 namespace WeAP { namespace System {
 
@@ -25,40 +27,16 @@ int Util::GetRandomNumber(int min, int max)
 
 }
 
-string Util::GetEth1IP()
+string Util::GetLocalIpHex()
 {
-    return Util::GetLocalIP("eth1");
-}
-
-string Util::GetLocalIP(const string& interfaceName)
-{
-    char szIP[64] = {0};
-    int inet_sock = socket(AF_INET, SOCK_DGRAM, 0);
-
-    struct ifreq ifr;
-    strncpy(ifr.ifr_name, interfaceName.c_str(), sizeof(ifr.ifr_name) - 1);
-    ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = '\0';
-
-    if (!ioctl(inet_sock, SIOCGIFADDR, &ifr))
-    {
-        inet_ntop(AF_INET, &(((struct sockaddr_in*)(&ifr.ifr_addr))->sin_addr), szIP, sizeof(szIP));
-    }
-
-    close(inet_sock);
-    
-    return szIP;
-}
-
-string Util::GetLocalHostIpHex()
-{
-    string localIP = Util::GetLocalHostIp();
+    string localIP = Util::GetLocalIp();
     in_addr_t lIp = inet_addr(localIP.c_str()) ;
     char szBuf[128] = {0};
     snprintf(szBuf,sizeof(szBuf),"%08x",lIp);
     return szBuf;
 }
 
-string Util::GetLocalHostIp()
+string Util::GetLocalIp()
 {
     int fd, intrface;
     char szBuf[64] = {"255.255.255.255"};
@@ -88,70 +66,42 @@ string Util::GetLocalHostIp()
 }
 
 
-int Util::RegexMatch(const string& strSrc, const string& strRegular, string& strErrmsg, int cflags)
+bool Util::RegexMatch(const string& str, const string& pattern, int cflags)
 {
-    int iRet = -1;
     regex_t reg;
-    char ebuf[128] = {0};
+    int ret = regcomp(&reg, pattern.c_str(), cflags);
+    if(ret != 0)
+    {
+        char errBuf[128] = {0};
+        regerror(ret, &reg, errBuf, sizeof(errBuf) - 1);
+
+        regfree(&reg);
+        throw Exception(Error::RegexMatch_Failed, errBuf);        
+    }
+
     regmatch_t regmatch[10];
     memset(regmatch,0,sizeof(regmatch));
     const int nmatch = 10;
-    int iSuccess = 2;
-    
-    iRet = regcomp(&reg, strRegular.c_str(), cflags);
-    if(iRet != 0)
+    ret = regexec(&reg, str.c_str(), nmatch, regmatch, 0);
+    if(ret == 0)
     {
-        regerror(iRet, &reg, ebuf, sizeof(ebuf) - 1);
-        strErrmsg = ebuf;
-        
         regfree(&reg);
-        return 2;
+        return true;
     }
-
-    iRet = regexec(&reg, strSrc.c_str(), nmatch, regmatch, 0);
-    if(iRet == 0)
+    else if(ret == REG_NOMATCH)
     {
-        iSuccess = 0;
-    }
-    else if(iRet == REG_NOMATCH)
-    {
-        iSuccess = 1;
+        regfree(&reg);
+        return false;
     }
     else
     {
-        regerror(iRet, &reg, ebuf, sizeof(ebuf) - 1);
-        strErrmsg = ebuf;
-        iSuccess = 2;
-    }
-    regfree(&reg);
-    return iSuccess;
-}
+        char errBuf[128] = {0};
+        regerror(ret, &reg, errBuf, sizeof(errBuf) - 1);
 
-
-string Util::GenerateMsgNo(int appCode)
-{    
-    char buf[32] = {0};
-    static unsigned int seq = 0;
-    static int proc = getpid();
-    snprintf(buf, sizeof(buf), "%04d%05d%010u%010u", appCode, proc, (int)time(NULL), seq++);
-    
-    return string(buf);
-    
-}
-
-string Util::FenToYuan(long long int fen)
-{
-    if (fen < 0)
-    {
-        return "";
+        regfree(&reg);
+        throw Exception(Error::RegexMatch_Failed, errBuf);
     }
 
-    char yuan[128] = {0};
-    long long int quo = fen / 100;
-    int mod = fen % 100;
-    snprintf(yuan, sizeof(yuan), "%lld.%02d", quo, mod);
-    
-    return yuan;
 }
 
 }}

@@ -12,14 +12,12 @@ private:
     Error();
 
 public:
-    static const int Min = 10000;
-    static const int Max = 19999;
-
 
     static const int ERR_OBJECT_LIST_GET_OUT_OF_RANGE = 10000;
     
     static const int ERR_FILE_UTIL_OPEN_FAILED        = 10001;
 
+    static const int RegexMatch_Failed                = 10002;
 
 
 

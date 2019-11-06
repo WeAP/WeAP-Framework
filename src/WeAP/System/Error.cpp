@@ -13,7 +13,7 @@ void Error::Init(int appCode)
 
 int Error::ToAppError(int error)
 {
-    if ((error >= Error::Min && error <= Error::Max))
+    if (Error::appCode > 0)
     {
         return Error::appCode * 100000 + error;
     }
