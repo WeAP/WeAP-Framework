@@ -35,7 +35,8 @@ public:
     static const int Crypt_DecryptFileDesEde3_Failed  = 10043;
 
     static const int BASE64_EncodeFile_Failed         = 10060;
-    static const int BASE64_DecodeFile_Failed         = 10060;
+    static const int BASE64_DecodeFile_Failed         = 10061;
+    static const int BASE64_DecodeBlock_Failed        = 10062;
 
 
     static void Init(int appCode); 

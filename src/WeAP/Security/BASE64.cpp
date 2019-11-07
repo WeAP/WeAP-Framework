@@ -166,7 +166,7 @@ string BASE64::DecodeBlock(const char *s, size_t len)
     int out_len = EVP_DecodeBlock((unsigned char*) result, (const unsigned char *) s, len);
     if (out_len < 0) 
     {
-        throw Exception(Error::"base64 decode error");
+        throw Exception(Error::BASE64_DecodeBlock_Failed, "base64 decode error");
     }
     if(len>=2&& s[len-1]=='=' && s[len-2]=='=' && out_len>=2 && result[out_len-1]=='\0' && result[out_len-2]=='\0')
     {
