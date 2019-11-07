@@ -1,15 +1,18 @@
 
-#include "DAO.h"
+#include "RPC.h"
+
+
 
 namespace WeAP { namespace Framework {
 
-DAO::DAO()
+
+
+RPC::RPC()
 {
 }
 
-DAO::~DAO()
+RPC::~RPC()
 {
-
 }
 
 }}

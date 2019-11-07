@@ -17,17 +17,9 @@ public:
     Client();
     virtual ~Client();
 
-    virtual void Dump();
-
-
 private:
     Client(const Client& other);
     Client& operator=(const Client& other);
-
-    void Init(const Client& other);
-
-protected:
-    virtual void Clear();
 
 protected:
 

@@ -17,19 +17,10 @@ public:
     Package();
     virtual ~Package();
 
-    virtual void Dump();
-
 
 private:
     Package(const Package& other);
     Package& operator=(const Package& other);
-
-    void Init(const Package& other);
-
-protected:
-    virtual void Clear();
-
-protected:
 
 };
 

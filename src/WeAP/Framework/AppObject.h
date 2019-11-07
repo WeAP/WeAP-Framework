@@ -2,6 +2,8 @@
 #define __WeAP_AppObject_H__
 
 #include "Object.h"
+#include "Error.h"
+#include "Exception.h"
 
 using namespace WeAP::System;
 
@@ -11,7 +13,6 @@ namespace WeAP { namespace Framework {
  * 
  * 
  * @author xzwang
- * @date 2018-05-11
  */
 class AppObject : public WeAP::System::Object
 {

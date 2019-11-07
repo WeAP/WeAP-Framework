@@ -17,17 +17,10 @@ public:
     Handler();
     virtual ~Handler();
 
-    virtual void Dump();
-
-
 private:
     Handler(const Handler& other);
     Handler& operator=(const Handler& other);
 
-    void Init(const Handler& other);
-
-protected:
-    virtual void Clear();
 
 protected:
 

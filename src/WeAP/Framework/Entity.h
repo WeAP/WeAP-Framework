@@ -17,20 +17,6 @@ public:
     Entity();
     virtual ~Entity();
 
-    virtual void Dump();
-
-
-private:
-    Entity(const Entity& other);
-    Entity& operator=(const Entity& other);
-
-    void Init(const Entity& other);
-
-protected:
-    virtual void Clear();
-
-protected:
-
 };
 
 }}

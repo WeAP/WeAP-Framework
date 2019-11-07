@@ -9,7 +9,7 @@
 namespace WeAP { namespace System {
 
 
-int Util::GetRandomNumber(int min, int max)
+int Util::GetRandom(int min, int max)
 { 
     int fd = ::open("/dev/urandom",O_RDONLY);
     unsigned int randNum = 0;

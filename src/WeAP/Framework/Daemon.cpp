@@ -15,11 +15,17 @@ Daemon::Daemon()
     this->loopCount = 0;
 }
 
-Daemon::Daemon(const Daemon& other)
+
+
+Daemon::~Daemon()
 {
-    this->Init(other);
+
 }
 
+void Daemon::Init(const string& confFile)
+{
+
+}
 void Daemon::Init(IntervalType intervalType,
                   int intervalSeconds,
                   int minIntervalSeconds,
@@ -29,38 +35,6 @@ void Daemon::Init(IntervalType intervalType,
     this->intervalSeconds = intervalSeconds;
     this->minIntervalSeconds = minIntervalSeconds;
     this->maxIntervalSeconds = maxIntervalSeconds;
-}
-
-Daemon::~Daemon()
-{
-    this->Clear();
-}
-
-Daemon& Daemon::operator=(const Daemon& other)
-{
-    if(this == &other)
-    {
-        return *this;
-    }
-
-    this->Init(other);
-
-    return *this;
-}
-
-void Daemon::Init(const Daemon& other)
-{
-    /// @todo impl
-}
-
-void Daemon::Clear()
-{
-    /// @todo impl
-}
-
-void Daemon::Dump()
-{
-    /// @todo impl
 }
 
 
@@ -120,13 +94,21 @@ void Daemon::Execute(bool nochdir/* = false*/, bool noclose/* = false*/)
     
     while (1)
     {
-        INFO("DoExecute loopCount: %d", this->loopCount);
-        int ret = this->DoExecute();
-        if (ret != 0)
-        {
-            ERROR("daemon execute failed. ret:%d, name:%s", ret,this->m_strDaemonName.c_str());
-        }
         
+        try
+        {
+            INFO("DoExecute loopCount: %d", this->loopCount);
+            this->DoExecute();
+        }
+        catch(const Exception& ex)
+        {
+            ERROR("daemon execute failed. errorCode:%d, errorMessage:%s, DaemonName:%s", ex.errorCode, ex.errorMessage.c_str(), this->daemonName.c_str());
+        }
+        catch(const std::exception& ex)
+        {
+            ERROR("daemon execute failed. std ex:%s, DaemonName:%s", e.what(), this->daemonName.c_str());
+        }
+
         this->loopCount++;
     };
  
@@ -136,7 +118,7 @@ void Daemon::Sleep()
 {
     if (this->intervalType == Random)
     {
-        this->intervalSeconds = Util::GetRandomNumber(this->minIntervalSeconds, this->maxIntervalSeconds);
+        this->intervalSeconds = Util::GetRandom(this->minIntervalSeconds, this->maxIntervalSeconds);
         INFO("random sleep %ds", this->intervalSeconds);
     }
     else

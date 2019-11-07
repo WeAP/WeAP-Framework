@@ -2,6 +2,7 @@
 #define __WeAP_Daemon_H__
 
 #include "AppObject.h"
+#include "INIConfig.h"
 
 namespace WeAP { namespace Framework {
 
@@ -24,17 +25,18 @@ public:
     Daemon();
     virtual ~Daemon();
 
+    void Init(const string& confFile);
+
     void Init(IntervalType intervalType,
               int intervalSeconds,
               int minIntervalSeconds,
               int maxIntervalSeconds);
 
-    virtual void Dump();
-
     void Execute(bool nochdir = false, bool noclose = false); //常驻进程，不退出
 
 protected:
-    virtual int DoExecute() = 0;
+    virtual void DoInit(const INIConfig& config) = 0;
+    virtual void DoExecute() = 0;
     void Sleep();
     virtual void Clear();
 
@@ -42,9 +44,8 @@ private:
     Daemon(const Daemon& other);
     Daemon& operator=(const Daemon& other);
 
-    void Init(const Daemon& other);
-
 protected:
+    string daemonName;
     IntervalType intervalType;
     int intervalSeconds;   ///< 间隔时间(秒)
     int minIntervalSeconds;   ///< 间隔时间(秒)

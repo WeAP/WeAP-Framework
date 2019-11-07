@@ -17,17 +17,10 @@ public:
     HTTPClient();
     virtual ~HTTPClient();
 
-    virtual void Dump();
-
 
 private:
     HTTPClient(const HTTPClient& other);
     HTTPClient& operator=(const HTTPClient& other);
-
-    void Init(const HTTPClient& other);
-
-protected:
-    virtual void Clear();
 
 protected:
 

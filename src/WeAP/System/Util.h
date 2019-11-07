@@ -11,7 +11,7 @@ private:
     Util();
     
 public:
-    static int GetRandomNumber(int min, int max);
+    static int GetRandom(int min, int max);
 
     static string GetLocalIpHex();
     static string GetLocalIp();

@@ -17,8 +17,12 @@ INCLUDE += -I$(WEAP_SRC)/Thread
 INCLUDE += -I$(WEAP_SRC)/Framework
 
 
-WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
+#WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Security/%.cpp, $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Security/*.cpp)) \
+		$(patsubst $(WEAP_SRC)/Thread/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Thread/*.cpp)) \
+		$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
+
+WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Thread/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Thread/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
 
@@ -28,8 +32,8 @@ $(WEAP_LIB) : $(WEAP_OBJS)
 $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/System/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Security/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
+#$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Security/%.cpp 
+#	$(CC) $(CFLAGS) -c $< -o $@
 
 $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Thread/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
