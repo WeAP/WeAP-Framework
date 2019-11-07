@@ -2,6 +2,8 @@
 #define __WeAP_INIConfig_H__
 
 #include "AppObject.h"
+#include "KVMap.h"
+#include "ObjectMap.h"
 
 namespace WeAP { namespace Framework {
 
@@ -19,6 +21,15 @@ public:
 
     void Init(const string& confFile);
 
+    void GetSection(const string& section, KVMap& kvmap);
+
+    string GetString(const string& section, const string& key);
+    int32_t GetInt32(const string& section, const string& key);
+    uint32_t GetUInt32(const string& section, const string& key);
+    int64_t GetInt64(const string& section, const string& key);
+    uint64_t GetUInt64(const string& section, const string& key);
+    void GetList(const string& section, const string& key, char sep, vector<string>& list);
+    void GetList(const string& section, const string& key, char sep, vector<uint32_t>& list);
 
 private:
     INIConfig(const INIConfig& other);
@@ -26,6 +37,7 @@ private:
 
 protected:
     string confFile;
+    ObjectMap sections;
 
 };
 
