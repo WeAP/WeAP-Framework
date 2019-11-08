@@ -70,7 +70,7 @@ public:
         if (index > this->innerList.size() -1)
         {
             ERROR("ObjectList Get out of range, index=%d", index);
-            throw CException(Error::ERR_OBJECT_LIST_GET_OUT_OF_RANGE, "ObjectList Get out of range");
+            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
         return this->innerList[index];
@@ -82,7 +82,7 @@ public:
         if (index > this->innerList.size() -1)
         {
             ERROR("ObjectList Get out of range, index=%d", index);
-            throw CException(Error::ERR_OBJECT_LIST_GET_OUT_OF_RANGE, "ObjectList Get out of range");
+            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
         return this->innerList.at(index);

@@ -25,5 +25,14 @@ void MysqlDAO::Init(const INIConfig& config, const string& section)
 
 }
 
+void MysqlDAO::Query(const string& sql, KVMap& record)
+{
+
+}
+void MysqlDAO::Query(const string& sql, ObjectList<KVMap>& recordList)
+{
+
+}
+
 
 }}

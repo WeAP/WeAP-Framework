@@ -2,8 +2,11 @@
 #define __WeAP_MysqlDAO_H__
 
 #include "AppObject.h"
+#include "ObjectList.h"
 
 namespace WeAP { namespace Framework {
+
+
 
 /**
  * 
@@ -17,6 +20,11 @@ public:
     virtual ~MysqlDAO();
 
     void Init(const INIConfig& config, const string& section);
+
+    void Query(const string& sql, KVMap& record);
+    void Query(const string& sql, ObjectList<KVMap>& recordList);
+    //void Insert(const string& sql,)
+    //void Update(const string& sql);
     
 
 private:

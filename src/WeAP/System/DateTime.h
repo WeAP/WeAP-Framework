@@ -17,8 +17,7 @@ public:
     static bool Equals(const DateTime& value1,const DateTime& value2);
     static DateTime Now();
 
-    static time_t GetTimeStamp();
-    static std::string GetTimeStamp2String();
+
 
 public:
     DateTime();
@@ -58,6 +57,8 @@ public:
 
     time_t GetSeconds();
     long long GetMicroseconds();
+
+    time_t GetTimeStamp();
     
     bool operator == (const DateTime &dateTime);
     bool operator > (const DateTime &dateTime);

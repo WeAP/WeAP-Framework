@@ -47,7 +47,7 @@ public:
         if (!this->Exist(key))
         {
             ERROR("ObjectMap Get out of range, index=%d", index);
-            throw CException(Error::ERR_OBJECT_LIST_GET_OUT_OF_RANGE, "ObjectList Get out of range");
+            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
         return this->innerMap[key];
@@ -59,7 +59,7 @@ public:
         if (!this->Exist(key))
         {
             ERROR("ObjectMap Get out of range, index=%d", index);
-            throw CException(Error::ERR_OBJECT_LIST_GET_OUT_OF_RANGE, "ObjectList Get out of range");
+            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
         return this->innerMap.at(index);

@@ -225,27 +225,18 @@ long long DateTime::GetMicroseconds()
     return timestampMicro;
 }
 
+time_t DateTime::GetTimeStamp()
+{
+    return this->seconds;
+}
+
+
 DateTime DateTime::Now()
 {
     DateTime datetime;
     return datetime;
 }
 
-time_t DateTime::GetTimeStamp()
-{
-    return time(NULL);
-}
-
-std::string DateTime::GetTimeStamp2String()
-{
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-
-    char timeStamp[30] = {0};
-    snprintf(timeStamp,sizeof(timeStamp)-1, "%ld", tv.tv_sec);
-
-    return std::string(timeStamp);
-}
 
 bool DateTime::operator == (const DateTime &dateTime)
 {

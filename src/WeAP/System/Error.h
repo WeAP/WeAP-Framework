@@ -13,9 +13,9 @@ private:
 
 public:
 
-    static const int ERR_OBJECT_LIST_GET_OUT_OF_RANGE = 10000;
+    static const int ObjectList_Get_Out_Of_Range      = 10000;
     
-    static const int ERR_FILE_UTIL_OPEN_FAILED        = 10001;
+    static const int FileUtil_Open_Failed             = 10001;
 
     static const int RegexMatch_Failed                = 10002;
 
@@ -37,6 +37,8 @@ public:
     static const int BASE64_EncodeFile_Failed         = 10060;
     static const int BASE64_DecodeFile_Failed         = 10061;
     static const int BASE64_DecodeBlock_Failed        = 10062;
+
+    static const int INIConfig_Formate_Error          = 10070;
 
 
     static void Init(int appCode); 

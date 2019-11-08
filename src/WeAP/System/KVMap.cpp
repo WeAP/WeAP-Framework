@@ -1,5 +1,6 @@
 #include "KVMap.h"
 #include "Convert.h"
+#include "DateTime.h"
 
 namespace WeAP { namespace System {
 
@@ -182,6 +183,11 @@ bool KVMap::GetBool(const string& key, bool defaultValue) const
     
 }   
 
+time_t KVMap::GetTimestamp(const string& key, time_t defaultValue = 0)
+{
+    string dt = this->GetString(key);
+    return DateTime(dt).GetTimestamp();
+}
 
 void KVMap::Set(const string& key, int32_t value)
 {
