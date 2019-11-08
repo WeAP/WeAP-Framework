@@ -22,7 +22,7 @@ void FileUtil::ReadLines(const string& filePath, vector<string>& lines)
     {
         string errInfo = "file open failed, filePath:" + filePath;
         ERROR("%s", errInfo.c_str());
-        throw Exception(Error::ERR_FILE_UTIL_OPEN_FAILED, errInfo);
+        throw Exception(Error::FileUtil_Open_Failed, errInfo);
     }
 
     string line;
