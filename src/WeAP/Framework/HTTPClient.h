@@ -9,7 +9,6 @@ namespace WeAP { namespace Framework {
  * 
  * 
  * @author xzwang
- * @date 2018-05-11
  */
 class HTTPClient : public Client
 {
@@ -17,6 +16,7 @@ public:
     HTTPClient();
     virtual ~HTTPClient();
 
+    void Init(const INIConfig& config, const string& section);
 
 private:
     HTTPClient(const HTTPClient& other);

@@ -4,6 +4,57 @@
 
 using namespace std;
 
+namespace WeAP { namespace System {
+
+string BASE64::Encode(const string& str)
+{
+    char outStr[1024] = {0};
+    int outlen;
+    BASE64::Encode(str.c_str(), str.size(), outStr, len);
+    return string(outStr, len);
+}
+string BASE64::Decode(const string& str)
+{
+    char outStr[1024] = {0};
+    int outlen;
+    BASE64::Decode(str.c_str(), str.size(), outStr, len);
+    return string(outStr, len);
+}
+
+void BASE64::Encode(unsigned char* data, int datalen, unsigned char* outData, int *outlen)
+{
+    EVP_ENCODE_CTX base64;
+    EVP_EncodeInit(&base64); 
+    EVP_EncodeUpdate(&base64, outData, outlen, data, datalen);
+    int tmp = *outlen;
+    EVP_EncodeFinal(&base64, outData + *outlen, outlen);
+    *outlen += tmp;
+    outData[*outlen] = 0;
+}
+
+
+void BASE64::Decode(unsigned char* data, int datalen, unsigned char* outData, int* outlen)
+{
+    EVP_ENCODE_CTX base64;
+    EVP_DecodeInit(&base64);
+    
+    int i = EVP_DecodeUpdate(&base64, outData, outlen, data, datalen);
+    if (i < 0)
+    {
+        string errMsg = "EVP_DecodeUpdate failed, ret=" + Convert::ToString(i);
+        throw Exception(Error::BASE64_Decode_Failed, errMsg);
+    }
+    int tmp = *outlen;
+
+
+    EVP_DecodeFinal(&base64, outData + tmp, outlen);
+    //*outlen=tmp;
+    *outlen += tmp;
+    
+    outData[*outlen] = 0;
+
+}
+
 
 void BASE64::EncodeFile(const string& inFilePath, const string& outFilePath)
 {        
@@ -184,72 +235,8 @@ string BASE64::DecodeBlock(const char *s, size_t len)
     return ret;
 }
 
+}}
 
-
-void BASE64::Encode(unsigned char* str, int strLen, unsigned char* str64, int* str64Len)
-{
-    BASE64::OpensslBase64Encode(str64, str64Len, (unsigned char*)str, strLen);
-}
-
-void BASE64::Decode(unsigned char* str, int str_len, unsigned char* decode, int* decode_len)
-{
-    BASE64::OpensslBase64Decode( decode, decode_len, str, str_len );
-}
-
-int BASE64::OpensslBase64Encode( unsigned char* outData,
-                          int *outlen,
-                          unsigned char* data,
-                          int datalen )
-{
-    int tmp=0;
-    EVP_ENCODE_CTX base64;
-    EVP_EncodeInit(&base64); 
-    EVP_EncodeUpdate(&base64,
-        outData,
-        outlen, 
-        data,   
-        datalen 
-    );
-    tmp=*outlen;
-    EVP_EncodeFinal(&base64,outData+*outlen,outlen);
-    *outlen+=tmp;
-    outData[*outlen]=0;
-    
-    return 0;
-}
-
-
-int BASE64::OpensslBase64Decode( unsigned char* outData,
-                                  int * outlen,
-                                  unsigned char* data,
-                                  int datalen )
-{
-    int tmp=0,i=0,lines=0,currpos=0;
-    EVP_ENCODE_CTX base64;
-    EVP_DecodeInit(&base64);
-
-    
-    i=EVP_DecodeUpdate(&base64,
-        outData,     
-        outlen,      
-        data,     
-        datalen);
-    if (i < 0)
-    {                
-
-        return -1;
-    }
-    tmp+=*outlen;
-
-
-    EVP_DecodeFinal(&base64,outData+tmp,outlen);
-    //*outlen=tmp;
-    *outlen+=tmp;
-    
-    outData[*outlen]=0;
-
-    return 0;
-}
 
 
 

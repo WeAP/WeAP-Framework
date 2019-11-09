@@ -91,7 +91,7 @@ bool StringUtil::IsDigit(const string& str)
     return !(*p);
 }
 
-bool StringUtil::IsDigitAlpha(const string& str)
+bool StringUtil::IsAlphaDigit(const string& str)
 {
     const char* p = str.c_str();
 

@@ -26,28 +26,18 @@ private:
     
 public:
 
-    static void EncodeFile(const string& inFilePath, const string& outFilePath);
+    static string Encode(const string& str);
+    static string Decode(const string& str);
 
+    static void Encode(unsigned char* data, int datalen, unsigned char* outData, int *outlen);
+    static void Decode(unsigned char* data, int datalen, unsigned char* outData, int *outlen);
+
+    static void EncodeFile(const string& inFilePath, const string& outFilePath);
     static void DecodeFile(const string& inFilePath, const string& outFilePath);
 
     static string EncodeBlock(const char *s, size_t len);
-
     static string DecodeBlock(const char *s, size_t len);
 
-    static void Encode(unsigned char* str, int strLen, unsigned char* str64, int* str64Len);
-
-    static void Decode(unsigned char* str, int str_len, unsigned char* decode, int* decode_len);    
-    
-    
-    static int OpensslBase64Encode( unsigned char* outData,
-                              int *outlen,
-                              unsigned char* data,
-                              int datalen );
-    
-    static int OpensslBase64Decode( unsigned char* outData,
-                                      int * outlen,
-                                      unsigned char* data,
-                                      int datalen );
 
 };
 

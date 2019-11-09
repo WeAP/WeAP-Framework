@@ -34,9 +34,11 @@ public:
     static const int Crypt_EncryptFileDesEde3_Failed  = 10042;
     static const int Crypt_DecryptFileDesEde3_Failed  = 10043;
 
-    static const int BASE64_EncodeFile_Failed         = 10060;
-    static const int BASE64_DecodeFile_Failed         = 10061;
-    static const int BASE64_DecodeBlock_Failed        = 10062;
+    static const int BASE64_Decode_Failed             = 10060;
+    static const int BASE64_Encode_Failed             = 10061;
+    static const int BASE64_EncodeFile_Failed         = 10062;
+    static const int BASE64_DecodeFile_Failed         = 10063;
+    static const int BASE64_DecodeBlock_Failed        = 10064;
 
     static const int INIConfig_Formate_Error          = 10070;
 

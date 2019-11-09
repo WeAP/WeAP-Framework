@@ -3,7 +3,6 @@
 #define CryptH
 
 #include <fstream>
-
 #include <openssl/bn.h>
 #include <openssl/pem.h>
 

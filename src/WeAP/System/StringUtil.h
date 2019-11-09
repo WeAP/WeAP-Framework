@@ -23,7 +23,7 @@ public:
     static void Split(const string& str, char sep, set<string>& strs);
 
     static bool IsDigit(const string& str);
-    static bool IsDigitAlpha(const string& str);
+    static bool IsAlphaDigit(const string& str);
 
     static string ToLower(const string& str);
     static string ToUpper(const string& str);

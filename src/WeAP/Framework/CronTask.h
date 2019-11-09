@@ -7,7 +7,7 @@
 namespace WeAP { namespace Framework {
 
 /**
- * 
+ * a task for crontab
  * 
  * @author xzwang
  */
