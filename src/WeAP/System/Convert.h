@@ -25,6 +25,9 @@ public:
     static uint64_t ToUInt64(const string& value, uint64_t defaultValue = 0);
     static bool ToBool(const string& value, bool defaultValue = false);
 
+    unsigned char ToHex(unsigned char x);
+    unsigned char FromHex(unsigned char x);
+
 };
 
 }}

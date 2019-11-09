@@ -113,4 +113,33 @@ bool Convert::ToBool(const string& value, bool defaultValue)
 }
 
 
+
+unsigned char Convert::ToHex(unsigned char x) 
+{ 
+    return  x > 9 ? x + 55 : x + 48; 
+}
+
+unsigned char Convert::FromHex(unsigned char x) 
+{ 
+    unsigned char y;
+    if (x >= 'A' && x <= 'Z')
+    {
+        y = x - 'A' + 10;
+    } 
+    else if (x >= 'a' && x <= 'z')
+    { 
+        y = x - 'a' + 10;
+    }
+    else if (x >= '0' && x <= '9')
+    {
+        y = x - '0';
+    }
+    else 
+    {
+        assert(0);
+    }
+    
+    return y;
+}
+
 }}

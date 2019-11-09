@@ -1,6 +1,7 @@
 #include "KVMap.h"
 #include "Convert.h"
 #include "DateTime.h"
+#include "TextCodec.h"
 
 namespace WeAP { namespace System {
 
@@ -59,7 +60,7 @@ void KVMap::SplitKeyValue(const string& kvstr, char sep, map<string, string>& re
         string key = kvstr.substr(0, pos);
         string value = kvstr.substr(pos + 1);     
 
-        //resultMap[key] = this->URLDecode(value);  @todo
+        resultMap[key] = TextCodec::UrlDecode(value); 
     }
 }
 
@@ -299,15 +300,14 @@ string KVMap::ToUrlString(char sep1, char sep2)
         {
             str += it->first;
             str += sep2;
-            //str += Comm::UrlEncode(it->second); @todo
+            str += TextCodec::UrlEncode(it->second);
             str += sep1;
         }
         else
         {
             str += it->first;
             str += sep2;
-            //str += Comm::UrlEncode(it->second); @todo
-
+            str += TextCodec::UrlEncode(it->second);
         }
     } 
 
