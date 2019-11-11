@@ -2,6 +2,7 @@
 #include "Convert.h"
 #include "DateTime.h"
 #include "TextCodec.h"
+#include "StringUtil.h"
 
 namespace WeAP { namespace System {
 
@@ -184,11 +185,24 @@ bool KVMap::GetBool(const string& key, bool defaultValue) const
     
 }   
 
-time_t KVMap::GetTimestamp(const string& key, time_t defaultValue = 0)
+time_t KVMap::GetTimestamp(const string& key, time_t defaultValue)
 {
     string dt = this->GetString(key);
     return DateTime(dt).GetTimestamp();
 }
+
+void KVMap::GetList(const string& key, char sep, vector<string>& list)
+{
+    string value = this->GetString(key);
+    StringUtil::Split(value, sep, list);
+}
+
+void KVMap::GetList(const string& key, char sep, vector<uint32_t>& list)
+{
+    string value = this->GetString(key);
+    StringUtil::Split(value, sep, list);
+}
+
 
 void KVMap::Set(const string& key, int32_t value)
 {

@@ -23,7 +23,10 @@ private:
     HTTPClient& operator=(const HTTPClient& other);
 
 protected:
-
+    string ip;
+    uint32_t port;
+    uint32_t connTimeoutMs;
+    uint32_t rwTimeoutMs;
 };
 
 }}

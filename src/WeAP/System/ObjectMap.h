@@ -15,14 +15,17 @@ namespace WeAP { namespace System {
 template<typename T>
 class ObjectMap : public Object
 {
+protected:
+    typedef map<string, void*>::iterator Iterator;
+    typedef map<string, void*>::iterator ConstIterator;
 public:
     ObjectMap(){};
     virtual ~ObjectMap()
     {
-        for (map<string, T*>::const_iterator it = this->innerMap.begin(); it != this->innerMap.end(); ++it)
+        for (ConstIterator it = this->innerMap.begin(); it != this->innerMap.end(); ++it)
         {
-            delete it->second;
-            it->second = NULL;            
+            delete (T*)it->second;
+            it->second = NULL;
         }
     
         this->innerMap.clear();
@@ -39,7 +42,7 @@ public:
 
     T* operator[](const string& key)
     {
-        return this->Get(const string& key);
+        return this->Get(key);
     };
 
     T* Get(const string& key)
@@ -47,10 +50,10 @@ public:
         if (!this->Exist(key))
         {
             ERROR("ObjectMap Get out of range, index=%d", index);
-            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
+            throw Exception(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
-        return this->innerMap[key];
+        return (T*)this->innerMap[key];
     };
 
 
@@ -58,28 +61,23 @@ public:
     {
         if (!this->Exist(key))
         {
-            ERROR("ObjectMap Get out of range, index=%d", index);
-            throw CException(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
+            ERROR("ObjectMap Get out of range, index=%s", key.c_str());
+            throw Exception(Error::ObjectList_Get_Out_Of_Range, "ObjectList Get out of range");
         }
 
-        return this->innerMap.at(index);
+        return (const T*)this->innerMap.at(key);
     };
 
 
     bool Exist(const string& key) const
     {
-        map<string, T*>::const_iterator iter = this->innerMap.find(key);
-        if (iter != this->innerMap.end())
+        if (this->innerMap.find(key) != this->innerMap.end())
         {
             return true;
         }
 
         return false;
     };
-
-
-    //void Delete()
-
 
     size_t GetCount()  const
     { 
@@ -91,15 +89,16 @@ public:
         string str;
 
         int i = 0;
-        for (map<string, T*>::const_iterator it = this->innerMap.begin(); it != this->innerMap.end(); ++it)
+        
+        for (ConstIterator it = this->innerMap.begin(); it != this->innerMap.end(); ++it)
         {
             if (i != 0)
             {
                 str += sep;
             }
-            str += it.frist;
+            str += it->first;
             str += ":";
-            str += it.second->ToString();
+            str += ((const T*)it->second)->ToString();
             i++;
         }
 
@@ -111,7 +110,7 @@ private:
     ObjectMap& operator=(const ObjectMap& other);
 
 protected:
-    map<string, T*> innerMap;
+    map<string, void*> innerMap;
 
 };
 

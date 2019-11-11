@@ -32,7 +32,12 @@ private:
     MysqlDAO& operator=(const MysqlDAO& other);
 
 protected:
-
+    string ip;
+    uint32_t port;
+    uint32_t connTimeoutMs;
+    uint32_t rwTimeoutMs;
+    string userName;
+    string password;
 };
 
 }}

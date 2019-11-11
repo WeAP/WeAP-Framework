@@ -18,6 +18,7 @@ private:
 public:
 
     static void Split(const string& str, char sep, vector<string>& strs);
+    static void Split(const string& str, char sep, vector<uint32_t>& list);
 
     static void Split(const string& str, char sep, set<uint64_t>& list);
     static void Split(const string& str, char sep, set<string>& strs);

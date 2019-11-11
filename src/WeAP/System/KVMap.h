@@ -31,6 +31,9 @@ public:
     bool GetBool(const string& key, bool defaultValue = false) const;
     time_t GetTimestamp(const string& key, time_t defaultValue = 0);
 
+    void GetList(const string& key, char sep, vector<string>& list);
+    void GetList(const string& key, char sep, vector<uint32_t>& list);
+
     void Set(const string& key, int32_t value);
     void Set(const string& key, uint32_t value);
     void Set(const string& key, int64_t value);

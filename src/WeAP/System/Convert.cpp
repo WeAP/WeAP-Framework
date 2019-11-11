@@ -3,7 +3,9 @@
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
-
+#include <assert.h>
+#include "Error.h"
+#include "Exception.h"
 
 namespace WeAP { namespace System {
 
@@ -114,12 +116,12 @@ bool Convert::ToBool(const string& value, bool defaultValue)
 
 
 
-unsigned char Convert::ToHex(unsigned char x) 
+unsigned char Convert::CharToHex(unsigned char x) 
 { 
     return  x > 9 ? x + 55 : x + 48; 
 }
 
-unsigned char Convert::FromHex(unsigned char x) 
+unsigned char Convert::HexToChar(unsigned char x) 
 { 
     unsigned char y;
     if (x >= 'A' && x <= 'Z')
@@ -136,10 +138,11 @@ unsigned char Convert::FromHex(unsigned char x)
     }
     else 
     {
-        assert(0);
+        throw Exception(Error::Convert_HexToChar_Failed, "hex to char failed");
     }
     
     return y;
 }
+
 
 }}

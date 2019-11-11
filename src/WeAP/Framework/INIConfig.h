@@ -5,6 +5,8 @@
 #include "KVMap.h"
 #include "ObjectMap.h"
 
+using namespace WeAP::System;
+
 namespace WeAP { namespace Framework {
 
 /**
@@ -12,16 +14,15 @@ namespace WeAP { namespace Framework {
  * 
  * @author xzwang
  */
-class INIConfig : public AppObject
+class INIConfig//: public WeAP::Framework::AppObject
 {
-
 public:
     INIConfig();
     virtual ~INIConfig();
 
     void Init(const string& confFile);
 
-    void GetSection(const string& section, KVMap& kvmap);
+    void GetSection(const string& section, KVMap& kvmap) const;
 
     string GetString(const string& section, const string& key, const string& defalutValue);
     int32_t GetInt32(const string& section, const string& key, int32_t defalutValue);

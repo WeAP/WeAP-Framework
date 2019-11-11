@@ -43,6 +43,11 @@ public:
     static const int INIConfig_Formate_Error          = 10070;
 
 
+    static const int Convert_HexToChar_Failed         = 10080;
+
+
+    static const int TextCodec_UrlDecode_Failed       = 10090;
+
     static void Init(int appCode); 
     static int ToAppError(int error);
 

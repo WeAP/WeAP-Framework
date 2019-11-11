@@ -34,6 +34,17 @@ void StringUtil::Split(const string& str, char sep, vector<string>& strs)
 
 }
 
+void StringUtil::Split(const string& str, char sep, vector<uint32_t>& list)
+{
+    vector<string> strs;
+    StringUtil::Split(str, sep, strs);
+    for (vector<string>::const_iterator it = strs.begin(); it != strs.end(); ++it)
+    {
+        list.push_back(Convert::ToUInt32(*it));
+    }
+}
+
+
 void StringUtil::Split(const string& str, char sep, set<uint64_t>& list)
 {
     set<string> strs;

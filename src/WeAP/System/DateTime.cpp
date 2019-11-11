@@ -225,7 +225,7 @@ long long DateTime::GetMicroseconds()
     return timestampMicro;
 }
 
-time_t DateTime::GetTimeStamp()
+time_t DateTime::GetTimestamp()
 {
     return this->seconds;
 }

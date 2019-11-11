@@ -58,7 +58,7 @@ public:
     time_t GetSeconds();
     long long GetMicroseconds();
 
-    time_t GetTimeStamp();
+    time_t GetTimestamp();
     
     bool operator == (const DateTime &dateTime);
     bool operator > (const DateTime &dateTime);

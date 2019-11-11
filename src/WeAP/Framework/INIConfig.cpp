@@ -11,11 +11,8 @@ INIConfig::INIConfig()
 {
 }
 
-
-
 INIConfig::~INIConfig()
 {
-
 }
 
 void INIConfig::Init(const string& confFile)
@@ -36,11 +33,11 @@ void INIConfig::Init(const string& confFile)
         }
         else 
         {
-            size_t pos = kvstr.find('=');
+            size_t pos = line.find('=');
             if(pos != std::string::npos)
             {
-                string key = kvstr.substr(0, pos);
-                string value = kvstr.substr(pos + 1);     
+                string key = line.substr(0, pos);
+                string value = line.substr(pos + 1);     
                 currMap->Set(key, value);
             }
             else
@@ -54,9 +51,12 @@ void INIConfig::Init(const string& confFile)
 }
 
 
-void INIConfig::GetSection(const string& section, KVMap& kvmap)
+void INIConfig::GetSection(const string& section, KVMap& kvmap) const
 {
-    kvmap = *(this->setctions[section]);
+    const KVMap* mp = this->sections.Get(section);
+
+    kvmap = *mp;
+    //kvmap = *(this->sections.Get(section));
 }
 
 string INIConfig::GetString(const string& section, const string& key, const string& defalutValue)
@@ -98,14 +98,14 @@ void INIConfig::GetList(const string& section, const string& key, char sep, vect
 {
     KVMap kvmap;
     this->GetSection(section, kvmap);
-    return kvmap.GetList(key, sep);
+    return kvmap.GetList(key, sep, list);
 }
 
 void INIConfig::GetList(const string& section, const string& key, char sep, vector<uint32_t>& list)
 {
     KVMap kvmap;
     this->GetSection(section, kvmap);
-    return kvmap.GetList(key, sep);
+    return kvmap.GetList(key, sep, list);
 }
 
 

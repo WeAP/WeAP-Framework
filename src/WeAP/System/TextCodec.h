@@ -13,8 +13,8 @@ private:
     TextCodec();
     
 public:
-    string UrlEncode(const string& str);
-    string UrlDecode(const string& str);
+    static string UrlEncode(const string& str);
+    static string UrlDecode(const string& str);
 
 protected:
 
