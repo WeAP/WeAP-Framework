@@ -29,10 +29,10 @@ public:
     uint64_t GetUInt64(const string& key, uint64_t defaultValue = 0) const;
     string GetString(const string& key, const string& defaultValue = "") const;
     bool GetBool(const string& key, bool defaultValue = false) const;
-    time_t GetTimestamp(const string& key, time_t defaultValue = 0);
+    time_t GetTimestamp(const string& key, time_t defaultValue = 0) const;
 
-    void GetList(const string& key, char sep, vector<string>& list);
-    void GetList(const string& key, char sep, vector<uint32_t>& list);
+    void GetList(const string& key, char sep, vector<string>& list) const;
+    void GetList(const string& key, char sep, vector<uint32_t>& list) const;
 
     void Set(const string& key, int32_t value);
     void Set(const string& key, uint32_t value);
@@ -52,7 +52,7 @@ public:
     map<string, string>& GetMap();
     const map<string, string>& GetMap() const;
 
-    string ToUrlString( char sep1 = '&', char sep2 = '=');
+    string ToUrlString( char sep1 = '&', char sep2 = '=') const;
 
     void Clear();
 

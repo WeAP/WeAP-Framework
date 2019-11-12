@@ -1,8 +1,9 @@
 #ifndef __WeAP_Daemon_H__
 #define __WeAP_Daemon_H__
 
-#include "AppObject.h"
-#include "INIConfig.h"
+#include "Routine.h"
+
+//#include "INIConfig.h"
 
 namespace WeAP { namespace Framework {
 
@@ -12,7 +13,7 @@ namespace WeAP { namespace Framework {
  * @author xzwang
  * @date 2018-05-11
  */
-class Daemon : public AppObject
+class Daemon : public Routine
 {
 public:
     enum IntervalType

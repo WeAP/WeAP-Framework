@@ -185,19 +185,19 @@ bool KVMap::GetBool(const string& key, bool defaultValue) const
     
 }   
 
-time_t KVMap::GetTimestamp(const string& key, time_t defaultValue)
+time_t KVMap::GetTimestamp(const string& key, time_t defaultValue) const
 {
     string dt = this->GetString(key);
     return DateTime(dt).GetTimestamp();
 }
 
-void KVMap::GetList(const string& key, char sep, vector<string>& list)
+void KVMap::GetList(const string& key, char sep, vector<string>& list) const
 {
     string value = this->GetString(key);
     StringUtil::Split(value, sep, list);
 }
 
-void KVMap::GetList(const string& key, char sep, vector<uint32_t>& list)
+void KVMap::GetList(const string& key, char sep, vector<uint32_t>& list) const
 {
     string value = this->GetString(key);
     StringUtil::Split(value, sep, list);
@@ -300,7 +300,7 @@ void KVMap::Clear()
     this->innerMap.clear();
 }
 
-string KVMap::ToUrlString(char sep1, char sep2)
+string KVMap::ToUrlString(char sep1, char sep2) const
 {
     string str;
 

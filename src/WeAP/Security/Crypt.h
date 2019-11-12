@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace WeAP { namespace System {
+namespace WeAP { namespace Security {
 
 
 /**

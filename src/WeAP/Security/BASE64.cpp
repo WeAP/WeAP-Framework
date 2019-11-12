@@ -1,24 +1,28 @@
 #include "BASE64.h"
 #include "Error.h"
 #include "Exception.h"
+#include "Convert.h"
+#include "Error.h"
+#include "Exception.h"
 
 using namespace std;
+using namespace WeAP::System;
 
-namespace WeAP { namespace System {
+namespace WeAP { namespace Security {
 
 string BASE64::Encode(const string& str)
 {
     char outStr[1024] = {0};
     int outlen;
-    BASE64::Encode(str.c_str(), str.size(), outStr, len);
-    return string(outStr, len);
+    BASE64::Encode((unsigned char*)str.c_str(), str.size(), (unsigned char*)outStr, &outlen);
+    return string(outStr, outlen);
 }
 string BASE64::Decode(const string& str)
 {
     char outStr[1024] = {0};
     int outlen;
-    BASE64::Decode(str.c_str(), str.size(), outStr, len);
-    return string(outStr, len);
+    BASE64::Decode((unsigned char*)str.c_str(), str.size(), (unsigned char*)outStr, &outlen);
+    return string(outStr, outlen);
 }
 
 void BASE64::Encode(unsigned char* data, int datalen, unsigned char* outData, int *outlen)

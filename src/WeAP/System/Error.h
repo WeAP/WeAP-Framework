@@ -48,6 +48,20 @@ public:
 
     static const int TextCodec_UrlDecode_Failed       = 10090;
 
+
+    static const int MySQL_Init_Failed                = 10100;
+    static const int MySQL_Connect_Failed             = 10101;
+    static const int MySQL_Query_Failed               = 10102;
+    static const int MySQL_NOT_IN_TRANS               = 10103;
+    static const int MySQL_Affected_Rows_Error        = 10104;
+    static const int MySQL_Result_NULL                = 10105;
+    static const int MySQL_Begin_Failed               = 10106;
+    static const int MySQL_Connection_Lost            = 10107;
+    static const int MySQL_Commit_Lost_Connection     = 10108;
+    static const int MySQL_Unknown_Error              = 10109;
+    static const int MySQL_Query_Rows_Not_One         = 10110;
+    static const int MySQL_Query_Rows_Zero            = 10111;
+
     static void Init(int appCode); 
     static int ToAppError(int error);
 

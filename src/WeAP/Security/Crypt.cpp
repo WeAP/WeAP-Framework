@@ -1,8 +1,11 @@
 #include "Crypt.h"
+#include "Error.h"
+#include "Exception.h"
 
 using namespace std;
+using namespace WeAP::System;
 
-namespace WeAP { namespace System {
+namespace WeAP { namespace Security {
 
 
 void Crypt::EncryptDesEde3(unsigned char* in, int inlen, unsigned char* out, int* outlen, const string& password)
@@ -213,7 +216,7 @@ void Crypt::DecryptFileDesEde3(const string& cipherFilePath, const string& plain
     //以1K为单位，循环读取原文，解密后后保存到明文文件。
     for(;;)
     {
-        inl = fread(in,1,1024,fpIn);
+        inl = fread(in, 1, 1024, fpIn);
         if(inl <= 0)
             break;
         rv = EVP_DecryptUpdate(&ctx,out,&outl,in,inl);//解密
@@ -224,7 +227,7 @@ void Crypt::DecryptFileDesEde3(const string& cipherFilePath, const string& plain
             EVP_CIPHER_CTX_cleanup(&ctx);
 
             string errInfo = "::EVP_DecryptUpdate error"; 
-            throw Exception(Error::Crypt_DecryptFileDesEde3_Failed,errInfo); 
+            throw Exception(Error::Crypt_DecryptFileDesEde3_Failed, errInfo); 
         }
         fwrite(out,1,outl,fpOut);//保存明文到文件
     }
@@ -237,7 +240,7 @@ void Crypt::DecryptFileDesEde3(const string& cipherFilePath, const string& plain
         EVP_CIPHER_CTX_cleanup(&ctx);
         
         string errInfo = "::EVP_DecryptFinal_ex error"; 
-        throw Exception(Error::Crypt_Crypt_DecryptFileDesEde3_Failed,errInfo); 
+        throw Exception(Error::Crypt_DecryptFileDesEde3_Failed,errInfo); 
     }
     fwrite(out,1,outl,fpOut);//保存明文到文件
     fclose(fpIn);

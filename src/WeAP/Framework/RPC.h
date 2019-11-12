@@ -1,7 +1,7 @@
 #ifndef __WeAP_RPC_H__
 #define __WeAP_RPC_H__
 
-#include "AppObject.h"
+#include "Routine.h"
 
 namespace WeAP { namespace Framework {
 
@@ -10,7 +10,7 @@ namespace WeAP { namespace Framework {
  * 
  * @author xzwang
  */
-class RPC : public AppObject
+class RPC : public Routine
 {
 public:
     RPC();

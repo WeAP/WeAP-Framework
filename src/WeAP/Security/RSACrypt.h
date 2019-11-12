@@ -17,8 +17,9 @@
 #include <openssl/md5.h>
 #include <openssl/err.h>
 
+using namespace WeAP::System;
 
-namespace WeAP { namespace System {
+namespace WeAP { namespace Security {
 
 /**
  * 
@@ -37,7 +38,7 @@ private:
     RSACrypt& operator=(const RSACrypt& other);
 
 public:
-    static string GetCertSerialNumber(const string& certFilePath, const string& password="");
+    string GetCertSerialNumber(const string& certFilePath, const string& password="");
 
         
     //void GenerateKey();
@@ -59,7 +60,7 @@ public:
     void PublicDecrypt(unsigned char* cipherText, int cipherTextLength, unsigned char* plainText);
 
 protected:
-    static string GetError();
+    string GetError();
 
 protected:    
     ::RSA* rsa;

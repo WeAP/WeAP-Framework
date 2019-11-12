@@ -19,8 +19,7 @@ HTTPClient::~HTTPClient()
 
 void HTTPClient::Init(const INIConfig& config, const string& section)
 {
-    KVMap kvmap;
-    config.GetSection(section, kvmap);
+    const KVMap& kvmap = config.GetSection(section);
     this->ip = kvmap.GetString("IP");
     this->port = kvmap.GetUInt32("Port");
     this->connTimeoutMs = kvmap.GetUInt32("ConnTimeout");

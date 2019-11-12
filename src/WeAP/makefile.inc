@@ -1,9 +1,8 @@
 ###################################################################
 # @author: xzwang
-# @date: 2018-06-01 
-##################################################################
+###################################################################
 
-LIB_PATH = /home/xzwang/WeAP-Framework/dependency
+LIB_PATH = /home/xzwang/WeAP/dependency
 
 
 # openssl lib
@@ -12,8 +11,8 @@ LIBS    += -L$(LIB_PATH)/openssl/lib -lssl
 LIBS    += -L$(LIB_PATH)/openssl/lib -lcrypto 
 
 # mysql lib
-#INCLUDE += -I$(LIB_PATH)/mysql/include/mysql
-#LIBS    += -L$(LIB_PATH)/mysql/lib/mysql -lmysqlclient
+INCLUDE += -I$(LIB_PATH)/mysql/include
+LIBS    += -L$(LIB_PATH)/mysql/lib -lmysqlclient
 
 
 # Setting for compile

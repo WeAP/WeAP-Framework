@@ -1,7 +1,7 @@
 #ifndef __WeAP_CronTask_H__
 #define __WeAP_CronTask_H__
 
-#include "AppObject.h"
+#include "Routine.h"
 #include "INIConfig.h"
 
 namespace WeAP { namespace Framework {
@@ -11,7 +11,7 @@ namespace WeAP { namespace Framework {
  * 
  * @author xzwang
  */
-class CronTask: public AppObject
+class CronTask: public Routine
 {
 public:
     CronTask();

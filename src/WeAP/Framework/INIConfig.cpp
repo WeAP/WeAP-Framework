@@ -51,61 +51,52 @@ void INIConfig::Init(const string& confFile)
 }
 
 
-void INIConfig::GetSection(const string& section, KVMap& kvmap) const
+const KVMap& INIConfig::GetSection(const string& section) const
 {
-    const KVMap* mp = this->sections.Get(section);
-
-    kvmap = *mp;
-    //kvmap = *(this->sections.Get(section));
+    return *(this->sections.Get(section));
 }
 
-string INIConfig::GetString(const string& section, const string& key, const string& defalutValue)
+
+string INIConfig::GetString(const string& section, const string& key, const string& defalutValue) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
+    const KVMap& kvmap = this->GetSection(section);
     return kvmap.GetString(key, defalutValue);
 }
 
-int32_t INIConfig::GetInt32(const string& section, const string& key, int32_t defalutValue)
+int32_t INIConfig::GetInt32(const string& section, const string& key, int32_t defalutValue) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
+    const KVMap& kvmap = this->GetSection(section);
     return kvmap.GetInt32(key, defalutValue);
 }
 
-uint32_t INIConfig::GetUInt32(const string& section, const string& key, uint32_t defalutValue)
+uint32_t INIConfig::GetUInt32(const string& section, const string& key, uint32_t defalutValue) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
+    const KVMap& kvmap = this->GetSection(section);
     return kvmap.GetUInt32(key, defalutValue);
 }
 
-int64_t INIConfig::GetInt64(const string& section, const string& key, int64_t defalutValue)
+int64_t INIConfig::GetInt64(const string& section, const string& key, int64_t defalutValue) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
+    const KVMap& kvmap = this->GetSection(section);
     return kvmap.GetInt64(key, defalutValue);
 }
 
-uint64_t INIConfig::GetUInt64(const string& section, const string& key, uint64_t defalutValue)
+uint64_t INIConfig::GetUInt64(const string& section, const string& key, uint64_t defalutValue) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
+    const KVMap& kvmap = this->GetSection(section);
     return kvmap.GetUInt64(key, defalutValue);
 }
 
-void INIConfig::GetList(const string& section, const string& key, char sep, vector<string>& list)
+void INIConfig::GetList(const string& section, const string& key, char sep, vector<string>& list) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
-    return kvmap.GetList(key, sep, list);
+    const KVMap& kvmap = this->GetSection(section);
+    kvmap.GetList(key, sep, list);
 }
 
-void INIConfig::GetList(const string& section, const string& key, char sep, vector<uint32_t>& list)
+void INIConfig::GetList(const string& section, const string& key, char sep, vector<uint32_t>& list) const
 {
-    KVMap kvmap;
-    this->GetSection(section, kvmap);
-    return kvmap.GetList(key, sep, list);
+    const KVMap& kvmap = this->GetSection(section);
+    kvmap.GetList(key, sep, list);
 }
 
 

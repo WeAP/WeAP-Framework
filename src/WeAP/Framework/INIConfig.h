@@ -9,12 +9,8 @@ using namespace WeAP::System;
 
 namespace WeAP { namespace Framework {
 
-/**
- * 
- * 
- * @author xzwang
- */
-class INIConfig//: public WeAP::Framework::AppObject
+class INIConfig: public WeAP::System::Object
+//class INIConfig: public WeAP::Framework::AppObject
 {
 public:
     INIConfig();
@@ -22,15 +18,15 @@ public:
 
     void Init(const string& confFile);
 
-    void GetSection(const string& section, KVMap& kvmap) const;
+    const KVMap& GetSection(const string& section) const;
 
-    string GetString(const string& section, const string& key, const string& defalutValue);
-    int32_t GetInt32(const string& section, const string& key, int32_t defalutValue);
-    uint32_t GetUInt32(const string& section, const string& key, uint32_t defalutValue);
-    int64_t GetInt64(const string& section, const string& key, int64_t defalutValue);
-    uint64_t GetUInt64(const string& section, const string& key, uint64_t defalutValue);
-    void GetList(const string& section, const string& key, char sep, vector<string>& list);
-    void GetList(const string& section, const string& key, char sep, vector<uint32_t>& list);
+    string GetString(const string& section, const string& key, const string& defalutValue) const;
+    int32_t GetInt32(const string& section, const string& key, int32_t defalutValue) const;
+    uint32_t GetUInt32(const string& section, const string& key, uint32_t defalutValue) const;
+    int64_t GetInt64(const string& section, const string& key, int64_t defalutValue) const;
+    uint64_t GetUInt64(const string& section, const string& key, uint64_t defalutValue) const;
+    void GetList(const string& section, const string& key, char sep, vector<string>& list) const;
+    void GetList(const string& section, const string& key, char sep, vector<uint32_t>& list) const;
 
 private:
     INIConfig(const INIConfig& other);

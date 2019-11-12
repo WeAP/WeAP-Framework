@@ -3,9 +3,13 @@
 
 #include "AppObject.h"
 #include "ObjectList.h"
+#include "INIConfig.h"
+#include "MySQLDB.h"
 
-namespace WeAP { namespace Framework {
+using namespace WeAP::System;
+using namespace WeAP::Framework;
 
+namespace WeAP { namespace MySQL {
 
 
 /**
@@ -13,11 +17,11 @@ namespace WeAP { namespace Framework {
  * 
  * @author xzwang
  */
-class MysqlDAO : public AppObject
+class MySQLDAO : public AppObject
 {
 public:
-    MysqlDAO();
-    virtual ~MysqlDAO();
+    MySQLDAO();
+    virtual ~MySQLDAO();
 
     void Init(const INIConfig& config, const string& section);
 
@@ -28,8 +32,8 @@ public:
     
 
 private:
-    MysqlDAO(const MysqlDAO& other);
-    MysqlDAO& operator=(const MysqlDAO& other);
+    MySQLDAO(const MySQLDAO& other);
+    MySQLDAO& operator=(const MySQLDAO& other);
 
 protected:
     string ip;
@@ -38,6 +42,9 @@ protected:
     uint32_t rwTimeoutMs;
     string userName;
     string password;
+
+    MySQLDB mysql;
+
 };
 
 }}

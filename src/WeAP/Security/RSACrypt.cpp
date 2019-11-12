@@ -2,7 +2,9 @@
 #include "Error.h"
 #include "Exception.h"
 
-namespace WeAP { namespace System {
+using namespace WeAP::System;
+
+namespace WeAP { namespace Security {
 
 RSACrypt::RSACrypt()
 {
@@ -36,13 +38,14 @@ string RSACrypt::GetCertSerialNumber(const string& certFilePath, const string& p
         throw Exception(Error::RSA_Get_CertSN_Failed,errInfo);    
     }
    
-    pem_password_cb* cb = passphrase_cb;       
+    //pem_password_cb* cb = passphrase_cb;
+    pem_password_cb* cb = NULL;
     X509* x509 = NULL;
     x509 = ::PEM_read_bio_X509(bio, &x509, cb, (void *)password.c_str());
     BIO_free(bio);
     if(x509 == NULL)
     {
-        string errInfo = "GetCertSerialNumber ::PEM_read_bio_X509 err," + GetError(); 
+        string errInfo = "GetCertSerialNumber ::PEM_read_bio_X509 err," + this->GetError(); 
         throw Exception(Error::RSA_Get_CertSN_Failed,errInfo);
     }
 
@@ -55,7 +58,7 @@ string RSACrypt::GetCertSerialNumber(const string& certFilePath, const string& p
     {
         string errInfo = "GetCertSerialNumber ::ASN1_INTEGER_to_BN err," + this->GetError(); 
         ERROR("%s", errInfo.c_str());
-        throw Exception(Error::RSA_Get_CertSN_Failed,errInfo);
+        throw Exception(Error::RSA_Get_CertSN_Failed, errInfo);
     }
     char  *serialHex;
     serialHex= ::BN_bn2hex(bn);
@@ -98,7 +101,8 @@ void RSACrypt::ReadPublicKeyFromCert(const string& certFilePath, const string& p
         throw Exception(Error::RSA_PublicKey_Read_Failed,errInfo);    
     }
 
-    pem_password_cb* cb = passphrase_cb;
+    //pem_password_cb* cb = passphrase_cb;
+    pem_password_cb* cb = NULL;
 
     //从证书中读取公钥        
     X509 *x509 = ::PEM_read_bio_X509(bio, NULL, cb, (void *)password.c_str()); 
@@ -140,7 +144,8 @@ void RSACrypt::ReadPrivateKey(const string& filePath, const string& password)
         throw Exception(Error::RSA_PrivateKey_Read_Failed, errInfo);    
     }
 
-    pem_password_cb* cb = passphrase_cb;
+    //pem_password_cb* cb = passphrase_cb;
+    pem_password_cb* cb = NULL;
     rsa = ::PEM_read_bio_RSAPrivateKey(bio, &this->rsa, cb, (void *)password.c_str());  
     BIO_free(bio);
     if(this->rsa == NULL)
@@ -171,7 +176,7 @@ void RSACrypt::WritePrivateKey(const string& filePath, const string& password)
     unsigned char *kstr = NULL;
     int klen = 0;
     pem_password_cb* cb = NULL;
-    int ret=::PEM_write_bio_RSAPrivateKey(bio, this->rsa, enc, kstr, klen, cb, (void *)password.c_str());
+    int ret = ::PEM_write_bio_RSAPrivateKey(bio, this->rsa, enc, kstr, klen, cb, (void *)password.c_str());
     if (ret != 1)
     {
         BIO_free(bio);
@@ -179,7 +184,13 @@ void RSACrypt::WritePrivateKey(const string& filePath, const string& password)
         throw Exception(Error::RSA_PrivateKey_Write_Failed,errInfo);    
     }
 
-    BIO_flush(bio);
+    ret = BIO_flush(bio);  //BIO_flush() returns 1 for success and 0 or -1 for failure.
+    if (ret != 1)
+    {
+        BIO_free(bio);
+        string errInfo = "BIO_flush err,filePath" + filePath;    
+        throw Exception(Error::RSA_PrivateKey_Write_Failed, errInfo);    
+    }
     BIO_free(bio);
 }
 
@@ -258,7 +269,7 @@ void RSACrypt::PublicDecrypt(unsigned char* cipherText, int cipherTextLength, un
 
 string RSACrypt::GetError()
 {
-    unsigned long    errCode = ERR_get_error();
+    unsigned long errCode = ERR_get_error();
     char errMsg[1024] = {0};
     ERR_error_string(errCode, errMsg);
     return string(errMsg);
