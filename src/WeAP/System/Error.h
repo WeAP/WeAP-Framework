@@ -62,6 +62,14 @@ public:
     static const int MySQL_Query_Rows_Not_One         = 10110;
     static const int MySQL_Query_Rows_Zero            = 10111;
 
+    static const int ProcessMutex_Lock_Failed         = 10120;
+    static const int ProcessMutex_Unlock_Failed       = 10121;
+
+    static const int ProcessSpin_Lock_Failed          = 10122;
+    static const int ProcessSpin_Unlock_Failed        = 10123;
+
+    
+
     static void Init(int appCode); 
     static int ToAppError(int error);
 
