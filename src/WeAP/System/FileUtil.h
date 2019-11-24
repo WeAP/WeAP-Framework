@@ -22,7 +22,8 @@ public:
 
     static bool Exists(const std::string& path);
 
-    static void MakeDir(const char* dirPath);
+    static bool ExistDir(const string& path);
+    static void MakeDir(const string& path);
     
 
 };

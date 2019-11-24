@@ -94,30 +94,74 @@ bool FileUtil::Exists(const std::string& path)
     }
 
     return false;
+/*
+R_OK:只是检测当前用户是否具有可读权限；
+W_OK:只是检测当前用户是否具有可读权限；;
+X_OK:检查当前用户对该文件是否具有 可读 可写 可执行权限；
+F_OK: 检查文件是否存在；
+    if (access(path.c_str(), F_OK) == 0)
+    {
+        return true;
+    }
+
+    return false;
+*/
+
+
+    
 }
 
-void FileUtil::MakeDir(const char* dirPath)
+bool FileUtil::ExistDir(const string& path)
 {
-    //if (strlen(dirPath)>MAX_PATH)
-    //{
-    //    return;
-    //}
-
-    int ipathLength=strlen(dirPath);
-    int ileaveLength=0;
-    int iCreatedLength=0;
-    char szPathTemp[MAX_PATH]={0};
-    for (int i=0;(NULL!=strchr(dirPath+iCreatedLength,'\\'));i++)
+    if (path.empty())
     {
-        ileaveLength=strlen(strchr(dirPath+iCreatedLength,'\\'))-1;
-        iCreatedLength=ipathLength-ileaveLength;
-        strncpy(szPathTemp,dirPath,iCreatedLength);
-        mkdir(szPathTemp);
+        return false;
     }
-    if (iCreatedLength<ipathLength)
+
+    DIR* dir = opendir(path.c_str());
+    if (dir == NULL)
     {
-        mkdir(dirPath);
-    }   
+        return false;
+    }
+
+    closedir(dir);
+    return true;
+}
+
+void FileUtil::MakeDir(const string& path)
+{
+    if (path.empty())
+    {
+        return;
+    }
+    if (FileUtil::ExistDir(path))
+    {
+        return;
+    }
+
+    const char* dirPath = path.c_str();
+
+    int pos = path.find('\\', 0);
+    if (pos == string::npos)
+    {
+        return;
+    }
+
+    string currPath = path.substr(0, pos);
+
+    do 
+    {
+        if (!FileUtil::ExistDir(currPath))
+        {
+            mkdir(szPathTemp);
+        }
+
+        currPath = path.substr(0, pos);
+
+
+    }while (pos = path.find('\\', pos) != string::npos)
+
+ 
 }
 
 

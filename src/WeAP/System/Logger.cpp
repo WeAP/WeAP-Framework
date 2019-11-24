@@ -29,7 +29,6 @@ Logger::~Logger()
 
 void Init(const string& moduleName,const string& section)
 {
-
     string logDir = "";
     string logPrefix = moduleName.c_str();
     int logLevel = 1;
@@ -40,44 +39,55 @@ void Init(const string& moduleName,const string& section)
         FileUtil::MakeDir(logDir);
     }
 
-
-    google::InitGoogleLogging(moduleName.c_str());
-    FLAGS_stderrthreshold=google::INFO;
-    FLAGS_v = 3;
-
-    //google::SetStderrLogging(google::INFO); //设置级别高于 google::INFO 的日志同时输出到屏幕
-    FLAGS_colorlogtostderr=true;    //设置输出到屏幕的日志显示相应颜色
+    SeverityLevel glogLever = google::INFO;
+    string extName;
 
     //设置 log 级别的日志存储路径和文件名前缀
     string logPath;
     switch (logLevel)
     {
     case 1:
+        glogLever = google::INFO;
         logPath = logDir + "/DEBUG_";
-        //google::SetLogDestination(google::INFO,LOGDIR"/INFO_");
-        google::SetLogFilenameExtension("91_");     //设置文件名扩展，如平台？或其它需要区分的信息
+        extName = "debug";
         break;
     case 2:
+        glogLever = google::INFO;
         logPath = logDir + "/INFO_";
-        google::SetLogDestination(google::INFO, logPath.c_str());
-        google::SetLogFilenameExtension("91_");     //设置文件名扩展，如平台？或其它需要区分的信息
+
         break;
     case 3:
+        glogLever = google::WARNING;
         logPath = logDir + "/WARNING_";
-        google::SetLogDestination(google::WARNING,logPath.c_str());
-        google::SetLogFilenameExtension("91_");     //设置文件名扩展，如平台？或其它需要区分的信息
+
         break;
     case 4:
         logPath = logDir + "/ERROR_";
-        google::SetLogDestination(google::ERROR,logPath.c_str());
-        google::SetLogFilenameExtension("91_");     //设置文件名扩展，如平台？或其它需要区分的信息
+        glogLever = google::ERROR;
+
         break;
     default:
+        //throw Exception();
         break;
     }
 
-    FLAGS_logbufsecs =0;        //缓冲日志输出，默认为30秒，此处改为立即输出
+    google::InitGoogleLogging(moduleName.c_str());
     FLAGS_max_log_size = logSize;  //最大日志大小为 100MB
+
+    google::SetLogDestination(glogLever, logPath.c_str());
+    google::SetLogFilenameExtension(extName.c_str());     //设置文件名扩展，如平台？或其它需要区分的信息
+
+    FLAGS_stderrthreshold = google::FATAL;
+    //google::SetStderrLogging(google::FATAL); //设置级别高于 的日志同时输出到屏幕
+    FLAGS_v = 3;
+
+    FLAGS_logtostderr = false; // 是否将日志输出到stderr而非文件。
+    FLAGS_alsologtostderr = false; //是否将日志输出到文件和stderr，如果：true，忽略FLAGS_stderrthreshold的限制，所有信息打印到终端。
+
+    FLAGS_log_prefix = true; //设置日志前缀是否应该添加到每行输出。
+    
+    FLAGS_colorlogtostderr = true;    //设置输出到屏幕的日志显示相应颜色
+    FLAGS_logbufsecs =0;        //缓冲日志输出，默认为30秒，此处改为立即输出
     FLAGS_stop_logging_if_full_disk = true;     //当磁盘被写满时，停止日志输出
     
     google::InstallFailureSignalHandler();      //捕捉 core dumped
