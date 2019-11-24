@@ -43,6 +43,8 @@ public:
     static string ReplaceSubStr(string rawStr,const string& from, const string& to);
 
     static bool EqualIgnoreCase(const string& str1, const string& str2);
+
+    static string Format(const char* fmt, argv...);
 };
 
 }}

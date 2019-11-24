@@ -58,6 +58,14 @@ string FileUtil::GetFileName(const string& filePath)
    return filePath.substr( pos + 1 );
 }
 
+void FileUtil::Dump(const string& data, const string& fileName)
+{
+    std::ofstream fs(fileName,std::ios::app);
+    fs<<data;
+    fs.close();
+    
+}
+
 string FileUtil::GetDirPath(const string& filePath)
 {
     if( filePath.size() == 0 )
@@ -86,6 +94,30 @@ bool FileUtil::Exists(const std::string& path)
     }
 
     return false;
+}
+
+void FileUtil::MakeDir(const char* dirPath)
+{
+    //if (strlen(dirPath)>MAX_PATH)
+    //{
+    //    return;
+    //}
+
+    int ipathLength=strlen(dirPath);
+    int ileaveLength=0;
+    int iCreatedLength=0;
+    char szPathTemp[MAX_PATH]={0};
+    for (int i=0;(NULL!=strchr(dirPath+iCreatedLength,'\\'));i++)
+    {
+        ileaveLength=strlen(strchr(dirPath+iCreatedLength,'\\'))-1;
+        iCreatedLength=ipathLength-ileaveLength;
+        strncpy(szPathTemp,dirPath,iCreatedLength);
+        mkdir(szPathTemp);
+    }
+    if (iCreatedLength<ipathLength)
+    {
+        mkdir(dirPath);
+    }   
 }
 
 

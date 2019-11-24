@@ -18,7 +18,12 @@ public:
 
     static string GetDirPath(const string& filePath);
 
+    static string Dump(const string& data, const string& fileName);
+
     static bool Exists(const std::string& path);
+
+    static void MakeDir(const char* dirPath);
+    
 
 };
 

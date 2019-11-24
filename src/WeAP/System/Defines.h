@@ -15,6 +15,16 @@
 using std::string;
 namespace WeAP { namespace System {
 
+#ifndef DELETE
+#define DELETE(ptr) \
+ if (NULL != (p)) { \
+  delete (ptr); \
+  (ptr) = NULL; \
+ }
+#endif 
+
+
+
 const unsigned int SIZE_1K = 1024;
 const unsigned int SIZE_2K = SIZE_1K * 2;
 const unsigned int SIZE_4K = SIZE_1K * 4;

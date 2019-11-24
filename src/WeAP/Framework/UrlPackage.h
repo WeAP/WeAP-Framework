@@ -25,7 +25,8 @@ private:
     UrlPackage& operator=(const UrlPackage& other);
 
 protected:
-    KVMap kvmap;
+    KVMap params;
+    ObjectMap<KVMap> subParams;
 
 };
 

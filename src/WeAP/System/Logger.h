@@ -2,6 +2,7 @@
 #define __WeAP_Logger_H__
 
 #include "Singleton.h"
+#include <glog/logging.h>
 
 namespace WeAP { namespace System {
 
@@ -17,27 +18,46 @@ public:
     Logger();
     virtual ~Logger();
 
-    virtual void Dump();
+    void Init(const string& moduleName, const string& section);
 
-
-private:
-    Logger(const Logger& other);
-    Logger& operator=(const Logger& other);
-
-    void Init(const Logger& other);
 
 protected:
-    virtual void Clear();
-
-protected:
+//    void SetLogPath()
 
 };
 
 
-#define ERROR(format, argv...)  do {}while(0)
-#define WARN(format, argv...)do {}while(0)
-#define INFO(format, argv...) do {}while(0)
-#define DEBUG(format, argv...)  do {}while(0)
+#define ERROR(format, argv...)      \
+do                                  \
+{                                   \
+    string str = StringUtil::Format(format, ##argv) \
+    LOG(ERROR) << str;             \
+}while(0)
+
+#define WARN(format, argv...)      \
+do                                  \
+{                                   \
+    string str = StringUtil::Format(format, ##argv) \
+    LOG(WARNING) << str;             \
+}while(0)
+
+#define INFO(format, argv...)      \
+do                                  \
+{                                   \
+    string str = StringUtil::Format(format, ##argv) \
+    LOG(INFO) << str;             \
+}while(0)
+
+#define DEBUG(format, argv...)      \
+do                                  \
+{                                   \
+    string str = StringUtil::Format(format, ##argv) \
+    DLOG(INFO) << str;             \
+}while(0)
+
+
+
+
 
 }}
 

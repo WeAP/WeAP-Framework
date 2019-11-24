@@ -281,4 +281,15 @@ bool StringUtil::EqualIgnoreCase(const string& str1, const string& str2)
     
 }
 
+string StringUtil::Format(const char* fmt, argv...)
+{
+   char str[1024] = {0};
+   va_list args;
+   va_start(args, fmt);
+   vsprintf(str,fmt,args);
+   va_end(args);
+
+   return string(str);
+}
+
 }}
