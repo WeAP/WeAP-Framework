@@ -40,7 +40,100 @@ void MySQLDB::Init(const std::string& ip,
     this->rwTimeoutS = rwTimeoutS;
     this->waitTimeoutS = waitTimeoutS;
     this->charset = charset;
+
+    INFO("ip:%s", this->ip.c_str());
+    INFO("port:%d", this->port);
+    INFO("user:%s", this->user.c_str());
+    //INFO("passwd:%s", this->passwd.c_str());
+    INFO("dbName:%s", this->dbName.c_str());
+    INFO("connTimeoutS:%d", this->connTimeoutS);
+    INFO("rwTimeoutS:%d", this->rwTimeoutS);
+    INFO("waitTimeoutS:%d", this->waitTimeoutS);
+    INFO("charset:%s", this->charset.c_str());
+
+    this->Connect();
+
 }
+
+
+void  MySQLDB::Connect()
+{
+    if(this->mysql == NULL)
+    {
+        this->mysql = (MYSQL *)malloc(sizeof(MYSQL));
+    }
+
+    if (mysql_init(this->mysql) == NULL)
+    {
+        string err = this->GetDBError();
+        ERROR("mysql_init failed, %s", err.c_str());
+        throw Exception(Error::MySQL_Init_Failed, err);
+    }
+
+
+    mysql_options(this->mysql, MYSQL_SET_CHARSET_NAME, this->charset.c_str());
+
+    mysql_options(this->mysql, MYSQL_OPT_CONNECT_TIMEOUT,  (char *)&this->connTimeoutS);
+    mysql_options(this->mysql, MYSQL_OPT_READ_TIMEOUT,  (char *)&this->rwTimeoutS);
+    mysql_options(this->mysql, MYSQL_OPT_WRITE_TIMEOUT,  (char *)&this->rwTimeoutS);
+    //mysql_options(m_SqlHandle, MYSQL_OPT_RECONNECT, &reconnect);
+
+    const char * unix_socket = NULL;
+    unsigned long client_flag = 0;
+    MYSQL* handle = mysql_real_connect(this->mysql, this->ip.c_str(), this->user.c_str(), this->passwd.c_str(), this->dbName.c_str(), this->port, unix_socket, client_flag);
+    if (handle == NULL)
+    {
+        string err = this->GetDBError();
+        ERROR("mysql_real_connect failed, %s", err.c_str());
+        throw Exception(Error::MySQL_Connect_Failed, err);
+    }
+
+    this->SetWaitTimeout();
+
+    INFO("mysql is connected.");
+    this->isConnected = true;
+}
+
+void MySQLDB::SetWaitTimeout()
+{
+    if (this->idleTime <= 0)
+    {
+        return;
+    }
+    //wait_timeout针对非交互式连接。所谓的交互式连接，即在mysql_real_connect()函数中使用了CLIENT_INTERACTIVE选项。
+    std::string sql = std::string("set wait_timeout=") + Convert::ToString(this->waitTimeoutS);
+    cout << sql << endl;
+    this->Query(sql);
+
+    //interactive_timeout针对交互式连接，
+    sql = std::string("set interactive_timeout=") + Convert::ToString(this->waitTimeoutS);
+    cout << sql << endl;
+    this->Query(sql);
+}
+
+void  MySQLDB::Close()
+{
+    if (this->mysql != NULL)
+    { 
+        mysql_close(this->mysql);
+        free(this->mysql); 
+        this->mysql = NULL;
+    }
+
+    this->isConnected = false;
+}
+
+bool MySQLDB::Ping()
+{
+    int ret = mysql_ping(this->mysql);
+    if (ret != 0)
+    {
+        ERROR("mysql_ping failed, ret:%d", ret);
+        return false;
+    }
+    return true;
+}
+
 
 void MySQLDB::Query(const string& sql, KVMap& record, bool removePrefixF)
 {
@@ -96,82 +189,10 @@ void MySQLDB::Execute(const string& sql)
     {
         this->Close();
         this->Connect();
+        INFO("=========connect");
     }
 
     this->Query(sql);
-}
-
-
-void  MySQLDB::Connect()
-{
-    if(this->mysql == NULL)
-    {
-        this->mysql = (MYSQL *)malloc(sizeof(MYSQL));
-    }
-
-    if (mysql_init(this->mysql) == NULL)
-    {
-        string err = this->GetDBError();
-        ERROR("mysql_init failed, %s", err.c_str());
-        throw Exception(Error::MySQL_Init_Failed, err);
-    }
-
-    mysql_options(this->mysql, MYSQL_SET_CHARSET_NAME, this->charset.c_str());
-
-    mysql_options(this->mysql, MYSQL_OPT_CONNECT_TIMEOUT,  (char *)&this->connTimeoutS);
-    mysql_options(this->mysql, MYSQL_OPT_READ_TIMEOUT,  (char *)&this->rwTimeoutS);
-    mysql_options(this->mysql, MYSQL_OPT_WRITE_TIMEOUT,  (char *)&this->rwTimeoutS);
-
-      const char * unix_socket = NULL;
-      unsigned long client_flag = 0;
-    if (mysql_real_connect(this->mysql, this->ip.c_str(), this->user.c_str(), this->passwd.c_str(), this->dbName.c_str(), port, unix_socket, client_flag))
-    {
-        string err = this->GetDBError();
-        ERROR("mysql_real_connect failed, %s", err.c_str());
-        throw Exception(Error::MySQL_Connect_Failed, err);
-    }
-
-    this->SetWaitTimeout();
-
-    this->isConnected = true;
-}
-
-void MySQLDB::SetWaitTimeout()
-{
-    if (this->idleTime <= 0)
-    {
-        return;
-    }
-    //wait_timeout针对非交互式连接。所谓的交互式连接，即在mysql_real_connect()函数中使用了CLIENT_INTERACTIVE选项。
-    std::string sql = std::string("set wait_timeout=") + Convert::ToString(this->waitTimeoutS);    
-    this->Query(sql);
-
-    //interactive_timeout针对交互式连接，
-    sql = std::string("set interactive_timeout=") + Convert::ToString(this->waitTimeoutS);    
-    this->Query(sql);
-}
-
-void  MySQLDB::Close()
-{
-    if (this->mysql != NULL)
-    { 
-        mysql_close(this->mysql);
-        free(this->mysql); 
-        this->mysql = NULL;
-    }
-
-    this->isConnected = false;
-}
-
-bool MySQLDB::Ping()
-{
-    int ret = mysql_ping(this->mysql);
-    if (ret != 0)
-    {
-        ERROR("mysql_ping failed, ret:%d", ret);
-        return false;
-    }
-    return true;
 }
 
 
@@ -323,10 +344,11 @@ void MySQLDB::Query(const string& sql)
     int ret = this->RealQuery(sql);
     if (ret != 0)
     {
-        unsigned int errno = mysql_errno(this->mysql);
-        if (errno != 2013 &&  //ERROR 2013 (HY000): Lost connection to MySQL server during query
-            errno != 2006)    //ERROR 2006 (HY000): MySQL server has gone away
+        unsigned int errNo = mysql_errno(this->mysql);
+        if (errNo != 2013 &&  //ERROR 2013 (HY000): Lost connection to MySQL server during query
+            errNo != 2006)    //ERROR 2006 (HY000): MySQL server has gone away
         {
+            ERROR("=========RealQuery ret:%d, errno:%d", ret, errNo);
             throw Exception(Error::MySQL_Unknown_Error, this->GetDBError());
         }
 
@@ -365,10 +387,10 @@ int MySQLDB::RealQuery(const string& sql)
 
 string MySQLDB::GetDBError()
 {
-    unsigned int errno = mysql_errno(this->mysql);
-    const char* error = mysql_error(this->mysql);
+    unsigned int errNo = mysql_errno(this->mysql);
+    const char* errorMsg = mysql_error(this->mysql);
     stringstream strstream;
-    strstream << "mysql errno:" << errno << ", error:" << error;
+    strstream << "mysql error:[" << errNo << "]" << errorMsg;
     return strstream.str();
 }
 

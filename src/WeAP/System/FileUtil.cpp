@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
 
 
@@ -57,7 +58,7 @@ string FileUtil::GetFileName(const string& filePath)
    
    return filePath.substr( pos + 1 );
 }
-
+/*
 void FileUtil::Dump(const string& data, const string& fileName)
 {
     std::ofstream fs(fileName,std::ios::app);
@@ -65,7 +66,7 @@ void FileUtil::Dump(const string& data, const string& fileName)
     fs.close();
     
 }
-
+*/
 string FileUtil::GetDirPath(const string& filePath)
 {
     if( filePath.size() == 0 )
@@ -153,13 +154,13 @@ void FileUtil::MakeDir(const string& path)
     {
         if (!FileUtil::ExistDir(currPath))
         {
-            mkdir(szPathTemp);
+            mkdir(currPath.c_str(), 0755);
         }
 
         currPath = path.substr(0, pos);
 
 
-    }while (pos = path.find('\\', pos) != string::npos)
+    }while (pos = path.find('\\', pos) != string::npos);
 
  
 }

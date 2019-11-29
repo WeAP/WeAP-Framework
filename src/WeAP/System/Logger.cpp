@@ -9,8 +9,8 @@ void SignalHandle(const char* data, int size)
 {
     std::string str = std::string(data,size);
 
-    string dumpFile = "";
-    FileUtil::Dump(str, dumpFile);
+    //string dumpFile = "";
+    //FileUtil::Dump(str, dumpFile);
 
     LOG(ERROR)<<str;
     //也可以直接在这里发送邮件或短信通知，不过这个方法是被回调多次的（每次回调只输出一行错误信息，所以如上面的记录到文件，也需要>以追加模式方可），所以这里发邮件或短信不是很适合，不过倒是可以调用一个 SHELL 或 PYTHON 脚本，而此脚本会先 sleep 3秒左右，然后将错误信息通过邮件或短信发送出去，这样就不需要监控脚本定时高频率执行，浪费效率了。
@@ -27,19 +27,25 @@ Logger::~Logger()
     google::ShutdownGoogleLogging();
 }
 
-void Init(const string& moduleName,const string& section)
+/*
+void Logger::Init(const string& moduleName, const string& section)
 {
-    string logDir = "";
+
+}
+*/
+
+void Logger::Init(const string& logDir, int logLevel, int logSize, const string& moduleName)
+{
     string logPrefix = moduleName.c_str();
-    int logLevel = 1;
-    int logSize = 100;
 
     if (!FileUtil::ExistDir(logDir))
     {
         FileUtil::MakeDir(logDir);
     }
 
-    SeverityLevel glogLever = google::INFO;
+
+    //SeverityLevel glogLever = google::INFO;
+    int glogLever = 2;//google::INFO;
     string extName;
 
     //设置 log 级别的日志存储路径和文件名前缀
@@ -47,23 +53,27 @@ void Init(const string& moduleName,const string& section)
     switch (logLevel)
     {
     case 1:
-        glogLever = google::INFO;
-        logPath = logDir + "/DEBUG_";
-        extName = "debug";
+        //glogLever = google::INFO;
+        glogLever = 0;
+        logPath = logDir + "/" +moduleName + ".DEBUG.";
+        //extName = ".debug";
         break;
     case 2:
-        glogLever = google::INFO;
-        logPath = logDir + "/INFO_";
-
+        //glogLever = google::INFO;
+        glogLever = 0;
+        logPath = logDir  + "/" +moduleName + ".INFO.";
+        //extName = ".debug";
         break;
     case 3:
-        glogLever = google::WARNING;
-        logPath = logDir + "/WARNING_";
+        //glogLever = google::WARNING;
+        glogLever = 1;
+        logPath = logDir  + "/" +moduleName+ ".WARNING.";
 
         break;
     case 4:
-        logPath = logDir + "/ERROR_";
-        glogLever = google::ERROR;
+        glogLever = 2;
+        logPath = logDir  + "/" +moduleName + ".ERROR.";
+        //glogLever = google::ERROR;
 
         break;
     default:
@@ -77,9 +87,10 @@ void Init(const string& moduleName,const string& section)
     google::SetLogDestination(glogLever, logPath.c_str());
     google::SetLogFilenameExtension(extName.c_str());     //设置文件名扩展，如平台？或其它需要区分的信息
 
-    FLAGS_stderrthreshold = google::FATAL;
+    //FLAGS_stderrthreshold = google::FATAL;
     //google::SetStderrLogging(google::FATAL); //设置级别高于 的日志同时输出到屏幕
     FLAGS_v = 3;
+
 
     FLAGS_logtostderr = false; // 是否将日志输出到stderr而非文件。
     FLAGS_alsologtostderr = false; //是否将日志输出到文件和stderr，如果：true，忽略FLAGS_stderrthreshold的限制，所有信息打印到终端。

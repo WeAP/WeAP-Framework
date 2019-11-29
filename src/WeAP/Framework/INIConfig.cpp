@@ -1,4 +1,3 @@
-
 #include "INIConfig.h"
 #include "Util.h"
 #include <sys/stat.h>
@@ -17,6 +16,7 @@ INIConfig::~INIConfig()
 
 void INIConfig::Init(const string& confFile)
 {
+    //cout << "config:" << confFile << endl;
     this->confFile = confFile;
     vector<string> lines;
     FileUtil::ReadLines(confFile, lines);
@@ -28,8 +28,9 @@ void INIConfig::Init(const string& confFile)
         if (line[0] == '[')
         {
             size_t right = line.find(']');
-            string section = line.substr(1, right);
+            string section = line.substr(1, right - 1);
             currMap = this->sections.Add(section);
+            //cout << "[" << section << "]"<< endl;
         }
         else 
         {
@@ -39,6 +40,7 @@ void INIConfig::Init(const string& confFile)
                 string key = line.substr(0, pos);
                 string value = line.substr(pos + 1);     
                 currMap->Set(key, value);
+                //cout << key << ":" << value << endl;
             }
             else
             {

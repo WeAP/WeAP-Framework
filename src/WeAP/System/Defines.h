@@ -15,8 +15,8 @@
 using std::string;
 namespace WeAP { namespace System {
 
-#ifndef DELETE
-#define DELETE(ptr) \
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(ptr) \
  if (NULL != (p)) { \
   delete (ptr); \
   (ptr) = NULL; \

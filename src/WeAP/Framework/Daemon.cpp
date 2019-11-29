@@ -106,7 +106,7 @@ void Daemon::Execute(bool nochdir/* = false*/, bool noclose/* = false*/)
         }
         catch(const std::exception& ex)
         {
-            ERROR("daemon execute failed. std ex:%s, DaemonName:%s", e.what(), this->daemonName.c_str());
+            ERROR("daemon execute failed. std ex:%s, DaemonName:%s", ex.what(), this->daemonName.c_str());
         }
 
         this->loopCount++;

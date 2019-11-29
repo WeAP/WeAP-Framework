@@ -18,7 +18,7 @@ public:
 
     static string GetDirPath(const string& filePath);
 
-    static string Dump(const string& data, const string& fileName);
+    //static string Dump(const string& data, const string& fileName);
 
     static bool Exists(const std::string& path);
 

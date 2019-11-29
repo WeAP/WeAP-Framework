@@ -16,18 +16,15 @@ INCLUDE += -I$(WEAP_SRC)/Security
 INCLUDE += -I$(WEAP_SRC)/MySQL
 INCLUDE += -I$(WEAP_SRC)/Thread
 INCLUDE += -I$(WEAP_SRC)/Framework
+#INCLUDE += -I$(WEAP_SRC)/PDF
 
-
-#WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
-		$(patsubst $(WEAP_SRC)/Security/%.cpp, $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Security/*.cpp)) \
-		$(patsubst $(WEAP_SRC)/Thread/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Thread/*.cpp)) \
-		$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
 
 WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Security/%.cpp, $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Security/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Thread/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Thread/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/MySQL/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/MySQL/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
+#		$(patsubst $(WEAP_SRC)/PDF/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/PDF/*.cpp)) \
 
 $(WEAP_LIB) : $(WEAP_OBJS) 
 	@ar rv $@ $^
@@ -46,7 +43,10 @@ $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Thread/%.cpp
 
 $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Framework/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@	
-	
+
+#$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/PDF/%.cpp 
+#	$(CC) $(CFLAGS) -c $< -o $@	
+
 .PHONY : clean install
 clean:
 	rm -f $(WEAP_OBJ)/*.o $(WEAP_LIB) 

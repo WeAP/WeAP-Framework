@@ -36,7 +36,7 @@ void CronTask::CronTask::Execute()
     }
     catch(const std::exception& ex)
     {
-        ERROR("task execute failed, std ex:%s, taskName:%s", e.what(), this->taskName.c_str());
+        ERROR("task execute failed, std ex:%s, taskName:%s", ex.what(), this->taskName.c_str());
     }
 
 }

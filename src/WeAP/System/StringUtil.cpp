@@ -1,5 +1,8 @@
 #include "StringUtil.h"
 #include "Convert.h"
+#include "AutoBuffer.h"
+#include <stdarg.h>
+
 
 namespace WeAP { namespace System {
 
@@ -281,15 +284,34 @@ bool StringUtil::EqualIgnoreCase(const string& str1, const string& str2)
     
 }
 
-string StringUtil::Format(const char* fmt, argv...)
-{
-   char str[1024] = {0};
-   va_list args;
-   va_start(args, fmt);
-   vsprintf(str,fmt,args);
-   va_end(args);
 
-   return string(str);
+string StringUtil::Format(const char* format, ...)
+{
+    if (format == NULL)
+    {
+         return "";
+    }
+
+    va_list va;
+
+    va_start(va, format);
+    size_t len = vsnprintf(NULL, 0, format, va);
+    va_end(va);
+
+    if (len <= 0)
+    {
+        return "";
+    }
+
+    va_list va2;
+    va_start(va2, format);
+
+    AutoBuffer buff(len);
+    vsnprintf(buff.Get(), len + 1, format, va2);
+    va_end(va2);
+
+    return buff.ToString();
 }
+
 
 }}

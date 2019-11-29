@@ -10,7 +10,7 @@ namespace WeAP { namespace System {
  * 
  * @author xzwang
  */
-class StringUtil : public Object
+class StringUtil//: public Object
 {
 private:
     StringUtil();
@@ -44,7 +44,7 @@ public:
 
     static bool EqualIgnoreCase(const string& str1, const string& str2);
 
-    static string Format(const char* fmt, argv...);
+    static string Format(const char* format, ...);
 };
 
 }}

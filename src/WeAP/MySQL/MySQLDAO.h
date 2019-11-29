@@ -27,7 +27,7 @@ public:
 
     void Query(const string& sql, KVMap& record);
     void Query(const string& sql, ObjectList<KVMap>& recordList);
-    //void Insert(const string& sql,)
+    void Insert(const string& sql);
     //void Update(const string& sql);
     
 

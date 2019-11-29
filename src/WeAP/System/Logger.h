@@ -3,6 +3,10 @@
 
 #include "Singleton.h"
 #include <glog/logging.h>
+#include <string>
+#include "StringUtil.h"
+using namespace std;
+
 
 namespace WeAP { namespace System {
 
@@ -18,7 +22,8 @@ public:
     Logger();
     virtual ~Logger();
 
-    void Init(const string& moduleName, const string& section);
+    //void Init(const string& moduleName, const string& section);    
+    void Init(const string& logDir, int logLevel, int logSize, const string& moduleName);
 
 
 protected:
@@ -30,32 +35,33 @@ protected:
 #define ERROR(format, argv...)      \
 do                                  \
 {                                   \
-    string str = StringUtil::Format(format, ##argv) \
+    string str = StringUtil::Format(format, ##argv) ; \
     LOG(ERROR) << str;             \
 }while(0)
 
 #define WARN(format, argv...)      \
 do                                  \
 {                                   \
-    string str = StringUtil::Format(format, ##argv) \
+    string str = StringUtil::Format(format, ##argv) ; \
     LOG(WARNING) << str;             \
 }while(0)
 
 #define INFO(format, argv...)      \
 do                                  \
 {                                   \
-    string str = StringUtil::Format(format, ##argv) \
+    string str = StringUtil::Format(format, ##argv) ; \
     LOG(INFO) << str;             \
 }while(0)
 
 #define DEBUG(format, argv...)      \
 do                                  \
 {                                   \
-    string str = StringUtil::Format(format, ##argv) \
+    string str = StringUtil::Format(format, ##argv) ; \
     DLOG(INFO) << str;             \
 }while(0)
 
 
+#define GLOG  LOG(ERROR)
 
 
 

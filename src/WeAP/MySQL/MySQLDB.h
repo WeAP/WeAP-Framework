@@ -39,7 +39,7 @@ public:
               int waitTimeoutS, 
               int connTimeoutS = 5,
               int rwTimeoutS = 5,
-              const std::string& charset = "latin1", 
+              const std::string& charset = "utf8", 
               const std::string& dbName = "");
 
     void Query(const string& sql, KVMap& record, bool removePrefixF = false);
