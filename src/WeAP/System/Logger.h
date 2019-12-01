@@ -3,12 +3,23 @@
 
 #include "Singleton.h"
 #include <glog/logging.h>
+#include <glog/log_severity.h> 
 #include <string>
 #include "StringUtil.h"
 using namespace std;
 
 
 namespace WeAP { namespace System {
+
+enum LogLevel
+{
+    Debug   = 1,
+    Info    = 2,
+    Warning = 3,
+    Error   = 4,
+    Fatal   = 5
+};
+
 
 /**
  * print log to file
@@ -25,6 +36,11 @@ public:
     //void Init(const string& moduleName, const string& section);    
     void Init(const string& logDir, int logLevel, int logSize, const string& moduleName);
 
+    void Debug(const char* format, ...);
+    void Info(const char* format, ...);
+    void Warning(const char* format, ...);
+    void Error(const char* format, ...);
+    void Fatal(const char* format, ...);
 
 protected:
 //    void SetLogPath()

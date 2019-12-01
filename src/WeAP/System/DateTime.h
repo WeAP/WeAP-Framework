@@ -30,13 +30,13 @@ public:
 
     DateTime& operator=(const DateTime &other);
 
-    void AddYears(const int years);
-    //void AddMonths(const int months);
-    void AddDays(const int days);
-    void AddHours(const int hours);
-    void AddMinutes(const int minutes);
-    void AddSeconds(const int seconds);
-    void AddWeeks(const int weeks);
+    DateTime& AddYears(const int years);
+    //DateTime& AddMonths(const int months);
+    DateTime& AddDays(const int days);
+    DateTime& AddHours(const int hours);
+    DateTime& AddMinutes(const int minutes);
+    DateTime& AddSeconds(const int seconds);
+    DateTime& AddWeeks(const int weeks);
 
     int CompareTo(const DateTime& other);
     bool Equals(const DateTime& dateTime);

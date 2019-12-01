@@ -59,7 +59,9 @@ DateTime& DateTime::operator=(const DateTime &other)
 void DateTime::AddYears(const int years)
 {       
     this->date.tm_year = this->date.tm_year+years;
-    this->seconds = mktime(&this->date);       
+    this->seconds = mktime(&this->date);
+
+    return *this;
 }
 
 /*
@@ -72,34 +74,40 @@ void DateTime::AddMonths(const int months)
 
     this->date.tm_year = this->date.tm_year+a;
     this->date.tm_mon = this->date.tm_mon+(int)((this->date.tm_mon+months)%12)-1;
-    this->seconds = mktime(&this->date);    
+    this->seconds = mktime(&this->date);
+    return *this;
 }
 */
 
 void DateTime::AddDays(const int days)
 {
     this->AddSeconds(days*24*60*60);
+    return *this;
 }
 
 void DateTime::AddHours(const int hours)
 {
     this->AddSeconds(hours*60*60);
+    return *this;
 }
 
 void DateTime::AddMinutes(const int minutes)
 {
     this->AddSeconds(minutes *60);
+    return *this;
 }
 
 void DateTime::AddSeconds(const int seconds)
 {
     this->seconds = this->seconds+seconds;
-    localtime_r(&this->seconds,&this->date);    
+    localtime_r(&this->seconds,&this->date);
+    return *this; 
 }
 
 void DateTime::AddWeeks(const int weeks)
 {
     this->AddDays(weeks*7);
+    return *this;
 }
 
 int DateTime::Compare(const DateTime& dt1,const DateTime& dt2)

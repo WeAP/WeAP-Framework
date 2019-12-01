@@ -1,5 +1,9 @@
 #include "Logger.h"
+#include <glog/logging.h>
+#include <glog/log_severity.h> 
 #include "FileUtil.h"
+
+
 
 namespace WeAP { namespace System {
 
@@ -52,28 +56,35 @@ void Logger::Init(const string& logDir, int logLevel, int logSize, const string&
     string logPath;
     switch (logLevel)
     {
-    case 1:
+    case Debug:
         //glogLever = google::INFO;
         glogLever = 0;
         logPath = logDir + "/" +moduleName + ".DEBUG.";
         //extName = ".debug";
         break;
-    case 2:
+    case Info:
         //glogLever = google::INFO;
         glogLever = 0;
         logPath = logDir  + "/" +moduleName + ".INFO.";
         //extName = ".debug";
         break;
-    case 3:
+    case Warning:
         //glogLever = google::WARNING;
         glogLever = 1;
         logPath = logDir  + "/" +moduleName+ ".WARNING.";
 
         break;
-    case 4:
+    case Error:
         glogLever = 2;
         logPath = logDir  + "/" +moduleName + ".ERROR.";
         //glogLever = google::ERROR;
+
+        break;
+
+    case Fatal:
+        glogLever = 3;
+        logPath = logDir  + "/" +moduleName + ".ERROR.";
+        //glogLever = google::FATAL;
 
         break;
     default:
@@ -106,9 +117,35 @@ void Logger::Init(const string& logDir, int logLevel, int logSize, const string&
 
 }
 
+void Logger::Debug(const char* format, ...)
+{
+    string str = StringUtil::Format(format, ##argv);
+    DLOG(INFO) << str;
+}
 
+void Logger::Info(const char* format, ...)
+{
+    string str = StringUtil::Format(format, ##argv) ; 
+    LOG(INFO) << str;
+}
 
+void Logger::Warning(const char* format, ...)
+{
+    string str = StringUtil::Format(format, ##argv);
+    LOG(WARNING) << str;
+}
 
+void Logger::Error(const char* format, ...)
+{
+    string str = StringUtil::Format(format, ##argv);
+    LOG(ERROR) << str;
+}
+
+void Logger::Fatal(const char* format, ...)
+{
+    string str = StringUtil::Format(format, ##argv);
+    LOG(FATAL) << str;
+}
 
 
 

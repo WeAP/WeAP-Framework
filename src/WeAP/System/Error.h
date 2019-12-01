@@ -68,6 +68,24 @@ public:
     static const int ProcessSpin_Lock_Failed          = 10122;
     static const int ProcessSpin_Unlock_Failed        = 10123;
 
+    static const int Socket_Create_Failed             = 10200;
+    static const int Socket_Connect_Failed            = 10201;
+    static const int Socket_Get_Peer_Name_Failed      = 10202;
+    static const int Socket_Get_Sock_Name_Failed      = 10203;
+    static const int Socket_Set_Sock_Opt_Failed       = 10204;
+    static const int Socket_Accept_Failed             = 10205;
+    static const int Socket_Get_In_Addr_Failed        = 10206;
+    static const int Socket_Bind_Failed               = 10207;
+    static const int Socket_Listen_Failed             = 10208;
+    static const int Socket_Receive_From_Failed       = 10209;
+    static const int Socket_Send_Failed               = 10209;
+    static const int Socket_Send_To_Failed            = 10209;
+    static const int Socket_Set_Nonblock_Failed       = 10209;
+    static const int Socket_Gets_Failed               = 10209;
+
+
+
+
     
 
     static void Init(int appCode); 
