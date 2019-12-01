@@ -163,11 +163,12 @@ void Socket::get_in_addr(const char * address,
         int ret = inet_pton(AF_INET, address, &sinaddr);
         if (ret < 0)
         {
-        snprintf(this->error_text, sizeof(this->error_text), "%s: inet_pton(%s): %s",
+            snprintf(this->error_text, sizeof(this->error_text), "%s: inet_pton(%s): %s",
                     func_name, address, strerror(errno));
             throw Exception(Error::Socket_Get_In_Addr_Failed, this->error_text);
         }
-        else if (ret == 0) {
+        else if (ret == 0) 
+        {
             struct hostent hostent;
             struct hostent *hostent_ptr;
             char buf[2048];
@@ -222,11 +223,9 @@ void Socket::bind(const struct sockaddr &bind_addr, socklen_t addrlen)
         snprintf(this->error_text, sizeof(this->error_text), "bind: %s", strerror(errno));
         throw Exception(Error::Socket_Bind_Failed,this->error_text);
     }
-
-    return;
 }
 
-void Socket::close(void)
+void Socket::close()
 {
     if (_socket_fd != INVALID_SOCKET) 
     {
@@ -252,7 +251,7 @@ void Socket::connect(const char *address, uint16_t port)
     get_in_addr(address, p->sin_addr, "connect");
     p->sin_port = htons(port);
 
-    connect(serveraddr, sizeof(serveraddr));
+    this->connect(serveraddr, sizeof(serveraddr));
 }
 
 void Socket::connect(const struct sockaddr &serv_addr, socklen_t addrlen)

@@ -46,7 +46,7 @@ public:
     void bind(uint16_t port, const char * server_address = NULL);
     void bind(const struct sockaddr& bind_addr, socklen_t addrlen);
 
-    virtual void close(void);
+    virtual void close();
 
     void connect(const char * addr, uint16_t port);
     void connect(const struct sockaddr& serv_addr, socklen_t addrlen);
