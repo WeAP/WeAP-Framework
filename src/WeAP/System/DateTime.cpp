@@ -56,7 +56,7 @@ DateTime& DateTime::operator=(const DateTime &other)
     return *this;
 }
 
-void DateTime::AddYears(const int years)
+DateTime& DateTime::AddYears(const int years)
 {       
     this->date.tm_year = this->date.tm_year+years;
     this->seconds = mktime(&this->date);
@@ -66,7 +66,7 @@ void DateTime::AddYears(const int years)
 
 /*
 @todo
-void DateTime::AddMonths(const int months)
+DateTime& DateTime::AddMonths(const int months)
 {
     int a  =(int)((this->date.tm_mon + months)/12);
 
@@ -79,32 +79,32 @@ void DateTime::AddMonths(const int months)
 }
 */
 
-void DateTime::AddDays(const int days)
+DateTime& DateTime::AddDays(const int days)
 {
     this->AddSeconds(days*24*60*60);
     return *this;
 }
 
-void DateTime::AddHours(const int hours)
+DateTime& DateTime::AddHours(const int hours)
 {
     this->AddSeconds(hours*60*60);
     return *this;
 }
 
-void DateTime::AddMinutes(const int minutes)
+DateTime& DateTime::AddMinutes(const int minutes)
 {
     this->AddSeconds(minutes *60);
     return *this;
 }
 
-void DateTime::AddSeconds(const int seconds)
+DateTime& DateTime::AddSeconds(const int seconds)
 {
     this->seconds = this->seconds+seconds;
     localtime_r(&this->seconds,&this->date);
     return *this; 
 }
 
-void DateTime::AddWeeks(const int weeks)
+DateTime& DateTime::AddWeeks(const int weeks)
 {
     this->AddDays(weeks*7);
     return *this;

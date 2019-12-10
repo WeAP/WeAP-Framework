@@ -2,8 +2,8 @@
 #include <glog/logging.h>
 #include <glog/log_severity.h> 
 #include "FileUtil.h"
-
-
+#include "AutoBuffer.h"
+#include <stdarg.h>
 
 namespace WeAP { namespace System {
 
@@ -117,38 +117,56 @@ void Logger::Init(const string& logDir, int logLevel, int logSize, const string&
 
 }
 
-void Logger::Debug(const char* format, ...)
+void Logger::Write(LogLevel logLevel, const char* format, ...)
 {
-    string str = StringUtil::Format(format, ##argv);
-    DLOG(INFO) << str;
+    if (format == NULL)
+    {
+        return;
+    }
+
+    va_list va;
+
+    va_start(va, format);
+    size_t len = vsnprintf(NULL, 0, format, va);
+    va_end(va);
+
+    if (len <= 0)
+    {
+        return;
+    }
+
+    va_list va2;
+    va_start(va2, format);
+
+    AutoBuffer buff(len);
+    vsnprintf(buff.Get(), len + 1, format, va2);
+    va_end(va2);
+
+    string str = buff.ToString();
+
+    switch (logLevel)
+    {
+    case Debug:
+        DLOG(INFO) << str;
+        break;
+    case Info:
+        LOG(INFO) << str;
+        break;
+    case Warning:
+        LOG(WARNING) << str;
+        break;
+    case Error:
+        LOG(ERROR) << str;
+        break;
+
+    case Fatal:
+        LOG(FATAL) << str;
+        break;
+    default:
+        break;
+    }
+    
 }
-
-void Logger::Info(const char* format, ...)
-{
-    string str = StringUtil::Format(format, ##argv) ; 
-    LOG(INFO) << str;
-}
-
-void Logger::Warning(const char* format, ...)
-{
-    string str = StringUtil::Format(format, ##argv);
-    LOG(WARNING) << str;
-}
-
-void Logger::Error(const char* format, ...)
-{
-    string str = StringUtil::Format(format, ##argv);
-    LOG(ERROR) << str;
-}
-
-void Logger::Fatal(const char* format, ...)
-{
-    string str = StringUtil::Format(format, ##argv);
-    LOG(FATAL) << str;
-}
-
-
-
 
 
 }}

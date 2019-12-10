@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 
 #include <string>
+#include "Object.h"
 
 namespace WeAP { namespace System {
 

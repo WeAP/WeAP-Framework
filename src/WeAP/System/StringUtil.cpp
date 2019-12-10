@@ -90,7 +90,7 @@ void StringUtil::Split(const string& str, char sep, set<string>& strs)
 
 }
 
-bool StringUtil::IsDigit(const string& str)
+bool StringUtil::IsNumeric(const string& str)
 {
     const char *p = str.c_str();
 
@@ -105,7 +105,7 @@ bool StringUtil::IsDigit(const string& str)
     return !(*p);
 }
 
-bool StringUtil::IsAlphaDigit(const string& str)
+bool StringUtil::IsAlphanumeric(const string& str)
 {
     const char* p = str.c_str();
 

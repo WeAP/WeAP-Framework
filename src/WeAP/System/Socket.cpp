@@ -8,8 +8,8 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <assert.h>
-#include "socket.h"
 
+#include "Socket.h"
 #include "Error.h"
 #include "Exception.h"
 
@@ -151,7 +151,7 @@ int Socket::accept(Socket & client_socket,
     }
 
     client_socket._socket_fd = client_fd;
-    client_socket.this->error_text[0] = '\0';
+    client_socket.error_text[0] = '\0';
 
     return 0;
 }
@@ -381,7 +381,7 @@ void Socket::shutdown(int how)
     if (::shutdown(_socket_fd, how) < 0) 
     {
         snprintf(this->error_text, sizeof(this->error_text), "send_to: %s", strerror(errno));
-        throw Exception(Error::,this->error_text);
+        throw Exception(Error::Socket_ShutDown_Failed,this->error_text);
     }
 }
 
@@ -392,7 +392,7 @@ void Socket::set_nonblock()
     if ((val = fcntl(_socket_fd, F_GETFL, 0)) == -1) 
     {
         snprintf(this->error_text, sizeof(this->error_text), "set_nonblock: %s", strerror(errno));
-        throw Exception(Error::Socket_Set_Nonblock_Failed,this->error_text);
+        throw Exception(Error::Socket_Set_Nonblock_Failed, this->error_text);
     }
 
     if (fcntl(_socket_fd, F_SETFL, val | O_NONBLOCK) == -1) 

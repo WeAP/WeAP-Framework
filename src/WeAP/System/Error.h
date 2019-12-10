@@ -82,6 +82,8 @@ public:
     static const int Socket_Send_To_Failed            = 10209;
     static const int Socket_Set_Nonblock_Failed       = 10209;
     static const int Socket_Gets_Failed               = 10209;
+    static const int Socket_Receive_Failed            = 10209;
+    static const int Socket_ShutDown_Failed            = 10209;
 
 
 

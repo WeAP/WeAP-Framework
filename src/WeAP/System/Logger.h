@@ -11,14 +11,7 @@ using namespace std;
 
 namespace WeAP { namespace System {
 
-enum LogLevel
-{
-    Debug   = 1,
-    Info    = 2,
-    Warning = 3,
-    Error   = 4,
-    Fatal   = 5
-};
+
 
 
 /**
@@ -30,17 +23,22 @@ enum LogLevel
 class Logger : public Singleton<Logger>
 {
 public:
+    enum LogLevel
+    {
+        Debug   = 1,
+        Info    = 2,
+        Warning = 3,
+        Error   = 4,
+        Fatal   = 5
+    };
+public:
     Logger();
     virtual ~Logger();
 
     //void Init(const string& moduleName, const string& section);    
     void Init(const string& logDir, int logLevel, int logSize, const string& moduleName);
 
-    void Debug(const char* format, ...);
-    void Info(const char* format, ...);
-    void Warning(const char* format, ...);
-    void Error(const char* format, ...);
-    void Fatal(const char* format, ...);
+    void Write(LogLevel logLevel, const char* format, ...);
 
 protected:
 //    void SetLogPath()
@@ -75,9 +73,6 @@ do                                  \
     string str = StringUtil::Format(format, ##argv) ; \
     DLOG(INFO) << str;             \
 }while(0)
-
-
-#define GLOG  LOG(ERROR)
 
 
 

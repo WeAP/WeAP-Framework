@@ -23,8 +23,8 @@ public:
     static void Split(const string& str, char sep, set<uint64_t>& list);
     static void Split(const string& str, char sep, set<string>& strs);
 
-    static bool IsDigit(const string& str);
-    static bool IsAlphaDigit(const string& str);
+    static bool IsNumeric(const string& str);
+    static bool IsAlphanumeric(const string& str);
 
     static string ToLower(const string& str);
     static string ToUpper(const string& str);

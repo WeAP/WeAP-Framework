@@ -1,17 +1,18 @@
+WEAP_SRC = ../../../src/WeAP
+WEAP_OBJ = ../../../obj
+WEAP_BIN = ../../../bin
+WEAP_LIB  = $(WEAP_BIN)/libweap-framework.a
+
+DOMAIN_SRC = ../src/domain
+DOMAIN_INCLUDE = ../src/domain
 
 TEST_SRC = .
-TEST_OBJ = ../../obj
+TEST_OBJ = ../../account/obj
 TEST_BIN = .
 TEST_MAIN := ./unittest_main
 
-WEAP_SRC = ../../src/WeAP
-WEAP_OBJ = ../../obj
-WEAP_BIN = ../../bin
-WEAP_LIB  = $(WEAP_BIN)/libweap-framework.a
 
-
-
-include ../../src/WeAP/makefile.inc
+include ../../../src/WeAP/makefile.inc
 
 INCLUDE += -I$(WEAP_SRC)/System
 INCLUDE += -I$(WEAP_SRC)/Security
@@ -20,12 +21,9 @@ INCLUDE += -I$(WEAP_SRC)/Framework
 #INCLUDE += -I$(WEAP_SRC)/PDF
 INCLUDE += -I$(WEAP_SRC)/MySQL
 
-INCLUDE += -I$(TEST_SRC)/System
-INCLUDE += -I$(TEST_SRC)/Security
-INCLUDE += -I$(TEST_SRC)/Thread
-INCLUDE += -I$(TEST_SRC)/Framework
-#INCLUDE += -I$(TEST_SRC)/PDF
-INCLUDE += -I$(TEST_SRC)/MySQL
+INCLUDE += -I$(DOMAIN_INCLUDE)
+
+INCLUDE += -I$(TEST_SRC)
 
 
 INCLUDE   +=  -I$(LIB_PATH)/gtest/include
@@ -42,12 +40,8 @@ LIBS     +=  -L$(LIB_PATH)/gtest/lib -lgtest_main -lgtest -lpthread
 
 # Target to create
 TEST_OBJS := $(patsubst $(TEST_SRC)/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/*.cpp)) \
-			$(patsubst $(TEST_SRC)/System/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/System/*.cpp)) \
-			$(patsubst $(TEST_SRC)/Security/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Security/*.cpp)) \
-			$(patsubst $(TEST_SRC)/Thread/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Thread/*.cpp)) \
-			$(patsubst $(TEST_SRC)/Framework/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Framework/*.cpp)) \
-			$(patsubst $(TEST_SRC)/MySQL/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/MySQL/*.cpp)) \
-#			$(patsubst $(TEST_SRC)/PDF/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/PDF/*.cpp)) \
+			$(patsubst $(DOMAIN_SRC)/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(DOMAIN_SRC)/*.cpp)) \
+
 
 $(TEST_MAIN) : $(WEAP_LIB) $(TEST_OBJS)
 	#$(CC) -O -lc -o $@ $(CFLAGS) $^ $(LIBS)
@@ -57,23 +51,9 @@ $(TEST_MAIN) : $(WEAP_LIB) $(TEST_OBJS)
 $(TEST_OBJ)/%.o :  $(TEST_SRC)/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TEST_OBJ)/%.o :  $(TEST_SRC)/System/%.cpp 
+$(TEST_OBJ)/%.o :  $(DOMAIN_SRC)/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TEST_OBJ)/%.o :  $(TEST_SRC)/Security/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TEST_OBJ)/%.o :  $(TEST_SRC)/Thread/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TEST_OBJ)/%.o :  $(TEST_SRC)/Framework/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
-
-#$(TEST_OBJ)/%.o :  $(TEST_SRC)/PDF/%.cpp 
-#	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TEST_OBJ)/%.o :  $(TEST_SRC)/MySQL/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
 
 # Create libweap-framework.a 
 WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
