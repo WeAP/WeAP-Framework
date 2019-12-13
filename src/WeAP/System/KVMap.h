@@ -41,7 +41,8 @@ public:
     void Set(const string& key, const string& value);
     void Set(const string& key, const char* value);
     
-    bool Find(const string& key) const;        
+    bool Find(const string& key) const;
+    bool Exist(const string& key) const;
     bool IsNullOrEmpty(const string& key) const; 
 
     void Remove(const string& key);
@@ -53,6 +54,7 @@ public:
     const map<string, string>& GetMap() const;
 
     string ToUrlString( char sep1 = '&', char sep2 = '=') const;
+    string ToString( char sep1 = ',', char sep2 = ':') const;
 
     void Clear();
 

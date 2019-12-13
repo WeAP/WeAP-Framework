@@ -18,6 +18,124 @@ using namespace std;
 
 namespace WeAP { namespace MySQL {
 
+class Sql
+{
+public:
+    Sql(){};
+    virtual ~Sql(){};
+
+    Sql& Append(const string& str)
+    {
+        this->sql << str << " ";
+        return *this;
+    };
+
+
+    Sql& AppendValue(int32_t value, bool withComma = true)
+    {
+        this->sql << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(uint32_t value, bool withComma = true)
+    {
+        this->sql << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(int64_t value, bool withComma = true)
+    {
+        this->sql << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(uint64_t value, bool withComma = true)
+    {
+        this->sql << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+
+    Sql& AppendValue(const string& value, bool withComma = true)
+    {
+        this->sql << "'" << value << "'";
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+
+    Sql& AppendValue(const string& name, int32_t value, bool withComma = true)
+    {
+        this->sql << name << "=" << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(const string& name, uint32_t value, bool withComma = true)
+    {
+        this->sql << name << "=" << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(const string& name, int64_t value, bool withComma = true)
+    {
+        this->sql << name << "=" << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(const string& name, uint64_t value, bool withComma = true)
+    {
+        this->sql << name << "=" << value;
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+    Sql& AppendValue(const string& name, const string& value, bool withComma = true)
+    {
+        this->sql << name << "='" << value << "'";
+        if (withComma)
+        {
+            this->sql << ",";
+        }
+        return *this;
+    };
+
+    string ToString()
+    {
+        return this->sql.str();
+    }
+
+protected:
+    stringstream sql;
+
+};
+
+
+
 /**
  *
  * @ref https://dev.mysql.com/doc/refman/5.7/en/mysql-real-connect.html 
@@ -103,7 +221,6 @@ protected:
 
     bool isConnected;
     bool isTrans;
-    
 
 };
 

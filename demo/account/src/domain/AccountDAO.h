@@ -15,8 +15,9 @@ public:
     void Insert(Account& account);
 
     void Query(uint64_t accountId, Account& account);
+    void Query(uint64_t accountId, KVMap& record);
 
-protected:
+    void Update(const Account& account);
 
 };
 

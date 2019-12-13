@@ -140,9 +140,9 @@ void FileUtil::MakeDir(const string& path)
         return;
     }
 
-    const char* dirPath = path.c_str();
+    //const char* dirPath = path.c_str();
 
-    int pos = path.find('\\', 0);
+    size_t pos = path.find('\\', 0);
     if (pos == string::npos)
     {
         return;
@@ -158,7 +158,6 @@ void FileUtil::MakeDir(const string& path)
         }
 
         currPath = path.substr(0, pos);
-
 
     }while (pos = path.find('\\', pos) != string::npos);
 

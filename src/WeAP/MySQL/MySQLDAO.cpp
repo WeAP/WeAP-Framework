@@ -1,5 +1,5 @@
 #include "MySQLDAO.h"
-
+#include "Convert.h"
 
 
 namespace WeAP { namespace MySQL {
@@ -51,5 +51,24 @@ void MySQLDAO::Insert(const string& sql)
 {
     this->mysql.Insert(sql);
 }
+
+void MySQLDAO::Update(const string& sql)
+{
+    this->mysql.Update(sql);
+}
+
+string MySQLDAO::GetFullTableName(uint32_t dbKey, uint32_t tableKey)
+{
+    //string dbkey = Convert::ToString(dbKey/10000);
+    //string tablekey = Convert::ToString(tableKey);;
+
+    return "";
+}
+
+string MySQLDAO::GetFullTableName()
+{
+    return this->dbName + "." + this->tableName;
+}
+
 
 }}

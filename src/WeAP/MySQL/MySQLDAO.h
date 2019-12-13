@@ -25,10 +25,14 @@ public:
 
     void Init(const INIConfig& config, const string& section);
 
+protected:
     void Query(const string& sql, KVMap& record);
     void Query(const string& sql, ObjectList<KVMap>& recordList);
     void Insert(const string& sql);
-    //void Update(const string& sql);
+    void Update(const string& sql);
+
+    string GetFullTableName(uint32_t dbKey, uint32_t tableKey);
+    string GetFullTableName();
     
 
 private:
@@ -45,6 +49,9 @@ protected:
 
     MySQLDB mysql;
 
+    string dbName;
+    string tableName;
+    string tableFields;
 };
 
 }}

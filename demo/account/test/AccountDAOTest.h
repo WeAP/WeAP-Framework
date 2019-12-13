@@ -12,6 +12,8 @@ public:
 
     void TestInsert();
 
+    void TestUpdate();
+
 protected:
 
 };

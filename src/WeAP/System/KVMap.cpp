@@ -246,6 +246,17 @@ bool KVMap::Find(const string& key) const
     return false;
 }
 
+bool KVMap::Exist(const string& key) const
+{
+    map<string, string>::const_iterator iter = this->innerMap.find(key);
+    if (iter != this->innerMap.end())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool KVMap::IsNullOrEmpty(const string& key) const
 {
     if (!this->Find(key))
@@ -322,6 +333,34 @@ string KVMap::ToUrlString(char sep1, char sep2) const
             str += it->first;
             str += sep2;
             str += TextCodec::UrlEncode(it->second);
+        }
+    } 
+
+    return str;
+}
+
+string KVMap::ToString(char sep1, char sep2) const
+{
+    string str;
+
+    size_t len = this->innerMap.size();
+    size_t i = 0;
+
+    for (map<string, string>::const_iterator it = this->innerMap.begin(); it != this->innerMap.end(); ++it)
+    {        
+        i++;
+        if (i != len)
+        {
+            str += it->first;
+            str += sep2;
+            str += it->second;
+            str += sep1;
+        }
+        else
+        {
+            str += it->first;
+            str += sep2;
+            str += it->second;
         }
     } 
 

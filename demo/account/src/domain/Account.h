@@ -5,9 +5,17 @@
 
 using namespace WeAP::Framework;
 
+
 class Account : public Entity
 {
 public:
+    enum AccountType
+    {
+        UserAccount = 1, 
+        MerchantAccount = 2,
+        BankAccount = 3
+    };
+
     enum Status
     {
         Normal = 1,
@@ -23,16 +31,18 @@ public:
     Account();
     virtual ~Account();
 
+    Account& operator=(const KVMap &record);
+    bool Equals(const Account& account);
+
 public:
     uint64_t accountId;
-
-    CurrencyType currencyType;
+    uint32_t accountType;
+    uint32_t currencyType;
     int64_t balance;
     int64_t freezedAmount;
-    Status status;
-
-    uint64_t version;
-    string sign;
+    uint32_t status;
+    uint64_t dataVersion;
+    string dataSign;
     string createTime;
     string modifyTime;
 

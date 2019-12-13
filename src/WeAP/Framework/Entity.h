@@ -5,6 +5,21 @@
 
 namespace WeAP { namespace Framework {
 
+
+#define COPY_FIELD(fieldName, dataType )  \
+    if (record.Exist(#fieldName))  \
+    {\
+        this->fieldName = record.Get##dataType(#fieldName);\
+    }
+
+#define EQUAL_FIELD(fieldName)            \
+    if (this->fieldName != ref.fieldName) \
+    {                                     \
+        return false;                     \
+    }
+
+
+
 /**
  * 
  * 

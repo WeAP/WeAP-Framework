@@ -102,12 +102,10 @@ void MySQLDB::SetWaitTimeout()
     }
     //wait_timeout针对非交互式连接。所谓的交互式连接，即在mysql_real_connect()函数中使用了CLIENT_INTERACTIVE选项。
     std::string sql = std::string("set wait_timeout=") + Convert::ToString(this->waitTimeoutS);
-    cout << sql << endl;
     this->Query(sql);
 
     //interactive_timeout针对交互式连接，
     sql = std::string("set interactive_timeout=") + Convert::ToString(this->waitTimeoutS);
-    cout << sql << endl;
     this->Query(sql);
 }
 
