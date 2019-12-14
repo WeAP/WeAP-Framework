@@ -32,7 +32,7 @@ public:
     virtual ~Account();
 
     Account& operator=(const KVMap &record);
-    bool Equals(const Account& account);
+    bool Equals(const Account& other);
 
 public:
     uint64_t accountId;

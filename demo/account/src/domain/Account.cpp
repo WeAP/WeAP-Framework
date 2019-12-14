@@ -34,7 +34,7 @@ Account& Account::operator=(const KVMap &record)
     return *this;
 }
 
-bool Account::Equals(const Account& ref)
+bool Account::Equals(const Account& other)
 {
     EQUAL_FIELD(accountId);
     EQUAL_FIELD(currencyType);

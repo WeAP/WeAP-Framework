@@ -3,25 +3,21 @@
 #include "Logger.h"
 #include "stdinc.h"
 
-//#include <glog/logging.h>
-//#include<gflags/flags.h>  
 #include "StringUtil.h"
+#include "AccountManager.h"
+
 
 using namespace WeAP::System;
 
 int GTestRun(int argc, char *argv[])
 {
-    string logDir = "/home/xzwang/WeAP-Framework/demo/account/log";
-    int logLevel = 2;
-    int logSize =10;
-    Logger::GetInstance()->Init(logDir,logLevel, logSize, "WeAP");
-/*
-    int i = 11;
-    GLOG << "======aabc";
+    //string logDir = "/home/xzwang/WeAP-Framework/demo/account/log";
+    //int logLevel = 2;
+    //int logSize =10;
+    //Logger::GetInstance()->Init(logDir,logLevel, logSize, "WeAP");
 
-    ERROR("hellword===%d", i);
-*/
-
+    string confFile = "/home/xzwang/WeAP-Framework/unit_test/WeAP/conf/unittest.conf";
+    AccountManagerS::NewInstance()->Init(confFile);
 
     try
     {
