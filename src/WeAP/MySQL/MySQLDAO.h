@@ -5,6 +5,8 @@
 #include "ObjectList.h"
 #include "INIConfig.h"
 #include "MySQL.h"
+#include "MySQLTransaction.h"
+
 
 using namespace WeAP::System;
 using namespace WeAP::Framework;
@@ -27,15 +29,22 @@ public:
 
     MySQL* GetTransHandler();
 
+    MySQLTransaction GetTransaction();
+
 protected:
     void Query(const string& sql, KVMap& record);
     void Query(const string& sql, ObjectList<KVMap>& recordList);
 
+    void Insert(const string& sql, MySQLTransaction& trans);
     void Insert(const string& sql, MySQL* transHandler);
+
+    void Update(const string& sql, MySQLTransaction& trans);
     void Update(const string& sql, MySQL* transHandler);
 
     string GetFullTableName(uint64_t key);
     
+
+
 
 private:
     MySQLDAO(const MySQLDAO& other);

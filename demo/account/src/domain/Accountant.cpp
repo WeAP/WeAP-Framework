@@ -15,14 +15,19 @@ Accountant::~Accountant()
 
 void Accountant::OpenAccount(Account& account)
 {
-    AccountRecord accountRecord;
+    account.accountType = Account::UserAccount;
+    account.currencyType = Account::CNY;
+    account.balance = 0;
+    account.freezedAmount = 0;
+    account.status = Account::Normal;
+    //string remark;
 
+    AccountRecord accountRecord;
+/*
     MySQL* transHandler = this->manger->accountDAO.GetTransHandler();
 
     try
     {
-
-
         transHandler->Begin();
 
         this->manger->accountDAO.Insert(account, transHandler);
@@ -42,9 +47,16 @@ void Accountant::OpenAccount(Account& account)
     {
         transHandler->Rollback();
     }
+*/
 
+    MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
 
-    
+    trans.Begin();
+
+    this->manger->accountDAO.Insert(account, trans);
+    this->manger->accountRecordDAO.Insert(accountRecord, trans);
+
+    trans.Commit();
 }
 
 void Accountant::CloseAccount(Account& account)

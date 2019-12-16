@@ -34,6 +34,8 @@ public:
     Account& operator=(const KVMap &record);
     bool Equals(const Account& other);
 
+    virtual string GenDataSign() const;
+
 public:
     uint64_t accountId;
     uint32_t accountType;

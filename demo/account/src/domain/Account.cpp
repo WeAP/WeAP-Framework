@@ -49,3 +49,15 @@ bool Account::Equals(const Account& other)
     return true;
 }
 
+string Account::GenDataSign() const
+{
+    stringstream src;
+    src << this->accountId;
+    src << this->accountType;
+    src << this->currencyType;
+    src << this->balance;
+    src << this->freezedAmount;
+    src << this->status;
+    src << this->modifyTime;
+    return src.str();
+}

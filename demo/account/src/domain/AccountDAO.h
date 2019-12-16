@@ -13,7 +13,7 @@ public:
     virtual ~AccountDAO();
 
     void Insert(Account& account, MySQL* transHandler = NULL);
-    void Update(const Account& account, MySQL* transHandler = NULL);
+    void Update(Account& account, MySQL* transHandler = NULL);
 
 
     void Query(uint64_t accountId, Account& account);

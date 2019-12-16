@@ -32,7 +32,7 @@ public:
     Entity();
     virtual ~Entity();
 
-    virtual string GenDataSign() const { return "";} ;
+    virtual string GenDataSign() const { return "";};
 
 };
 
