@@ -17,7 +17,7 @@ AccountDAO::~AccountDAO()
 
 }
 
-void AccountDAO::Insert(Account& account)
+void AccountDAO::Insert(Account& account, MySQL* transHandler)
 {
     Sql sql;
     sql.Append("insert");
@@ -37,8 +37,36 @@ void AccountDAO::Insert(Account& account)
     sql.AppendValue(account.modifyTime, true);
     sql.Append(")");
 
-    INFO("sql:%s",sql.ToString().c_str());
-    MySQLDAO::Insert(sql.ToString());
+    //INFO("sql:%s",sql.ToString().c_str());
+    MySQLDAO::Insert(sql.ToString(), transHandler);
+
+}
+
+void AccountDAO::Update(const Account& account, MySQL* transHandler)
+{
+
+    Sql sql;
+    sql.Append("update");
+
+    sql.Append(this->GetFullTableName());
+    sql.Append("set");
+    sql.AppendValue("accountId", account.accountId);
+    sql.AppendValue("currencyType", account.currencyType);
+    sql.AppendValue("balance", account.balance);
+    sql.AppendValue("freezedAmount", account.freezedAmount);
+    sql.AppendValue("status", account.status);
+    sql.AppendValue("dataVersion", account.dataVersion + 1);
+    sql.AppendValue("dataSign", account.GenDataSign());
+    //sql.AppendValue("createTime", account.createTime);
+    sql.AppendValue("modifyTime", account.modifyTime, true);
+    sql.Append("where");
+    sql.AppendCond("accountId", account.accountId);
+    sql.AppendCond("dataVersion", account.dataVersion, true);
+
+    //INFO("sql:%s",sql.ToString().c_str());
+
+
+    MySQLDAO::Update(sql.ToString(), transHandler);
 
 }
 
@@ -64,28 +92,3 @@ void AccountDAO::Query(uint64_t accountId, KVMap& record)
 }
 
 
-void AccountDAO::Update(const Account& account)
-{
-
-    Sql sql;
-    sql.Append("update");
-
-    sql.Append(this->GetFullTableName());
-    sql.Append("set");
-    sql.AppendValue("accountId", account.accountId);
-    sql.AppendValue("currencyType", account.currencyType);
-    sql.AppendValue("balance", account.balance);
-    sql.AppendValue("freezedAmount", account.freezedAmount);
-    sql.AppendValue("status", account.status);
-    sql.AppendValue("dataVersion", account.dataVersion + 1);
-    sql.AppendValue("dataSign", account.GenDataSign());
-    //sql.AppendValue("createTime", account.createTime);
-    sql.AppendValue("modifyTime", account.modifyTime, true);
-    sql.Append("where");
-    sql.AppendCond("accountId", account.accountId);
-    sql.AppendCond("dataVersion", account.dataVersion, true);
-
-    INFO("sql:%s",sql.ToString().c_str());
-    MySQLDAO::Update(sql.ToString());
-
-}

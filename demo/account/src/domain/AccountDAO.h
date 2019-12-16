@@ -12,12 +12,14 @@ public:
     AccountDAO();
     virtual ~AccountDAO();
 
-    void Insert(Account& account);
+    void Insert(Account& account, MySQL* transHandler = NULL);
+    void Update(const Account& account, MySQL* transHandler = NULL);
+
 
     void Query(uint64_t accountId, Account& account);
     void Query(uint64_t accountId, KVMap& record);
 
-    void Update(const Account& account);
+
 
 };
 

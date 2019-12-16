@@ -17,27 +17,30 @@ void Accountant::OpenAccount(Account& account)
 {
     AccountRecord accountRecord;
 
+    MySQL* transHandler = this->manger->accountDAO.GetTransHandler();
 
     try
     {
-        //this->manger->accountDAO.Begin();
 
-        this->manger->accountDAO.Insert(account);
+
+        transHandler->Begin();
+
+        this->manger->accountDAO.Insert(account, transHandler);
         //this->manger->accountRecordDAO.Insert(accountRecord);
 
-        //this->manger->accountDAO.Commit();
+        transHandler->Commit();
     }
     catch(const Exception& ex)
     {
-        //this->manger->accountDAO.Rollback();
+        transHandler->Rollback();
     }
     catch(const std::exception& e)
     {
-        //this->manger->accountDAO.Rollback();
+        transHandler->Rollback();
     }
     catch(...)
     {
-        //this->manger->accountDAO.Rollback();
+        transHandler->Rollback();
     }
 
 

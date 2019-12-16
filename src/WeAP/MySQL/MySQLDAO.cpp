@@ -38,6 +38,12 @@ void MySQLDAO::Init(const INIConfig& config, const string& section)
 
 }
 
+MySQL* MySQLDAO::GetTransHandler()
+{
+    return &this->mysql;
+}
+
+
 void MySQLDAO::Query(const string& sql, KVMap& record)
 {
     this->mysql.Query(sql, record);
@@ -47,15 +53,33 @@ void MySQLDAO::Query(const string& sql, ObjectList<KVMap>& recordList)
     this->mysql.Query(sql, recordList);
 }
 
-void MySQLDAO::Insert(const string& sql)
+void MySQLDAO::Insert(const string& sql, MySQL* transHandler)
 {
-    this->mysql.Insert(sql);
+    if (transHandler == NULL)
+    {
+        this->mysql.Insert(sql);
+    }
+    else
+    {
+        transHandler->Insert(sql);
+    }
+
 }
 
-void MySQLDAO::Update(const string& sql)
+void MySQLDAO::Update(const string& sql, MySQL* transHandler)
 {
-    this->mysql.Update(sql);
+    if (transHandler == NULL)
+    {
+        this->mysql.Update(sql);
+    }
+    else
+    {
+        transHandler->Update(sql);
+    }
+    
+    
 }
+
 
 string MySQLDAO::GetFullTableName(uint32_t dbKey, uint32_t tableKey)
 {

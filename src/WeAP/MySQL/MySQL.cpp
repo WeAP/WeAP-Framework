@@ -370,6 +370,7 @@ void MySQL::Query(const string& sql)
 
 int MySQL::RealQuery(const string& sql)
 {
+    INFO("sql:%s", sql.c_str());
     int ret = mysql_real_query(this->mysql, sql.c_str(), sql.size());
     if (ret != 0)
     {

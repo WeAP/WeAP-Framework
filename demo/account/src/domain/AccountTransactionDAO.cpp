@@ -19,7 +19,7 @@ void AccountTransactionDAO::Insert(AccountTransaction& txn)
                                      values \
                                     (%llu, %u, %lld, now(), now())", 
                                     txn.accountId, txn.currencyType, txn.balance);
-    MySQLDAO::Insert(sql);
+    MySQLDAO::Insert(sql, NULL);
 
 }
 

@@ -24,7 +24,7 @@ void AccountRecordDAO::Insert(Account& account)
     sql << account.dataVersion << account.dataSign << account.createTime << account.modifyTime << ")";
 
     ERROR("sql:",sql.str().c_str());
-    MySQLDAO::Insert(sql.str());
+    MySQLDAO::Insert(sql.str(), NULL);
 
 }
 

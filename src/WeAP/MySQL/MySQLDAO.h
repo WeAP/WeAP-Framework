@@ -25,11 +25,14 @@ public:
 
     void Init(const INIConfig& config, const string& section);
 
+    MySQL* GetTransHandler();
+
 protected:
     void Query(const string& sql, KVMap& record);
     void Query(const string& sql, ObjectList<KVMap>& recordList);
-    void Insert(const string& sql);
-    void Update(const string& sql);
+
+    void Insert(const string& sql, MySQL* transHandler);
+    void Update(const string& sql, MySQL* transHandler);
 
     string GetFullTableName(uint32_t dbKey, uint32_t tableKey);
     string GetFullTableName();
