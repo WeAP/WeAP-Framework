@@ -34,8 +34,7 @@ protected:
     void Insert(const string& sql, MySQL* transHandler);
     void Update(const string& sql, MySQL* transHandler);
 
-    string GetFullTableName(uint32_t dbKey, uint32_t tableKey);
-    string GetFullTableName();
+    string GetFullTableName(uint64_t key);
     
 
 private:

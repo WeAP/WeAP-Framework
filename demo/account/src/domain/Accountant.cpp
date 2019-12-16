@@ -26,7 +26,7 @@ void Accountant::OpenAccount(Account& account)
         transHandler->Begin();
 
         this->manger->accountDAO.Insert(account, transHandler);
-        //this->manger->accountRecordDAO.Insert(accountRecord);
+        this->manger->accountRecordDAO.Insert(accountRecord, transHandler);
 
         transHandler->Commit();
     }

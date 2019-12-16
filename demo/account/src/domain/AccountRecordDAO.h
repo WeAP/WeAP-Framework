@@ -2,7 +2,7 @@
 #define __WeAP_AccountRecordDAO_H__
 
 #include "MySQLDAO.h"
-#include "Account.h"
+#include "AccountRecord.h"
 
 using namespace WeAP::MySQL;
 
@@ -12,9 +12,9 @@ public:
     AccountRecordDAO();
     virtual ~AccountRecordDAO();
 
-    void Insert(Account& account);
+    void Insert(AccountRecord& accountRecord, MySQL* transHandler = NULL);
 
-    void Query(uint64_t accountId, Account& account);
+    void Query(uint64_t accountId, AccountRecordList& list);
 
 protected:
 

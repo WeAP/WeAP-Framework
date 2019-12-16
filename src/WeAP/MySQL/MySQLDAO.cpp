@@ -81,15 +81,7 @@ void MySQLDAO::Update(const string& sql, MySQL* transHandler)
 }
 
 
-string MySQLDAO::GetFullTableName(uint32_t dbKey, uint32_t tableKey)
-{
-    //string dbkey = Convert::ToString(dbKey/10000);
-    //string tablekey = Convert::ToString(tableKey);;
-
-    return "";
-}
-
-string MySQLDAO::GetFullTableName()
+string MySQLDAO::GetFullTableName(uint64_t key)
 {
     return this->dbName + "." + this->tableName;
 }

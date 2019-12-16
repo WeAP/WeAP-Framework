@@ -21,7 +21,7 @@ void AccountDAO::Insert(Account& account, MySQL* transHandler)
 {
     Sql sql;
     sql.Append("insert");
-    sql.Append(this->GetFullTableName());
+    sql.Append(this->GetFullTableName(account.accountId));
     sql.Append("(");
     sql.Append(this->tableFields);
     sql.Append(") values (");
@@ -48,7 +48,7 @@ void AccountDAO::Update(const Account& account, MySQL* transHandler)
     Sql sql;
     sql.Append("update");
 
-    sql.Append(this->GetFullTableName());
+    sql.Append(this->GetFullTableName(account.accountId));
     sql.Append("set");
     sql.AppendValue("accountId", account.accountId);
     sql.AppendValue("currencyType", account.currencyType);
@@ -83,7 +83,7 @@ void AccountDAO::Query(uint64_t accountId, KVMap& record)
     sql.Append("select");
     sql.Append(this->tableFields);
     sql.Append("from");
-    sql.Append(this->GetFullTableName());
+    sql.Append(this->GetFullTableName(accountId));
     sql.Append("where");
     sql.AppendValue("accountId", accountId, true);
 

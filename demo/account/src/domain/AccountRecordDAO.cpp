@@ -12,26 +12,40 @@ AccountRecordDAO::~AccountRecordDAO()
 
 }
 
-void AccountRecordDAO::Insert(Account& account)
+void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQL* transHandler)
 {
-    stringstream sql;
+    Sql sql;
+    sql.Append("insert");
+    sql.Append(this->GetFullTableName(accountRecord.accountId));
+    sql.Append("(");
+    sql.Append(this->tableFields);
+    sql.Append(") values (");
+    sql.AppendValue(accountRecord.accountId);
+    sql.AppendValue(accountRecord.accountType);    
+    sql.AppendValue(accountRecord.currencyType );
+    sql.AppendValue(accountRecord.balance );
+    sql.AppendValue(accountRecord.freezedBalance);
+    sql.AppendValue(accountRecord.status);
+    sql.AppendValue(accountRecord.dataVersion);
+    sql.AppendValue(accountRecord.dataSign);
+    sql.AppendValue(accountRecord.createTime);
+    sql.AppendValue(accountRecord.modifyTime, true);
+    sql.Append(")");
 
-    sql << "insert into account_db.account ";
-    sql << "(accountId, currencyType, balance, freezedAmount, status, ";
-    sql << "dataVersion, dataSign, createTime, modifyTime)";
-    sql << "values (";
-    sql << account.accountId << account.currencyType << account.balance << account.freezedAmount << account.status;
-    sql << account.dataVersion << account.dataSign << account.createTime << account.modifyTime << ")";
-
-    ERROR("sql:",sql.str().c_str());
-    MySQLDAO::Insert(sql.str(), NULL);
+    //MySQLDAO::Insert(sql.ToString(), transHandler);
 
 }
 
-void AccountRecordDAO::Query(uint64_t accountId, Account& account)
+void AccountRecordDAO::Query(uint64_t accountId, AccountRecordList& list)
 {
-    string sql = "select * from account_db.account";
-    KVMap record;
-    MySQLDAO::Query(sql, record);
-    
+    Sql sql;
+    sql.Append("select");
+    sql.Append(this->tableFields);
+    sql.Append("from");
+    sql.Append(this->GetFullTableName(accountId));
+    sql.Append("where");
+    sql.AppendValue("accountId", accountId, true);
+
+    ObjectList<KVMap> recordList;
+    MySQLDAO::Query(sql.ToString(), recordList);
 }
