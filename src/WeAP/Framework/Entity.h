@@ -13,7 +13,7 @@ namespace WeAP { namespace Framework {
     }
 
 #define EQUAL_FIELD(fieldName)            \
-    if (this->fieldName != ref.fieldName) \
+    if (this->fieldName != other.fieldName) \
     {                                     \
         return false;                     \
     }
@@ -31,6 +31,8 @@ class Entity : public AppObject
 public:
     Entity();
     virtual ~Entity();
+
+    virtual string GenDataSign() const { return "";} ;
 
 };
 

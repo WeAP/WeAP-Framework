@@ -4,7 +4,7 @@
 #include "AppObject.h"
 #include "ObjectList.h"
 #include "INIConfig.h"
-#include "MySQLDB.h"
+#include "MySQL.h"
 
 using namespace WeAP::System;
 using namespace WeAP::Framework;
@@ -47,7 +47,7 @@ protected:
     string userName;
     string password;
 
-    MySQLDB mysql;
+    MySQL mysql;
 
     string dbName;
     string tableName;

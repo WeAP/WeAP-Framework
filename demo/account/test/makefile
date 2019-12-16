@@ -89,4 +89,4 @@ DEPS = $(patsubst %.o, .%.d, $(TEST_OBJS), $(WEAP_OBJS))
 
 
 clean:
-	rm -f $(WEAP_OBJ)/*.o $(WEAP_LIB) $(TEST_MAIN)
+	rm -f $(WEAP_OBJ)/*.o $(WEAP_LIB) $(TEST_OBJ)/*.o $(TEST_MAIN) 

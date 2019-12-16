@@ -41,6 +41,7 @@ public:
     int64_t balance;
     int64_t freezedAmount;
     uint32_t status;
+    //string remark;
     uint64_t dataVersion;
     string dataSign;
     string createTime;

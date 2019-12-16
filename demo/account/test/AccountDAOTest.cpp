@@ -8,6 +8,7 @@ using namespace WeAP::System;
 
 AccountDAOTest::AccountDAOTest()
 {
+    this->manager = AccountManagerS::GetInstance();
 }
 
 AccountDAOTest::~AccountDAOTest()
@@ -16,13 +17,6 @@ AccountDAOTest::~AccountDAOTest()
 
 void AccountDAOTest::TestInsert()
 {
-    string confFile = "/home/xzwang/WeAP-Framework/unit_test/WeAP/conf/unittest.conf";
-    INIConfig config;
-    config.Init(confFile);
-
-    AccountDAO dao;
-    dao.Init(config, "Account");
-
     Account account;
     account.accountId = time(NULL);
     account.balance = 1;
@@ -30,45 +24,40 @@ void AccountDAOTest::TestInsert()
     account.createTime = DateTime().ToDateTimeString();
     account.modifyTime = DateTime().ToDateTimeString();
 
-    dao.Insert(account);
+    this->manager->accountDAO.Insert(account);
 
     Account accountDB;
-    dao.Query(account.accountId, accountDB);
+    this->manager->accountDAO.Query(account.accountId, accountDB);
 
-
-    EXPECT_EQ(true, account.Equals(accountDB));
+    EXPECT_TRUE(account.Equals(accountDB));
 
 }
 
 void AccountDAOTest::TestUpdate()
 {
-    string confFile = "/home/xzwang/WeAP-Framework/unit_test/WeAP/conf/unittest.conf";
-    INIConfig config;
-    config.Init(confFile);
-
-    AccountDAO dao;
-    dao.Init(config, "Account");
-
-    Account account;
+    Account account;  //插入前内存account
     account.accountId = time(NULL) + 1;
     account.balance = 1;
     account.status = Account::Normal;
     account.createTime = DateTime().ToDateTimeString();
     account.modifyTime = DateTime().ToDateTimeString();
 
-    dao.Insert(account);
+    this->manager->accountDAO.Insert(account);
 
-    Account accountDB;
-    dao.Query(account.accountId, accountDB);
+    Account accountDB;  //插入后DB account
+    this->manager->accountDAO.Query(account.accountId, accountDB);
     accountDB.balance += 1;
 
-    dao.Update(accountDB);
+    this->manager->accountDAO.Update(accountDB);
 
-    Account accountDB2;
-    dao.Query(account.accountId, accountDB2);
+    Account accountDB2; //DB被修改后的account
+    this->manager->accountDAO.Query(account.accountId, accountDB2);
 
-    EXPECT_EQ(false, account.Equals(accountDB2));
-    EXPECT_EQ(true, accountDB.Equals(accountDB2));
+    accountDB.dataVersion +=1;
+
+    EXPECT_FALSE(account.Equals(accountDB2));
+
+    EXPECT_TRUE(accountDB.Equals(accountDB2));
 
 }
 

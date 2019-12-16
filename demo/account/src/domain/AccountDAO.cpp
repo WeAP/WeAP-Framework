@@ -1,6 +1,6 @@
 #include "AccountDAO.h"
 #include "StringUtil.h"
-#include "MySQLDB.h"
+//#include "MySQL.h"
 
 using namespace WeAP::System;
 
@@ -34,7 +34,7 @@ void AccountDAO::Insert(Account& account)
     sql.AppendValue(account.dataVersion);
     sql.AppendValue(account.dataSign);
     sql.AppendValue(account.createTime);
-    sql.AppendValue(account.modifyTime, false);
+    sql.AppendValue(account.modifyTime, true);
     sql.Append(")");
 
     INFO("sql:%s",sql.ToString().c_str());
@@ -57,7 +57,7 @@ void AccountDAO::Query(uint64_t accountId, KVMap& record)
     sql.Append("from");
     sql.Append(this->GetFullTableName());
     sql.Append("where");
-    sql.AppendValue("accountId", accountId, false);
+    sql.AppendValue("accountId", accountId, true);
 
     MySQLDAO::Query(sql.ToString(), record);
     //cout << record.ToString() << endl;
@@ -66,8 +66,10 @@ void AccountDAO::Query(uint64_t accountId, KVMap& record)
 
 void AccountDAO::Update(const Account& account)
 {
+
     Sql sql;
     sql.Append("update");
+
     sql.Append(this->GetFullTableName());
     sql.Append("set");
     sql.AppendValue("accountId", account.accountId);
@@ -75,12 +77,13 @@ void AccountDAO::Update(const Account& account)
     sql.AppendValue("balance", account.balance);
     sql.AppendValue("freezedAmount", account.freezedAmount);
     sql.AppendValue("status", account.status);
-    sql.AppendValue("dataVersion", account.dataVersion);
-    sql.AppendValue("dataSign", account.dataSign);
-    sql.AppendValue("createTime", account.createTime);
-    sql.AppendValue("modifyTime", account.modifyTime, false);
+    sql.AppendValue("dataVersion", account.dataVersion + 1);
+    sql.AppendValue("dataSign", account.GenDataSign());
+    //sql.AppendValue("createTime", account.createTime);
+    sql.AppendValue("modifyTime", account.modifyTime, true);
     sql.Append("where");
-    sql.AppendValue("accountId", account.accountId, false);
+    sql.AppendCond("accountId", account.accountId);
+    sql.AppendCond("dataVersion", account.dataVersion, true);
 
     INFO("sql:%s",sql.ToString().c_str());
     MySQLDAO::Update(sql.ToString());

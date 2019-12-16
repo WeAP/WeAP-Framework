@@ -26,6 +26,6 @@ public:
 
 };
 
-Singleton<AccountManager> AccountManagerS;
+typedef Singleton<AccountManager> AccountManagerS;
 
 #endif 

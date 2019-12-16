@@ -2,7 +2,7 @@
 #define __WeAP_AccountDAOTest_H__
 
 #include "MySQLDAOTest.h"
-
+#include "AccountManager.h"
 
 class AccountDAOTest: public MySQLDAOTest
 {
@@ -15,6 +15,7 @@ public:
     void TestUpdate();
 
 protected:
+    AccountManager* manager;
 
 };
 

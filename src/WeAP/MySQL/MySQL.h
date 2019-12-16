@@ -1,6 +1,6 @@
 
-#ifndef __WeAP_MySQLDB_H__
-#define __WeAP_MySQLDB_H__
+#ifndef __WeAP_MySQL_H__
+#define __WeAP_MySQL_H__
 
 #include <mysql.h>
 #include <mysqld_error.h>
@@ -31,95 +31,182 @@ public:
     };
 
 
-    Sql& AppendValue(int32_t value, bool withComma = true)
+    Sql& AppendValue(int32_t value, bool end = false)
     {
         this->sql << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << value << ", ";
+        }
+        else
+        {
+            this->sql << value << " ";
+        }
+        
+        return *this;
+    };
+    Sql& AppendValue(uint32_t value, bool end = false)
+    {
+        this->sql << value;
+        if (!end)
+        {
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(uint32_t value, bool withComma = true)
+    Sql& AppendValue(int64_t value, bool end = false)
     {
         this->sql << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(int64_t value, bool withComma = true)
+    Sql& AppendValue(uint64_t value, bool end = false)
     {
         this->sql << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
         }
-        return *this;
-    };
-    Sql& AppendValue(uint64_t value, bool withComma = true)
-    {
-        this->sql << value;
-        if (withComma)
+        else
         {
-            this->sql << ",";
+            this->sql << " ";
         }
         return *this;
     };
 
-    Sql& AppendValue(const string& value, bool withComma = true)
+    Sql& AppendValue(const string& value, bool end = false)
     {
         this->sql << "'" << value << "'";
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
 
-    Sql& AppendValue(const string& name, int32_t value, bool withComma = true)
+    Sql& AppendValue(const string& name, int32_t value, bool end = false)
     {
         this->sql << name << "=" << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(const string& name, uint32_t value, bool withComma = true)
+    Sql& AppendValue(const string& name, uint32_t value, bool end = false)
     {
         this->sql << name << "=" << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(const string& name, int64_t value, bool withComma = true)
+    Sql& AppendValue(const string& name, int64_t value, bool end = false)
     {
         this->sql << name << "=" << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(const string& name, uint64_t value, bool withComma = true)
+    Sql& AppendValue(const string& name, uint64_t value, bool end = false)
     {
         this->sql << name << "=" << value;
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
         }
         return *this;
     };
-    Sql& AppendValue(const string& name, const string& value, bool withComma = true)
+    Sql& AppendValue(const string& name, const string& value, bool end = false)
     {
         this->sql << name << "='" << value << "'";
-        if (withComma)
+        if (!end)
         {
-            this->sql << ",";
+            this->sql << ", ";
+        }
+        else
+        {
+            this->sql << " ";
+        }
+        return *this;
+    };
+
+    Sql& AppendCond(const string& name, int32_t value, bool end = false)
+    {
+        this->sql << name << "=" << value;
+        if (!end)
+        {
+            this->sql << " and ";
+        }
+        return *this;
+    };
+    Sql& AppendCond(const string& name, uint32_t value, bool end = false)
+    {
+        this->sql << name << "=" << value;
+        if (!end)
+        {
+            this->sql << " and ";
+        }
+        return *this;
+    };
+    Sql& AppendCond(const string& name, int64_t value, bool end = false)
+    {
+        this->sql << name << "=" << value;
+        if (!end)
+        {
+            this->sql << " and ";
+        }
+        return *this;
+    };
+    Sql& AppendCond(const string& name, uint64_t value, bool end = false)
+    {
+        this->sql << name << "=" << value;
+        if (!end)
+        {
+            this->sql << " and ";
+        }
+        return *this;
+    };
+    Sql& AppendCond(const string& name, const string& value, bool end = false)
+    {
+        this->sql << name << "='" << value << "'";
+        if (!end)
+        {
+            this->sql << " and ";
         }
         return *this;
     };
@@ -140,15 +227,15 @@ protected:
  *
  * @ref https://dev.mysql.com/doc/refman/5.7/en/mysql-real-connect.html 
  */
-class MySQLDB
+class MySQL
 {
 public:
     static string EscapeString(const string& buff);
     static string GetString(char *str);
 
 public:
-    MySQLDB();    
-    virtual ~MySQLDB();
+    MySQL();    
+    virtual ~MySQL();
 
     void Init(const std::string& ip,
               int port,
@@ -202,8 +289,8 @@ protected:
     string GetDBError();
 
 private:
-    MySQLDB(const MySQLDB& other);
-    MySQLDB& operator=(const MySQLDB& other);
+    MySQL(const MySQL& other);
+    MySQL& operator=(const MySQL& other);
 
 protected:
     std::string ip;

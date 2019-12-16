@@ -16,7 +16,7 @@ void SignalHandle(const char* data, int size)
     //string dumpFile = "";
     //FileUtil::Dump(str, dumpFile);
 
-    LOG(ERROR)<<str;
+    LOG(ERROR)<< "SignalHandle:" << str;
     //也可以直接在这里发送邮件或短信通知，不过这个方法是被回调多次的（每次回调只输出一行错误信息，所以如上面的记录到文件，也需要>以追加模式方可），所以这里发邮件或短信不是很适合，不过倒是可以调用一个 SHELL 或 PYTHON 脚本，而此脚本会先 sleep 3秒左右，然后将错误信息通过邮件或短信发送出去，这样就不需要监控脚本定时高频率执行，浪费效率了。
 }
 

@@ -1,4 +1,4 @@
-#include "MySQLDB.h"
+#include "MySQL.h"
 #include <sys/time.h>
 #include "Logger.h"
 #include <sstream>
@@ -7,21 +7,21 @@
 namespace WeAP { namespace MySQL {
 
 
-MySQLDB::MySQLDB()
+MySQL::MySQL()
 {
     this->mysql = NULL;
     this->isConnected = false;
     this->isTrans = false;
 }
 
-MySQLDB::~MySQLDB()
+MySQL::~MySQL()
 {
     this->Close();
 
     this->TransEnd();
 }
 
-void MySQLDB::Init(const std::string& ip,
+void MySQL::Init(const std::string& ip,
                     int port,
                     const std::string& user, 
                     const std::string& passwd, 
@@ -56,7 +56,7 @@ void MySQLDB::Init(const std::string& ip,
 }
 
 
-void  MySQLDB::Connect()
+void  MySQL::Connect()
 {
     if(this->mysql == NULL)
     {
@@ -94,7 +94,7 @@ void  MySQLDB::Connect()
     this->isConnected = true;
 }
 
-void MySQLDB::SetWaitTimeout()
+void MySQL::SetWaitTimeout()
 {
     if (this->idleTime <= 0)
     {
@@ -109,7 +109,7 @@ void MySQLDB::SetWaitTimeout()
     this->Query(sql);
 }
 
-void  MySQLDB::Close()
+void  MySQL::Close()
 {
     if (this->mysql != NULL)
     { 
@@ -121,7 +121,7 @@ void  MySQLDB::Close()
     this->isConnected = false;
 }
 
-bool MySQLDB::Ping()
+bool MySQL::Ping()
 {
     int ret = mysql_ping(this->mysql);
     if (ret != 0)
@@ -133,7 +133,7 @@ bool MySQLDB::Ping()
 }
 
 
-void MySQLDB::Query(const string& sql, KVMap& record, bool removePrefixF)
+void MySQL::Query(const string& sql, KVMap& record, bool removePrefixF)
 {
     this->Execute(sql);
     MySQLResult result;
@@ -141,7 +141,7 @@ void MySQLDB::Query(const string& sql, KVMap& record, bool removePrefixF)
     result.To(record, removePrefixF);
 }
 
-void MySQLDB::Query(const string& sql, ObjectList<KVMap>& recordList, bool removePrefixF)
+void MySQL::Query(const string& sql, ObjectList<KVMap>& recordList, bool removePrefixF)
 {
     this->Execute(sql);
     MySQLResult result;
@@ -149,39 +149,39 @@ void MySQLDB::Query(const string& sql, ObjectList<KVMap>& recordList, bool remov
     result.To(recordList, removePrefixF);
 }
 
-void MySQLDB::Insert(const string& sql)
+void MySQL::Insert(const string& sql)
 {
     this->Execute(sql);
 }
 
-void MySQLDB::Update(const string& sql)
+void MySQL::Update(const string& sql)
 {
     this->Execute(sql);
 }
 
 /*
-void MySQLDB::Query(const string& sql)
+void MySQL::Query(const string& sql)
 {
     this->Execute(sql);
 }
 */
-void MySQLDB::BatchQuery(const string& sql)
+void MySQL::BatchQuery(const string& sql)
 {
     this->Execute(sql);
 }
 
-void MySQLDB::BatchInsert(const string& sql)
+void MySQL::BatchInsert(const string& sql)
 {
     this->Execute(sql);
 }
 
-void MySQLDB::BatchUpdate(const string& sql)
+void MySQL::BatchUpdate(const string& sql)
 {
     this->Execute(sql);
 }
 
 
-void MySQLDB::Execute(const string& sql)
+void MySQL::Execute(const string& sql)
 {
     if (!this->isConnected && !this->IsTrans())
     {
@@ -195,7 +195,7 @@ void MySQLDB::Execute(const string& sql)
 
 
 
-void MySQLDB::Begin()
+void MySQL::Begin()
 {
     if (!this->isConnected)
     {
@@ -216,7 +216,7 @@ void MySQLDB::Begin()
     this->TransBegin();
 }
 
-void MySQLDB::Commit()
+void MySQL::Commit()
 {
     if (!this->isConnected)
     {
@@ -234,7 +234,7 @@ void MySQLDB::Commit()
 }
 
 
-void MySQLDB::Rollback()
+void MySQL::Rollback()
 {
     if (!this->isConnected)
     {
@@ -250,23 +250,23 @@ void MySQLDB::Rollback()
     this->TransEnd();
 }
 
-bool MySQLDB::IsTrans()
+bool MySQL::IsTrans()
 {
     return this->isTrans;
 }
 
 
-void MySQLDB::TransBegin()
+void MySQL::TransBegin()
 {
     this->isTrans = true;
 }
 
-void MySQLDB::TransEnd()
+void MySQL::TransEnd()
 {
     this->isTrans = false;
 }
 
-void MySQLDB::CheckTrans()
+void MySQL::CheckTrans()
 {
     if (!this->IsTrans())
     {
@@ -274,7 +274,7 @@ void MySQLDB::CheckTrans()
     }
 }
 
-unsigned long MySQLDB::AffectedRows()
+unsigned long MySQL::AffectedRows()
 {
     my_ulonglong rownum = mysql_affected_rows(this->mysql);
     if (rownum == (my_ulonglong) -1)
@@ -288,7 +288,7 @@ unsigned long MySQLDB::AffectedRows()
 }
 
 
-MYSQL_RES* MySQLDB::FetchResult()
+MYSQL_RES* MySQL::FetchResult()
 {
     MYSQL_RES* res = mysql_store_result(this->mysql);
     if (res == NULL)
@@ -301,7 +301,7 @@ MYSQL_RES* MySQLDB::FetchResult()
     return res;
 }
 
-int MySQLDB::FetchRows()
+int MySQL::FetchRows()
 {
     MYSQL_RES* res = this->FetchResult();
 
@@ -313,7 +313,7 @@ int MySQLDB::FetchRows()
 }
 
 
-string MySQLDB::GetString(char *str)
+string MySQL::GetString(char *str)
 {
     if (str == NULL)
     {
@@ -322,7 +322,7 @@ string MySQLDB::GetString(char *str)
     return string(str);
 }
 
-string MySQLDB::EscapeString(const string& buff)
+string MySQL::EscapeString(const string& buff)
 {
     int len = buff.length();
     char szTmp[len*2 + 1];
@@ -332,7 +332,7 @@ string MySQLDB::EscapeString(const string& buff)
     return string(szTmp);
 }
 
-void MySQLDB::Query(const string& sql)
+void MySQL::Query(const string& sql)
 {
     if (!this->IsTrans())
     {
@@ -368,7 +368,7 @@ void MySQLDB::Query(const string& sql)
 }
 
 
-int MySQLDB::RealQuery(const string& sql)
+int MySQL::RealQuery(const string& sql)
 {
     int ret = mysql_real_query(this->mysql, sql.c_str(), sql.size());
     if (ret != 0)
@@ -383,7 +383,7 @@ int MySQLDB::RealQuery(const string& sql)
 }
 
 
-string MySQLDB::GetDBError()
+string MySQL::GetDBError()
 {
     unsigned int errNo = mysql_errno(this->mysql);
     const char* errorMsg = mysql_error(this->mysql);

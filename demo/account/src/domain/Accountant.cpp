@@ -15,30 +15,29 @@ Accountant::~Accountant()
 
 void Accountant::OpenAccount(Account& account)
 {
-    Account account;
     AccountRecord accountRecord;
 
 
     try
     {
-        this->manger->accountDAO.Begin();
+        //this->manger->accountDAO.Begin();
 
         this->manger->accountDAO.Insert(account);
-        this->manger->accountRecordDAO.Insert(accountRecord);
+        //this->manger->accountRecordDAO.Insert(accountRecord);
 
-        this->manger->accountDAO.Commit();
+        //this->manger->accountDAO.Commit();
     }
     catch(const Exception& ex)
     {
-        this->manger->accountDAO.Rollback();
+        //this->manger->accountDAO.Rollback();
     }
     catch(const std::exception& e)
     {
-        this->manger->accountDAO.Rollback();
+        //this->manger->accountDAO.Rollback();
     }
     catch(...)
     {
-        this->manger->accountDAO.Rollback();
+        //this->manger->accountDAO.Rollback();
     }
 
 
