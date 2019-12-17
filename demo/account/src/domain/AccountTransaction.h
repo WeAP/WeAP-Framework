@@ -14,10 +14,7 @@ public:
         Frozen = 2,
         Closed = 9
     };
-    enum CurrencyType
-    {
-        CNY = 1
-    };
+
 
 public:
     AccountTransaction();
@@ -31,8 +28,8 @@ public:
     int64_t freezedAmount;
     Status status;
 
-    uint64_t version;
-    string sign;
+    uint64_t dataVersion;
+    string dataSign;
     string createTime;
     string modifyTime;
 

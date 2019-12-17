@@ -9,12 +9,8 @@ using namespace std;
 
 namespace WeAP { namespace MySQL {
 
-
-
-
 /**
  *
- * 
  */
 class MySQLTransaction
 {

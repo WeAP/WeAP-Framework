@@ -74,11 +74,11 @@ void Accountant::UnfreezeAccount(Account& account)
 
 }
 
-void TransferIn(Account& outerAccount, Account& innerAccount)
+void Accountant::TransferIn(Account& outerAccount, Account& innerAccount)
 {
 
 }
-void TransferOut(Account& innerAccount, Account& outerAccount)
+void Accountant::TransferOut(Account& innerAccount, Account& outerAccount)
 {
 
 }

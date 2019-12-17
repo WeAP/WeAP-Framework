@@ -6,7 +6,7 @@
 #include "AccountDAO.h"
 #include "AccountRecordDAO.h"
 #include "AccountTransactionDAO.h"
-
+#include "KeyGenerator.h"
 
 using namespace WeAP::Framework;
 
@@ -23,6 +23,8 @@ public:
     AccountDAO accountDAO;
     AccountRecordDAO accountRecordDAO;
     AccountTransactionDAO accountTransactionDAO;
+    KeyGenerator keyGenerator;
+    
 
 };
 
