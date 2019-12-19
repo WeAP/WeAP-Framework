@@ -2,6 +2,7 @@
 #define __WeAP_AccountTransaction_H__
 
 #include "Entity.h"
+#include "Account.h"
 
 using namespace WeAP::Framework;
 
@@ -23,7 +24,7 @@ public:
 public:
     uint64_t accountId;
 
-    CurrencyType currencyType;
+    Account::CurrencyType currencyType;
     int64_t balance;
     int64_t freezedAmount;
     Status status;

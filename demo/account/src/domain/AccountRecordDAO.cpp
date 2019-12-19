@@ -12,6 +12,12 @@ AccountRecordDAO::~AccountRecordDAO()
 
 }
 
+void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQLTransaction& trans)
+{
+    this->Insert(accountRecord, trans.GetMySQL());
+}
+
+
 void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQL* transHandler)
 {
     Sql sql;

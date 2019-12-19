@@ -9,6 +9,7 @@ using namespace WeAP::System;
 
 AccountantTest::AccountantTest()
 {
+    this->manager = AccountManagerS::GetInstance();
 }
 
 AccountantTest::~AccountantTest()
@@ -19,15 +20,16 @@ AccountantTest::~AccountantTest()
 void AccountantTest::TestOpenAccount()
 {
     Account account;  //插入前内存account
-    account.accountId = time(NULL) + 5;
-    account.balance = 1;
-    account.status = Account::Normal;
-    account.createTime = DateTime().ToDateTimeString();
-    account.modifyTime = DateTime().ToDateTimeString();
+    account.accountId = this->manager->keyGenerator.NewAccountId();
+    account.accountType = Account::UserAccount;
 
     Accountant accountant;
     accountant.OpenAccount(account);
 
+    Account accountDB;
+    accountant.GetAccount(account.accountId, accountDB);
+
+    EXPECT_TRUE(account.Equals(accountDB));
 
 }
 

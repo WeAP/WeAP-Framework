@@ -18,7 +18,7 @@ AccountDAOTest::~AccountDAOTest()
 void AccountDAOTest::TestInsert()
 {
     Account account;
-    account.accountId = time(NULL);
+    account.accountId = this->manager->keyGenerator.NewAccountId();
     account.balance = 1;
     account.status = Account::Normal;
     account.createTime = DateTime().ToDateTimeString();
@@ -36,7 +36,7 @@ void AccountDAOTest::TestInsert()
 void AccountDAOTest::TestUpdate()
 {
     Account account;  //插入前内存account
-    account.accountId = time(NULL) + 1;
+    account.accountId = this->manager->keyGenerator.NewAccountId();
     account.balance = 1;
     account.status = Account::Normal;
     account.createTime = DateTime().ToDateTimeString();
@@ -52,8 +52,6 @@ void AccountDAOTest::TestUpdate()
 
     Account accountDB2; //DB被修改后的account
     this->manager->accountDAO.Query(account.accountId, accountDB2);
-
-    accountDB.dataVersion +=1;
 
     EXPECT_FALSE(account.Equals(accountDB2));
 
@@ -72,3 +70,4 @@ TEST_F(AccountDAOTest, TestUpdate)
 {
     TestUpdate();
 }
+

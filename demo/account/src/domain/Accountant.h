@@ -14,6 +14,8 @@ public:
     Accountant();
     virtual ~Accountant();
 
+    void GetAccount(uint64_t accountId, Account& account);
+
     void OpenAccount(Account& account);
     void CloseAccount(Account& account);
 

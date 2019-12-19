@@ -17,6 +17,11 @@ AccountDAO::~AccountDAO()
 
 }
 
+void AccountDAO::Insert(Account& account, MySQLTransaction& trans)
+{
+    this->Insert(account, trans.GetMySQL());
+}
+
 void AccountDAO::Insert(Account& account, MySQL* transHandler)
 {
     if (account.createTime.empty() || account.modifyTime.empty())

@@ -29,6 +29,7 @@ Account& Account::operator=(const KVMap &record)
     COPY_FIELD(freezedAmount, UInt64);
     COPY_FIELD(status, UInt32);
     COPY_FIELD(dataVersion, UInt64);
+    COPY_FIELD(dataSign, String);
     COPY_FIELD(createTime, String);
     COPY_FIELD(modifyTime, String);
     return *this;
@@ -37,6 +38,7 @@ Account& Account::operator=(const KVMap &record)
 bool Account::Equals(const Account& other)
 {
     EQUAL_FIELD(accountId);
+    EQUAL_FIELD(accountType);
     EQUAL_FIELD(currencyType);
     EQUAL_FIELD(balance);
     EQUAL_FIELD(freezedAmount);
@@ -52,12 +54,12 @@ bool Account::Equals(const Account& other)
 string Account::GenDataSign() const
 {
     stringstream src;
-    src << this->accountId;
+    //src << this->accountId;
     src << this->accountType;
     src << this->currencyType;
     src << this->balance;
     src << this->freezedAmount;
     src << this->status;
-    src << this->modifyTime;
+    //src << this->modifyTime;
     return src.str();
 }

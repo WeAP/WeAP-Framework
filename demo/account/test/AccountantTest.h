@@ -2,7 +2,7 @@
 #define __WeAP_AccountantTest_H__
 
 #include "ObjectTest.h"
-
+#include "AccountManager.h"
 
 class AccountantTest: public ObjectTest
 {
@@ -13,7 +13,7 @@ public:
     void TestOpenAccount();
 
 protected:
-
+    AccountManager* manager;
 
 };
 

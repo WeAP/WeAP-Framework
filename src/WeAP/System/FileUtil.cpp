@@ -43,6 +43,23 @@ void FileUtil::ReadLines(const string& filePath, vector<string>& lines)
     
 }
 
+void FileUtil::WriteLines(const string& filePath, const vector<string>& lines)
+{
+    ofstream outFile(filePath.c_str());
+    if (outFile.fail())
+    {
+        string errInfo = "file open failed, filePath:" + filePath;
+        ERROR("%s", errInfo.c_str());
+        throw Exception(Error::FileUtil_Open_Failed, errInfo);
+    }
+    for (int i= 0; i < lines.size(); i++)
+    {
+        outFile << lines[i];
+    }
+    
+    outFile.close();
+}
+
 string FileUtil::GetFileName(const string& filePath)
 {
    if( filePath == "" )

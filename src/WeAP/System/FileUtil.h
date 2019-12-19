@@ -13,6 +13,7 @@ private:
 public:
 
     static void ReadLines(const string& filePath, vector<string>& lines);
+    static void WriteLines(const string& filePath, const vector<string>& lines);
 
     static string GetFileName(const string& filePath);
 

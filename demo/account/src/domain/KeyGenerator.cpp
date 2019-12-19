@@ -12,7 +12,9 @@ KeyGenerator::~KeyGenerator()
 
 uint64_t KeyGenerator::NewAccountId()
 {
-    return time(NULL);
+    static unsigned int seq = 0;
+
+    return time(NULL) *1000 + seq++;
 }
 
 

@@ -12,6 +12,7 @@ public:
     AccountRecordDAO();
     virtual ~AccountRecordDAO();
 
+    void Insert(AccountRecord& accountRecord, MySQLTransaction& trans);
     void Insert(AccountRecord& accountRecord, MySQL* transHandler = NULL);
 
     void Query(uint64_t accountId, AccountRecordList& list);

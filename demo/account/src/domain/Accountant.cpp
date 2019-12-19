@@ -13,6 +13,11 @@ Accountant::~Accountant()
 
 }
 
+void Accountant::GetAccount(uint64_t accountId, Account& account)
+{
+    this->manger->accountDAO.Query(accountId, account);
+}
+
 void Accountant::OpenAccount(Account& account)
 {
     account.accountType = Account::UserAccount;
@@ -23,31 +28,6 @@ void Accountant::OpenAccount(Account& account)
     //string remark;
 
     AccountRecord accountRecord;
-/*
-    MySQL* transHandler = this->manger->accountDAO.GetTransHandler();
-
-    try
-    {
-        transHandler->Begin();
-
-        this->manger->accountDAO.Insert(account, transHandler);
-        this->manger->accountRecordDAO.Insert(accountRecord, transHandler);
-
-        transHandler->Commit();
-    }
-    catch(const Exception& ex)
-    {
-        transHandler->Rollback();
-    }
-    catch(const std::exception& e)
-    {
-        transHandler->Rollback();
-    }
-    catch(...)
-    {
-        transHandler->Rollback();
-    }
-*/
 
     MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
 
