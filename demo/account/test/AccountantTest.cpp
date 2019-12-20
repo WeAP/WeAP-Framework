@@ -33,8 +33,37 @@ void AccountantTest::TestOpenAccount()
 
 }
 
+void AccountantTest::TestTransfer()
+{
+    Account fromAccount;
+    fromAccount.accountId = this->manager->keyGenerator.NewAccountId();
+
+    Account toAccount;
+    toAccount.accountId = this->manager->keyGenerator.NewAccountId();
+
+    Accountant accountant;
+    accountant.Transfer(fromAccount, toAccount);
+
+
+    Account fromAccountDB;
+    Account toAccountDB;
+    accountant.GetAccount(fromAccount.accountId, fromAccountDB);
+    accountant.GetAccount(toAccount.accountId, toAccountDB);
+
+    //EXPECT_TRUE(fromAccount.Equals(fromAccountDB));
+    //EXPECT_TRUE(toAccount.Equals(toAccountDB));
+
+}
+
 
 TEST_F(AccountantTest, TestOpenAccount)
 {
     TestOpenAccount();
 }
+
+TEST_F(AccountantTest, TestTransfer)
+{
+    TestTransfer();
+}
+
+

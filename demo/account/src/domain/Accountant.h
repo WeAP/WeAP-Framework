@@ -14,8 +14,6 @@ public:
     Accountant();
     virtual ~Accountant();
 
-    void GetAccount(uint64_t accountId, Account& account);
-
     void OpenAccount(Account& account);
     void CloseAccount(Account& account);
 
@@ -30,6 +28,10 @@ public:
     void Drawback(Account& mchAccount, Account& userAccount);  ///< 退款
 
     void Transfer(Account& fromAccount, Account& toAccount);
+
+    void GetAccount(uint64_t accountId, Account& account);
+
+    void GetAccountTransaction(uint64_t accountTransactionId, AccountTransaction& accountTransaction);
 
 
 protected:

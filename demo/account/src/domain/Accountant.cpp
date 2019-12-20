@@ -13,10 +13,6 @@ Accountant::~Accountant()
 
 }
 
-void Accountant::GetAccount(uint64_t accountId, Account& account)
-{
-    this->manger->accountDAO.Query(accountId, account);
-}
 
 void Accountant::OpenAccount(Account& account)
 {
@@ -65,5 +61,17 @@ void Accountant::TransferOut(Account& innerAccount, Account& outerAccount)
 
 void Accountant::Transfer(Account& fromAccount, Account& toAccount)
 {
-    
+    AccountTransaction accountTransaction;
+    this->manger->accountTransactionDAO.Insert(accountTransaction);
+}
+
+
+void Accountant::GetAccount(uint64_t accountId, Account& account)
+{
+    this->manger->accountDAO.Query(accountId, account);
+}
+
+void Accountant::GetAccountTransaction(uint64_t accountTransactionId, AccountTransaction& accountTransaction)
+{
+    this->manger->accountTransactionDAO.Query(accountTransactionId, accountTransaction);
 }

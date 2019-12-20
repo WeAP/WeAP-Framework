@@ -12,9 +12,13 @@ public:
     AccountTransactionDAO();
     virtual ~AccountTransactionDAO();
 
-    void Insert(AccountTransaction& tx);
+    void Insert(AccountTransaction& accountTransaction, MySQLTransaction& trans);
+    
+    void Insert(AccountTransaction& accountTransaction, MySQL* transHandler = NULL);
+    void Update(AccountTransaction& accountTransaction, MySQL* transHandler = NULL);
 
-    void Query(uint64_t accountId, AccountTransaction& txn);
+    void Query(uint64_t accountId, AccountTransaction& accountTransaction);
+    void Query(uint64_t accountId, KVMap& record);
 
 protected:
 

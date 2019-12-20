@@ -11,6 +11,7 @@ public:
     virtual ~AccountantTest();
 
     void TestOpenAccount();
+    void TestTransfer();
 
 protected:
     AccountManager* manager;
