@@ -16,6 +16,8 @@ public:
 
     uint64_t NewAccountId();
 
+    unit64_t NewAccountTransactionId();
+
 public:
 
 

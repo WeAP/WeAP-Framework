@@ -41,8 +41,10 @@ void AccountantTest::TestTransfer()
     Account toAccount;
     toAccount.accountId = this->manager->keyGenerator.NewAccountId();
 
+    int64_t amount = 10;
+
     Accountant accountant;
-    accountant.Transfer(fromAccount, toAccount);
+    accountant.Transfer(fromAccount, toAccount, amount);
 
 
     Account fromAccountDB;

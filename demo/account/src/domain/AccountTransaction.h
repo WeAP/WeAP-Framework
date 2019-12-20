@@ -11,11 +11,11 @@ class AccountTransaction : public Entity
 public:
     enum Status
     {
-        Doing = 1,
-        Done = 2,
-        Suspend = 3,
-        Freezed = 4,
-        Cancel = 5
+        Started  = 1,
+        Finished = 2,
+        Suspend  = 3,
+        Freezed  = 4,
+        Cancel   = 5
     };
 
     enum Type
@@ -53,6 +53,6 @@ protected:
 
 };
 
-
+typedef ObjectList<AccountTransaction> AccountTransactionList;
 
 #endif 
