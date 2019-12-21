@@ -39,6 +39,7 @@ public:
     void MinusMoney(Account& account, int64_t amount, uint64_t accountTransactionId);
     void PlusMoney(Account& account, int64_t amount);
 
+
 protected:
     AccountManager* manger;
 };

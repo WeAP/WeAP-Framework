@@ -8,7 +8,7 @@ AccountDAO::AccountDAO()
 {
     this->dbName = "account_db";
     this->tableName = "account";
-    this->tableFields = "accountId, accountType, currencyType, balance, freezedAmount, status,"
+    this->tableFields = "accountId, accountType, currencyType, balance, freezedBalance, status, remark,"
                         "dataVersion, dataSign, createTime, modifyTime";
 }
 
@@ -46,8 +46,9 @@ void AccountDAO::Insert(Account& account, MySQL* transHandler)
     sql.AppendValue(account.accountType);    
     sql.AppendValue(account.currencyType );
     sql.AppendValue(account.balance );
-    sql.AppendValue(account.freezedAmount);
+    sql.AppendValue(account.freezedBalance);
     sql.AppendValue(account.status);
+    sql.AppendValue(account.remark);
     sql.AppendValue(account.dataVersion);
     sql.AppendValue(account.dataSign);
     sql.AppendValue(account.createTime);
@@ -71,8 +72,9 @@ void AccountDAO::Update(Account& account, MySQL* transHandler)
     sql.AppendValue("accountId", account.accountId);
     sql.AppendValue("currencyType", account.currencyType);
     sql.AppendValue("balance", account.balance);
-    sql.AppendValue("freezedAmount", account.freezedAmount);
+    sql.AppendValue("freezedBalance", account.freezedBalance);
     sql.AppendValue("status", account.status);
+    sql.AppendValue("remark", account.remark);
     sql.AppendValue("dataVersion", account.dataVersion + 1);
     sql.AppendValue("dataSign", account.dataSign);
     //sql.AppendValue("createTime", account.createTime);

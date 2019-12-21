@@ -41,9 +41,10 @@ public:
     uint32_t accountType;
     uint32_t currencyType;
     int64_t balance;
-    int64_t freezedAmount;
+    int64_t freezedBalance;
     uint32_t status;
-    //string remark;
+    string remark;
+
     uint64_t dataVersion;
     string dataSign;
     string createTime;

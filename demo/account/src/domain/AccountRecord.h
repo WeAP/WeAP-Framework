@@ -12,15 +12,18 @@ public:
     enum OPType
     {
         OP_OpenAccount = 1,
-        OP_Transfer = 2,
-        OP_FreezeAccount = 3,
-        OP_UnfreezeAccount = 4,
+        OP_TransferIn = 2,
+        OP_TransferOut = 3,
+        OP_FreezeAccount = 4,
+        OP_UnfreezeAccount = 5,
 
         OP_CloseAccount = 9,
     };
 public:
     AccountRecord();
     virtual ~AccountRecord();
+
+    void SetAccount(const Account& account);
 
 public:
     uint64_t accountId;
@@ -36,8 +39,8 @@ public:
     int opType;
     int64_t opAmount;
     int64_t opFreezedAmount;
-    int64_t opBalance;
-    int64_t opFreezedBalance;
+    //int64_t opBalance;
+    //int64_t opFreezedBalance;
 
     string accountEvidenceId;
 
