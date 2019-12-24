@@ -97,14 +97,19 @@ void AccountDAO::Update(Account& account, MySQL* transHandler)
 
 }
 
-void AccountDAO::Query(uint64_t accountId, Account& account)
+void AccountDAO::Query(uint64_t accountId, Account& account, MySQLTransaction& trans)
+{
+    this->Query(accountId, account, trans.GetMySQL());
+}
+
+void AccountDAO::Query(uint64_t accountId, Account& account, MySQL* transHandler)
 {
     KVMap record;
     this->Query(accountId, record);
     account = record;
 }
 
-void AccountDAO::Query(uint64_t accountId, KVMap& record)
+void AccountDAO::Query(uint64_t accountId, KVMap& record, MySQL* transHandler)
 {
     Sql sql;
     sql.Append("select");
@@ -113,6 +118,10 @@ void AccountDAO::Query(uint64_t accountId, KVMap& record)
     sql.Append(this->GetFullTableName(accountId));
     sql.Append("where");
     sql.AppendValue("accountId", accountId, true);
+    if (transHandler != NULL)
+    {
+        sql.Append("for update");
+    }
 
     MySQLDAO::Query(sql.ToString(), record);
     //cout << record.ToString() << endl;
