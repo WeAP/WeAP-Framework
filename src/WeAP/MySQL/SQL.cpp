@@ -74,7 +74,7 @@ Sql& Sql::AppendValue(uint64_t value, bool end)
 
 Sql& Sql::AppendValue(const string& value, bool end)
 {
-    this->sql << "'" << value << "'";
+    this->sql << "'" << Sql::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << ", ";
@@ -140,7 +140,7 @@ Sql& Sql::AppendValue(const string& name, uint64_t value, bool end)
 }
 Sql& Sql::AppendValue(const string& name, const string& value, bool end)
 {
-    this->sql << name << "='" << value << "'";
+    this->sql << name << "='" << Sql::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << ", ";
@@ -190,7 +190,7 @@ Sql& Sql::AppendCond(const string& name, uint64_t value, bool end)
 }
 Sql& Sql::AppendCond(const string& name, const string& value, bool end)
 {
-    this->sql << name << "='" << value << "'";
+    this->sql << name << "='" << Sql::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << " and ";
@@ -223,5 +223,16 @@ string Sql::ToString()
 {
     return this->sql.str();
 }
+
+
+string SQL::EscapeString(const string & str)
+{
+    int len = str.length();
+    char tmp[len * 2 + 1] = {0};
+    mysql_escape_string(tmp, str.c_str(), str.length());
+    
+    return string(tmp);
+}
+
 
 }}

@@ -47,6 +47,9 @@ public:
     string ToString();
 
 protected:
+    static string EscapeString(const string & str);
+
+protected:
     stringstream sql;
 
 };
