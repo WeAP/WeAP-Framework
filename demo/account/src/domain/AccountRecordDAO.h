@@ -16,6 +16,8 @@ public:
     void Insert(AccountRecord& accountRecord, MySQL* transHandler = NULL);
 
     void Query(uint64_t accountId, AccountRecordList& list);
+    void Query(uint64_t accountRecordId, AccountRecord& accountRecord);
+    void Query(uint64_t accountRecordId, KVMap& record);
 
 protected:
 

@@ -13,6 +13,7 @@ public:
     virtual ~AccountDAO();
 
     void Insert(Account& account, MySQLTransaction& trans);
+    void Update(Account& account, MySQLTransaction& trans);
     
     void Insert(Account& account, MySQL* transHandler = NULL);
     void Update(Account& account, MySQL* transHandler = NULL);

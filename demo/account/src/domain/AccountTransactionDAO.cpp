@@ -6,6 +6,10 @@ using namespace WeAP::System;
 
 AccountTransactionDAO::AccountTransactionDAO()
 {
+    this->dbName = "account_db";
+    this->tableName = "account_transaction";
+    this->tableFields = "accountTransactionId, type, status, accountId, accountType, currencyType, amount, freezedAmount, remark,"
+                        "dataVersion, dataSign, createTime, modifyTime";
 }
 
 AccountTransactionDAO::~AccountTransactionDAO()
@@ -40,8 +44,14 @@ void AccountTransactionDAO::Insert(AccountTransaction& accountTransaction, MySQL
     sql.Append(this->tableFields);
     sql.Append(") values (");
     sql.AppendValue(accountTransaction.accountTransactionId);
-    sql.AppendValue(accountTransaction.currencyType);
+    sql.AppendValue(accountTransaction.type);
     sql.AppendValue(accountTransaction.status);
+    sql.AppendValue(accountTransaction.accountId);
+    sql.AppendValue(accountTransaction.accountType);
+    sql.AppendValue(accountTransaction.currencyType);
+    sql.AppendValue(accountTransaction.amount);
+    sql.AppendValue(accountTransaction.freezedAmount);
+    sql.AppendValue(accountTransaction.remark);
     sql.AppendValue(accountTransaction.dataVersion);
     sql.AppendValue(accountTransaction.dataSign);
     sql.AppendValue(accountTransaction.createTime);

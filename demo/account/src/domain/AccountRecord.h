@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "ObjectList.h"
+#include "Account.h"
 
 using namespace WeAP::Framework;
 
@@ -23,9 +24,16 @@ public:
     AccountRecord();
     virtual ~AccountRecord();
 
+    AccountRecord& operator=(const KVMap &record);
+    bool Equals(const AccountRecord& other);
+
+    virtual string GenDataSign() const;
+
+
     void SetAccount(const Account& account);
 
 public:
+    uint64_t accountRecordId;
     uint64_t accountId;
     uint32_t accountType;
     uint32_t currencyType;
@@ -33,17 +41,11 @@ public:
     int64_t freezedBalance;
     uint32_t status;
     string remark;
-
-    uint64_t accountTransactionId;
-
     int opType;
     int64_t opAmount;
     int64_t opFreezedAmount;
-    //int64_t opBalance;
-    //int64_t opFreezedBalance;
-
+    uint64_t accountTransactionId;
     string accountEvidenceId;
-
     uint64_t dataVersion;
     string dataSign;
     string createTime;

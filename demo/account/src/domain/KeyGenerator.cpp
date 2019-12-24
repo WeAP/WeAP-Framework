@@ -18,7 +18,7 @@ uint64_t KeyGenerator::NewAccountId()
 }
 
 
-unit64_t KeyGenerator::NewAccountTransactionId()
+uint64_t KeyGenerator::NewAccountTransactionId()
 {
     static unsigned int seq = 0;
 

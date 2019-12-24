@@ -60,6 +60,11 @@ void AccountDAO::Insert(Account& account, MySQL* transHandler)
 
 }
 
+void AccountDAO::Update(Account& account, MySQLTransaction& trans)
+{
+    this->Update(account, trans.GetMySQL());
+}
+
 void AccountDAO::Update(Account& account, MySQL* transHandler)
 {
     account.modifyTime = DateTime().ToDateTimeString();

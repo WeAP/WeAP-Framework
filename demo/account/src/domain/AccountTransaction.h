@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Account.h"
+#include "ObjectList.h"
 
 using namespace WeAP::Framework;
 
@@ -38,12 +39,12 @@ public:
     uint64_t accountTransactionId;
     uint32_t type;
     uint32_t status;
-
     uint64_t accountId;
+    uint32_t accountType;
     uint32_t currencyType;
     int64_t amount;
+    int64_t freezedAmount;
     string remark;
-
     uint64_t dataVersion;
     string dataSign;
     string createTime;

@@ -19,7 +19,7 @@ void Accountant::OpenAccount(Account& account)
     account.accountType = Account::UserAccount;
     account.currencyType = Account::CNY;
     account.balance = 0;
-    account.freezedAmount = 0;
+    account.freezedBalance = 0;
     account.status = Account::Normal;
     //string remark;
 
@@ -97,7 +97,7 @@ void Accountant::StartTransaction(Account& fromAccount, Account& toAccount, int6
 void Accountant::FinishTransaction(uint64_t accountTransactionId)
 {
     AccountTransaction accountTransaction;
-    this->GetAccountTransaction(accountTransaction);
+    this->GetAccountTransaction(accountTransactionId, accountTransaction);
 
     accountTransaction.status = AccountTransaction::Finished;
 
@@ -106,7 +106,7 @@ void Accountant::FinishTransaction(uint64_t accountTransactionId)
 
 void Accountant::MinusMoney(Account& account, int64_t amount, uint64_t accountTransactionId)
 {
-    account.amount = account.amount - amount;
+    account.balance = account.balance - amount;
 
     AccountRecord accountRecord;
     accountRecord.SetAccount(account);
@@ -125,7 +125,7 @@ void Accountant::MinusMoney(Account& account, int64_t amount, uint64_t accountTr
 
 void Accountant::PlusMoney(Account& account, int64_t amount)
 {
-    account.amount = account.amount + amount;
+    account.balance = account.balance + amount;
     AccountRecord accountRecord;
     accountRecord.SetAccount(account);
     //accountRecord.accountTransactionId = accountTransactionId;
