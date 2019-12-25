@@ -26,10 +26,6 @@ namespace WeAP { namespace MySQL {
 class MySQL
 {
 public:
-    static string EscapeString(const string& buff);
-    static string GetString(char *str);
-
-public:
     MySQL();    
     virtual ~MySQL();
 

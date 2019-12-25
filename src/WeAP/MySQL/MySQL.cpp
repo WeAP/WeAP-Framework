@@ -313,25 +313,6 @@ int MySQL::FetchRows()
 }
 
 
-string MySQL::GetString(char *str)
-{
-    if (str == NULL)
-    {
-        return "";
-    }
-    return string(str);
-}
-
-string MySQL::EscapeString(const string& buff)
-{
-    int len = buff.length();
-    char szTmp[len*2 + 1];
-    memset(szTmp, 0, sizeof(szTmp));
-    mysql_escape_string(szTmp, buff.c_str(), buff.length());
-    
-    return string(szTmp);
-}
-
 void MySQL::Query(const string& sql)
 {
     if (!this->IsTrans())
