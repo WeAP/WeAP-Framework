@@ -1,14 +1,15 @@
-#ifndef __WeAP_DTHandler_H__
-#define __WeAP_DTHandler_H__
+#ifndef __WeAP_DTCoordinator_H__
+#define __WeAP_DTCoordinator_H__
+
 
 #include "Handler.h"
 
 
-class DTHandler : public Handler
+class DTCoordinator : public Handler
 {
 public:
-    DTHandler();
-    virtual ~DTHandler();
+    DTCoordinator();
+    virtual ~DTCoordinator();
 
     virtual void Prepare(){};
 
@@ -19,6 +20,5 @@ public:
     virtual void Finish(){};
 
 };
-
 
 #endif
