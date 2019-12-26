@@ -64,48 +64,25 @@ void Accountant::TransferOut(Account& innerAccount, Account& outerAccount)
 
 }
 
-void Accountant::Transfer(Account& fromAccount, Account& toAccount, int64_t amount)
+void Accountant::Transfer(uint64_t fromAccountId, 
+                  uint64_t toAccountId,
+                  uint32_t currencyType,
+                  int64_t amount)
 {
-    uint64_t accountTransactionId;
-    this->StartTransaction(fromAccount, toAccount, amount, accountTransactionId);
+    uint64_t accountTransactionId = this->manger->keyGenerator.NewAccountTransactionId();
 
-    this->MinusMoney(fromAccount, amount, accountTransactionId);
+    this->MinusMoney(fromAccountId, currencyType, amount, accountTransactionId);
 
-    this->PlusMoney(toAccount, amount);
-
-    this->FinishTransaction(accountTransactionId);
-
+    this->PlusMoney(toAccountId, currencyType, amount, accountTransactionId);
 }
 
-void Accountant::StartTransaction(Account& fromAccount, Account& toAccount, int64_t amount, uint64_t& accountTransactionId)
+void Accountant::MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, uint64_t accountTransactionId)
 {
-    AccountTransaction accountTransaction;
-    accountTransaction.accountTransactionId = this->manger->keyGenerator.NewAccountTransactionId();
-    accountTransaction.type = AccountTransaction::User2User;
-    accountTransaction.status = AccountTransaction::Started;
+    MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
+    trans.Begin();
+    Account account;
+    this->manger->accountDAO.Query(accountId, currencyType, account, trans);
 
-    accountTransaction.accountId = fromAccount.accountId;
-    accountTransaction.currencyType = fromAccount.currencyType;
-    accountTransaction.amount = amount;
-
-    this->manger->accountTransactionDAO.Insert(accountTransaction);
-
-    accountTransactionId = accountTransaction.accountTransactionId;
-    
-}
-
-void Accountant::FinishTransaction(uint64_t accountTransactionId)
-{
-    AccountTransaction accountTransaction;
-    this->GetAccountTransaction(accountTransactionId, accountTransaction);
-
-    accountTransaction.status = AccountTransaction::Finished;
-
-    this->manger->accountTransactionDAO.Update(accountTransaction);
-}
-
-void Accountant::MinusMoney(Account& account, int64_t amount, uint64_t accountTransactionId)
-{
     account.balance = account.balance - amount;
 
     AccountRecord accountRecord;
@@ -116,15 +93,19 @@ void Accountant::MinusMoney(Account& account, int64_t amount, uint64_t accountTr
     accountRecord.opFreezedAmount = 0;
     //accountRecord.accountEvidenceId
 
-    MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
-    trans.Begin();
     this->manger->accountDAO.Update(account, trans);
     this->manger->accountRecordDAO.Insert(accountRecord, trans);
     trans.Commit();
 }
 
-void Accountant::PlusMoney(Account& account, int64_t amount)
+void Accountant::PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, uint64_t accountTransactionId)
 {
+    MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
+    trans.Begin();
+
+    Account account;
+    this->manger->accountDAO.Query(accountId, currencyType, account, trans);
+
     account.balance = account.balance + amount;
     AccountRecord accountRecord;
     accountRecord.SetAccount(account);
@@ -133,17 +114,16 @@ void Accountant::PlusMoney(Account& account, int64_t amount)
     accountRecord.opAmount = amount;
     accountRecord.opFreezedAmount = 0;
 
-    MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
-    trans.Begin();
+
     this->manger->accountDAO.Update(account, trans);
     this->manger->accountRecordDAO.Insert(accountRecord, trans);
     trans.Commit();
 }
 
 
-void Accountant::GetAccount(uint64_t accountId, Account& account)
+void Accountant::GetAccount(uint64_t accountId, uint32_t currencyType, Account& account)
 {
-    this->manger->accountDAO.Query(accountId, account);
+    this->manger->accountDAO.Query(accountId, currencyType, account);
 }
 
 void Accountant::GetAccountTransaction(uint64_t accountTransactionId, AccountTransaction& accountTransaction)

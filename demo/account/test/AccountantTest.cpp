@@ -27,7 +27,7 @@ void AccountantTest::TestOpenAccount()
     accountant.OpenAccount(account);
 
     Account accountDB;
-    accountant.GetAccount(account.accountId, accountDB);
+    accountant.GetAccount(account.accountId, account.currencyType,accountDB);
 
     EXPECT_TRUE(account.Equals(accountDB));
 
@@ -35,25 +35,27 @@ void AccountantTest::TestOpenAccount()
 
 void AccountantTest::TestTransfer()
 {
-    Account fromAccount;
-    fromAccount.accountId = this->manager->keyGenerator.NewAccountId();
-
-    Account toAccount;
-    toAccount.accountId = this->manager->keyGenerator.NewAccountId();
-
-    int64_t amount = 10;
-
     Accountant accountant;
-    //accountant.Transfer(fromAccount, toAccount, amount);
+    
+    int64_t amount = 100;
 
+    Account account1;
+    Account account2;
+    accountant.GetAccount(this->accountId1, this->currencyType, account1);
+    accountant.GetAccount(this->accountId2, this->currencyType, account2);
 
-    Account fromAccountDB;
-    Account toAccountDB;
-    //accountant.GetAccount(fromAccount.accountId, fromAccountDB);
-    //accountant.GetAccount(toAccount.accountId, toAccountDB);
+    accountant.Transfer(this->accountId1, this->accountId2, this->currencyType, amount);
 
-    //EXPECT_TRUE(fromAccount.Equals(fromAccountDB));
-    //EXPECT_TRUE(toAccount.Equals(toAccountDB));
+    Account newAccount1;
+    Account newAccount2;
+    accountant.GetAccount(this->accountId1, this->currencyType, newAccount1);
+    accountant.GetAccount(this->accountId2, this->currencyType, newAccount2);
+
+    EXPECT_EQ(newAccount1.balance, account1.balance - 100);
+    EXPECT_EQ(newAccount2.balance, account2.balance + 100);
+
+    EXPECT_EQ(200000000, newAccount1.balance + newAccount2.balance);
+
 
 }
 

@@ -27,7 +27,7 @@ void AccountDAOTest::TestInsert()
     this->manager->accountDAO.Insert(account);
 
     Account accountDB;
-    this->manager->accountDAO.Query(account.accountId, accountDB);
+    this->manager->accountDAO.Query(account.accountId, account.currencyType, accountDB);
 
     EXPECT_TRUE(account.Equals(accountDB));
 
@@ -45,13 +45,13 @@ void AccountDAOTest::TestUpdate()
     this->manager->accountDAO.Insert(account);
 
     Account accountDB;  //插入后DB account
-    this->manager->accountDAO.Query(account.accountId, accountDB);
+    this->manager->accountDAO.Query(account.accountId, account.currencyType, accountDB);
     accountDB.balance += 1;
 
     this->manager->accountDAO.Update(accountDB);
 
     Account accountDB2; //DB被修改后的account
-    this->manager->accountDAO.Query(account.accountId, accountDB2);
+    this->manager->accountDAO.Query(account.accountId, account.currencyType, accountDB2);
 
     EXPECT_FALSE(account.Equals(accountDB2));
 

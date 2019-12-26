@@ -27,21 +27,24 @@ public:
 
     void Drawback(Account& mchAccount, Account& userAccount);  ///< 退款
 
-    void Transfer(Account& fromAccount, Account& toAccount, int64_t amount);
-
-    void GetAccount(uint64_t accountId, Account& account);
+    void GetAccount(uint64_t accountId, uint32_t currencyType, Account& account);
 
     void GetAccountTransaction(uint64_t accountTransactionId, AccountTransaction& accountTransaction);
 
+    void Transfer(uint64_t fromAccountId, 
+                  uint64_t toAccountId,
+                  uint32_t currencyType,
+                  int64_t amount);
 
-    void StartTransaction(Account& fromAccount, Account& toAccount, int64_t amount, uint64_t& accountTransactionId);
-    void FinishTransaction(uint64_t accountTransactionId);
-    void MinusMoney(Account& account, int64_t amount, uint64_t accountTransactionId);
-    void PlusMoney(Account& account, int64_t amount);
+    void MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, uint64_t accountTransactionId);
+    void PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, uint64_t accountTransactionId);
 
 
 protected:
     AccountManager* manger;
+
+    uint64_t accountId1;
+    uint64_t accountId2;
 };
 
 

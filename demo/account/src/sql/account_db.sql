@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS account
 
 CREATE TABLE IF NOT EXISTS account_record
 (
-    accountRecordId bigint(20) unsigned NOT NULL,
+    accountRecordId bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     accountId bigint(20) unsigned NOT NULL,
     accountType smallint(5) unsigned NOT NULL,
     currencyType smallint(5) unsigned NOT NULL,
@@ -63,3 +63,6 @@ CREATE TABLE IF NOT EXISTS account_transaction
     modifyTime datetime NOT NULL,
     PRIMARY KEY(accountTransactionId)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+

@@ -19,9 +19,9 @@ public:
     void Update(Account& account, MySQL* transHandler = NULL);
 
 
-    void Query(uint64_t accountId, Account& account, MySQLTransaction& trans);
-    void Query(uint64_t accountId, Account& account, MySQL* transHandler = NULL);
-    void Query(uint64_t accountId, KVMap& record,MySQL* transHandler = NULL);
+    void Query(uint64_t accountId, uint32_t currencyType, Account& account, MySQLTransaction& trans);
+    void Query(uint64_t accountId, uint32_t currencyType, Account& account, MySQL* transHandler = NULL);
+    void Query(uint64_t accountId, uint32_t currencyType, KVMap& record,MySQL* transHandler = NULL);
 
 
 

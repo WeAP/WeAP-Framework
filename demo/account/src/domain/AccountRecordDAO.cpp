@@ -8,7 +8,7 @@ AccountRecordDAO::AccountRecordDAO()
 {
     this->dbName = "account_db";
     this->tableName = "account_record";
-    this->tableFields = "accountRecordId, accountId, accountType, currencyType, balance, freezedBalance, status, remark, "
+    this->tableFields = "accountId, accountType, currencyType, balance, freezedBalance, status, remark, "
                         "opType, opAmount, opFreezedAmount, accountTransactionId, accountEvidenceId, "
                         "dataVersion, dataSign, createTime, modifyTime";
 }
@@ -44,7 +44,7 @@ void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQL* transHandler)
     sql.Append("(");
     sql.Append(this->tableFields);
     sql.Append(") values (");
-    sql.AppendValue(accountRecord.accountRecordId);
+    //sql.AppendValue(accountRecord.accountRecordId);
     sql.AppendValue(accountRecord.accountId);
     sql.AppendValue(accountRecord.accountType);    
     sql.AppendValue(accountRecord.currencyType );

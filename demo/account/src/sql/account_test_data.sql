@@ -1,0 +1,3 @@
+
+insert account_db.account ( accountId, accountType, currencyType, balance, freezedBalance, status, remark,dataVersion, dataSign, createTime, modifyTime ) values ( 100001, 1, 1, 100000000, 0, 1, 'test account 1', 0, '', now(), now() );
+insert account_db.account ( accountId, accountType, currencyType, balance, freezedBalance, status, remark,dataVersion, dataSign, createTime, modifyTime ) values ( 100002, 1, 1, 100000000, 0, 1, 'test account 2', 0, '', now(), now() );

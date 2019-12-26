@@ -2,6 +2,7 @@
 #define __ObjectTest_H__
 
 #include "gtest/gtest.h"
+#include <stdint.h>
 
 //EXPECT_EQ(expectedResult, result);    �ж����
 //EXPECT_NE(expectedResult, result);    �жϲ����
@@ -19,6 +20,14 @@
 class ObjectTest : public testing::Test
 {
 public:
+    ObjectTest()
+    {
+        this->accountId1 = 100001;
+        this->accountId2 = 100002;
+        this->currencyType = 1;
+    };
+    virtual ~ObjectTest(){};
+
     virtual void SetUp() 
     {
 
@@ -26,6 +35,11 @@ public:
     virtual void TearDown() 
     {
     };
+
+    uint64_t accountId1;
+    uint64_t accountId2;
+    uint32_t currencyType;
+
 };
 
 
