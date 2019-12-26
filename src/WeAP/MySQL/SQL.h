@@ -6,43 +6,43 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-
+#include <stdint.h>
 
 using namespace std;
 
 namespace WeAP { namespace MySQL {
 
-class Sql
+class SQL
 {
 public:
-    Sql();
-    virtual ~Sql();
+    SQL();
+    virtual ~SQL();
 
-    Sql& Append(const string& str);
+    SQL& Append(const string& str);
 
-    Sql& AppendValue(int32_t value, bool end = false);
-    Sql& AppendValue(uint32_t value, bool end = false);
-    Sql& AppendValue(int64_t value, bool end = false);
-    Sql& AppendValue(uint64_t value, bool end = false);
-    Sql& AppendValue(const string& value, bool end = false);
+    SQL& AppendValue(int32_t value, bool end = false);
+    SQL& AppendValue(uint32_t value, bool end = false);
+    SQL& AppendValue(int64_t value, bool end = false);
+    SQL& AppendValue(uint64_t value, bool end = false);
+    SQL& AppendValue(const string& value, bool end = false);
 
-    Sql& AppendValue(const string& name, int32_t value, bool end = false);
-    Sql& AppendValue(const string& name, uint32_t value, bool end = false);
-    Sql& AppendValue(const string& name, int64_t value, bool end = false);
-    Sql& AppendValue(const string& name, uint64_t value, bool end = false);
-    Sql& AppendValue(const string& name, const string& value, bool end = false);
+    SQL& AppendValue(const string& name, int32_t value, bool end = false);
+    SQL& AppendValue(const string& name, uint32_t value, bool end = false);
+    SQL& AppendValue(const string& name, int64_t value, bool end = false);
+    SQL& AppendValue(const string& name, uint64_t value, bool end = false);
+    SQL& AppendValue(const string& name, const string& value, bool end = false);
 
-    Sql& AppendCond(const string& name, int32_t value, bool end = false);
-    Sql& AppendCond(const string& name, uint32_t value, bool end = false);
-    Sql& AppendCond(const string& name, int64_t value, bool end = false);
-    Sql& AppendCond(const string& name, uint64_t value, bool end = false);
-    Sql& AppendCond(const string& name, const string& value, bool end = false);
+    SQL& AppendCond(const string& name, int32_t value, bool end = false);
+    SQL& AppendCond(const string& name, uint32_t value, bool end = false);
+    SQL& AppendCond(const string& name, int64_t value, bool end = false);
+    SQL& AppendCond(const string& name, uint64_t value, bool end = false);
+    SQL& AppendCond(const string& name, const string& value, bool end = false);
 
-    Sql& AppendExp(const string& name, const string& op, int32_t value, bool end = false);
-    Sql& AppendExp(const string& name, const string& op, uint32_t value, bool end = false);
-    Sql& AppendExp(const string& name, const string& op, int64_t value, bool end = false);
-    Sql& AppendExp(const string& name, const string& op, uint64_t value, bool end = false);
-    Sql& AppendExp(const string& name, const string& op, const string& value, bool end = false);
+    SQL& AppendExp(const string& name, const string& op, int32_t value, bool end = false);
+    SQL& AppendExp(const string& name, const string& op, uint32_t value, bool end = false);
+    SQL& AppendExp(const string& name, const string& op, int64_t value, bool end = false);
+    SQL& AppendExp(const string& name, const string& op, uint64_t value, bool end = false);
+    SQL& AppendExp(const string& name, const string& op, const string& value, bool end = false);
 
     string ToString();
 

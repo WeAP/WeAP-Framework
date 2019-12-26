@@ -38,7 +38,7 @@ void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQL* transHandler)
         accountRecord.dataSign = accountRecord.GenDataSign();
     }
 
-    Sql sql;
+    SQL sql;
     sql.Append("insert");
     sql.Append(this->GetFullTableName(accountRecord.accountId));
     sql.Append("(");
@@ -69,7 +69,7 @@ void AccountRecordDAO::Insert(AccountRecord& accountRecord, MySQL* transHandler)
 
 void AccountRecordDAO::Query(uint64_t accountId, AccountRecordList& list)
 {
-    Sql sql;
+    SQL sql;
     sql.Append("select");
     sql.Append(this->tableFields);
     sql.Append("from");
@@ -89,7 +89,7 @@ void AccountRecordDAO::Query(uint64_t accountRecordId, AccountRecord& accountRec
 }
 void AccountRecordDAO::Query(uint64_t accountRecordId, KVMap& record)
 {
-    Sql sql;
+    SQL sql;
     sql.Append("select");
     sql.Append(this->tableFields);
     sql.Append("from");

@@ -4,6 +4,7 @@
 
 #include "Handler.h"
 
+using namespace WeAP::Framework;
 
 class DTCoordinator : public Handler
 {

@@ -22,7 +22,7 @@ MySQLPool::~MySQLPool()
 }
 
 
-CMySQL* MySQLPool::Add(const std::string& host,
+MySQL* MySQLPool::Add(const std::string& host,
                         int port,
                         const std::string& user, 
                         const std::string& passwd, 
@@ -40,10 +40,10 @@ CMySQL* MySQLPool::Add(const std::string& host,
         return it->second;
     }
 
-    this->connMap[key] = new MySQL();
-    this->connMap[key]->Init(host, port, user,  passwd, waitTimeoutS, connTimeoutS, rwTimeoutS, charset, dbName)
+    this->pool[key] = new MySQL();
+    this->pool[key]->Init(host, port, user, passwd, waitTimeoutS, connTimeoutS, rwTimeoutS, charset, dbName);
 
-    return this->connMap[key];
+    return this->pool[key];
 }
 
 

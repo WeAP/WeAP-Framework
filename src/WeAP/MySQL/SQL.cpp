@@ -1,24 +1,26 @@
 #include "SQL.h"
+#include <string.h>
+#include "mysql.h"
 
 namespace WeAP { namespace MySQL {
 
-Sql::Sql()
+SQL::SQL()
 {
 
 }
-Sql::~Sql()
+SQL::~SQL()
 {
 
 }
 
-Sql& Sql::Append(const string& str)
+SQL& SQL::Append(const string& str)
 {
     this->sql << str << " ";
     return *this;
 }
 
 
-Sql& Sql::AppendValue(int32_t value, bool end)
+SQL& SQL::AppendValue(int32_t value, bool end)
 {
     this->sql << value;
     if (!end)
@@ -32,7 +34,7 @@ Sql& Sql::AppendValue(int32_t value, bool end)
     
     return *this;
 }
-Sql& Sql::AppendValue(uint32_t value, bool end)
+SQL& SQL::AppendValue(uint32_t value, bool end)
 {
     this->sql << value;
     if (!end)
@@ -45,7 +47,7 @@ Sql& Sql::AppendValue(uint32_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(int64_t value, bool end)
+SQL& SQL::AppendValue(int64_t value, bool end)
 {
     this->sql << value;
     if (!end)
@@ -58,7 +60,7 @@ Sql& Sql::AppendValue(int64_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(uint64_t value, bool end)
+SQL& SQL::AppendValue(uint64_t value, bool end)
 {
     this->sql << value;
     if (!end)
@@ -72,9 +74,9 @@ Sql& Sql::AppendValue(uint64_t value, bool end)
     return *this;
 }
 
-Sql& Sql::AppendValue(const string& value, bool end)
+SQL& SQL::AppendValue(const string& value, bool end)
 {
-    this->sql << "'" << Sql::EscapeString(value) << "'";
+    this->sql << "'" << SQL::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << ", ";
@@ -86,7 +88,7 @@ Sql& Sql::AppendValue(const string& value, bool end)
     return *this;
 }
 
-Sql& Sql::AppendValue(const string& name, int32_t value, bool end)
+SQL& SQL::AppendValue(const string& name, int32_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -99,7 +101,7 @@ Sql& Sql::AppendValue(const string& name, int32_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(const string& name, uint32_t value, bool end)
+SQL& SQL::AppendValue(const string& name, uint32_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -112,7 +114,7 @@ Sql& Sql::AppendValue(const string& name, uint32_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(const string& name, int64_t value, bool end)
+SQL& SQL::AppendValue(const string& name, int64_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -125,7 +127,7 @@ Sql& Sql::AppendValue(const string& name, int64_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(const string& name, uint64_t value, bool end)
+SQL& SQL::AppendValue(const string& name, uint64_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -138,9 +140,9 @@ Sql& Sql::AppendValue(const string& name, uint64_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendValue(const string& name, const string& value, bool end)
+SQL& SQL::AppendValue(const string& name, const string& value, bool end)
 {
-    this->sql << name << "='" << Sql::EscapeString(value) << "'";
+    this->sql << name << "='" << SQL::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << ", ";
@@ -152,7 +154,7 @@ Sql& Sql::AppendValue(const string& name, const string& value, bool end)
     return *this;
 }
 
-Sql& Sql::AppendCond(const string& name, int32_t value, bool end)
+SQL& SQL::AppendCond(const string& name, int32_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -161,7 +163,7 @@ Sql& Sql::AppendCond(const string& name, int32_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendCond(const string& name, uint32_t value, bool end)
+SQL& SQL::AppendCond(const string& name, uint32_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -170,7 +172,7 @@ Sql& Sql::AppendCond(const string& name, uint32_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendCond(const string& name, int64_t value, bool end)
+SQL& SQL::AppendCond(const string& name, int64_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -179,7 +181,7 @@ Sql& Sql::AppendCond(const string& name, int64_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendCond(const string& name, uint64_t value, bool end)
+SQL& SQL::AppendCond(const string& name, uint64_t value, bool end)
 {
     this->sql << name << "=" << value;
     if (!end)
@@ -188,9 +190,9 @@ Sql& Sql::AppendCond(const string& name, uint64_t value, bool end)
     }
     return *this;
 }
-Sql& Sql::AppendCond(const string& name, const string& value, bool end)
+SQL& SQL::AppendCond(const string& name, const string& value, bool end)
 {
-    this->sql << name << "='" << Sql::EscapeString(value) << "'";
+    this->sql << name << "='" << SQL::EscapeString(value) << "'";
     if (!end)
     {
         this->sql << " and ";
@@ -198,28 +200,33 @@ Sql& Sql::AppendCond(const string& name, const string& value, bool end)
     return *this;
 }
 
-Sql& Sql::AppendExp(const string& name, const string& op, int32_t value, bool end)
+SQL& SQL::AppendExp(const string& name, const string& op, int32_t value, bool end)
 {
     this->sql << name << op << value;
+    return *this;
 }
-Sql& Sql::AppendExp(const string& name, const string& op, uint32_t value, bool end)
+SQL& SQL::AppendExp(const string& name, const string& op, uint32_t value, bool end)
 {
     this->sql << name << op << value;
+    return *this;
 }
-Sql& Sql::AppendExp(const string& name, const string& op, int64_t value, bool end)
+SQL& SQL::AppendExp(const string& name, const string& op, int64_t value, bool end)
 {
     this->sql << name << op << value;
+    return *this;
 }
-Sql& Sql::AppendExp(const string& name, const string& op, uint64_t value, bool end)
+SQL& SQL::AppendExp(const string& name, const string& op, uint64_t value, bool end)
 {
     this->sql << name << op << value;
+    return *this;
 }
-Sql& Sql::AppendExp(const string& name, const string& op, const string& value, bool end)
+SQL& SQL::AppendExp(const string& name, const string& op, const string& value, bool end)
 {
     this->sql << name << op << "'" << value << "'";
+    return *this;
 }
 
-string Sql::ToString()
+string SQL::ToString()
 {
     return this->sql.str();
 }
@@ -228,8 +235,9 @@ string Sql::ToString()
 string SQL::EscapeString(const string & str)
 {
     int len = str.length();
-    char tmp[len * 2 + 1] = {0};
-    mysql_escape_string(tmp, str.c_str(), str.length());
+    char tmp[len * 2 + 1];
+    memset(tmp, 0, sizeof(tmp));
+    mysql_escape_string(tmp, str.c_str(), len);
     
     return string(tmp);
 }

@@ -1,12 +1,12 @@
-#ifndef __WeAP_MysqlDAO_H__
-#define __WeAP_MysqlDAO_H__
+#ifndef __WeAP_MySQLDAO_H__
+#define __WeAP_MySQLDAO_H__
 
 #include "AppObject.h"
 #include "ObjectList.h"
 #include "INIConfig.h"
+#include "SQL.h"
 #include "MySQL.h"
 #include "MySQLTransaction.h"
-
 
 using namespace WeAP::System;
 using namespace WeAP::Framework;

@@ -36,7 +36,7 @@ void AccountDAO::Insert(Account& account, MySQL* transHandler)
         account.dataSign = account.GenDataSign();
     }
 
-    Sql sql;
+    SQL sql;
     sql.Append("insert");
     sql.Append(this->GetFullTableName(account.accountId));
     sql.Append("(");
@@ -70,7 +70,7 @@ void AccountDAO::Update(Account& account, MySQL* transHandler)
     account.modifyTime = DateTime().ToDateTimeString();
     account.dataSign = account.GenDataSign();
 
-    Sql sql;
+    SQL sql;
     sql.Append("update");
     sql.Append(this->GetFullTableName(account.accountId));
     sql.Append("set");
@@ -111,7 +111,7 @@ void AccountDAO::Query(uint64_t accountId, Account& account, MySQL* transHandler
 
 void AccountDAO::Query(uint64_t accountId, KVMap& record, MySQL* transHandler)
 {
-    Sql sql;
+    SQL sql;
     sql.Append("select");
     sql.Append(this->tableFields);
     sql.Append("from");

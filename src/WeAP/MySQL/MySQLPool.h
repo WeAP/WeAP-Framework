@@ -22,7 +22,7 @@ public:
     MySQLPool();    
     virtual ~MySQLPool();
 
-    CMySQL* Add(const std::string& host,
+    MySQL* Add(const std::string& host,
                 int port,
                 const std::string& user, 
                 const std::string& passwd, 
@@ -39,3 +39,6 @@ protected:
 
 
 }}
+
+
+#endif

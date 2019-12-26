@@ -52,7 +52,7 @@ void FileUtil::WriteLines(const string& filePath, const vector<string>& lines)
         ERROR("%s", errInfo.c_str());
         throw Exception(Error::FileUtil_Open_Failed, errInfo);
     }
-    for (int i= 0; i < lines.size(); i++)
+    for (size_t i = 0; i < lines.size(); i++)
     {
         outFile << lines[i];
     }

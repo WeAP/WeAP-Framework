@@ -3,6 +3,7 @@
 
 #include "Handler.h"
 
+using namespace WeAP::Framework;
 
 class DTHandler : public Handler
 {
