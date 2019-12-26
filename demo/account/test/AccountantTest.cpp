@@ -35,16 +35,17 @@ void AccountantTest::TestOpenAccount()
 
 void AccountantTest::TestTransfer()
 {
-    Accountant accountant;
-    
     int64_t amount = 100;
+    string txnNo = this->manger->keyGenerator.genTXNNo();
 
     Account account1;
     Account account2;
+
+    Accountant accountant;
     accountant.GetAccount(this->accountId1, this->currencyType, account1);
     accountant.GetAccount(this->accountId2, this->currencyType, account2);
 
-    accountant.Transfer(this->accountId1, this->accountId2, this->currencyType, amount);
+    accountant.Transfer(this->accountId1, this->accountId2, this->currencyType, amount, txnNo);
 
     Account newAccount1;
     Account newAccount2;

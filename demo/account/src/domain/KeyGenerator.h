@@ -14,6 +14,8 @@ public:
     KeyGenerator();
     virtual ~KeyGenerator();
 
+    string GenTXNNo();
+
     uint64_t NewAccountId();
 
     uint64_t NewAccountTransactionId();

@@ -1,6 +1,8 @@
 #include "KeyGenerator.h"
+#include "Convert.h"
 
 using namespace WeAP::System;
+
 
 KeyGenerator::KeyGenerator()
 {
@@ -9,6 +11,15 @@ KeyGenerator::KeyGenerator()
 KeyGenerator::~KeyGenerator()
 {
 }
+
+
+string KeyGenerator::GenTXNNo()
+{
+    static unsigned int seq = 0;
+
+    return Convert::ToString(time(NULL) * 100 + seq++);
+}
+
 
 uint64_t KeyGenerator::NewAccountId()
 {
