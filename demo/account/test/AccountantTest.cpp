@@ -36,7 +36,7 @@ void AccountantTest::TestOpenAccount()
 void AccountantTest::TestTransfer()
 {
     int64_t amount = 100;
-    string txnNo = this->manger->keyGenerator.genTXNNo();
+    string txnNo = this->manager->keyGenerator.GenTXNNo();
 
     Account account1;
     Account account2;
@@ -55,7 +55,7 @@ void AccountantTest::TestTransfer()
     EXPECT_EQ(newAccount1.balance, account1.balance - 100);
     EXPECT_EQ(newAccount2.balance, account2.balance + 100);
 
-    EXPECT_EQ(200000000, newAccount1.balance + newAccount2.balance);
+    EXPECT_EQ(account1.balance + account2.balance, newAccount1.balance + newAccount2.balance);
 
 
 }

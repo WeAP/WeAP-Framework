@@ -58,7 +58,6 @@ void AccountTransactionDAO::Insert(AccountTransaction& accountTransaction, MySQL
     sql.AppendValue(accountTransaction.modifyTime, true);
     sql.Append(")");
 
-    //INFO("sql:%s",sql.ToString().c_str());
     //MySQLDAO::Insert(sql.ToString(), transHandler);
 
 }

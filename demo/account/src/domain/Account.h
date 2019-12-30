@@ -45,6 +45,8 @@ public:
     uint32_t status;
     string remark;
 
+    string txnNO;
+
     uint64_t dataVersion;
     string dataSign;
     string createTime;

@@ -46,6 +46,7 @@ public:
     int64_t opFreezedAmount;
     uint64_t accountTransactionId;
     string accountEvidenceId;
+    string txnNO;
     uint64_t dataVersion;
     string dataSign;
     string createTime;

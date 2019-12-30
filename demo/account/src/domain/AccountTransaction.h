@@ -37,14 +37,24 @@ public:
 
 public:
     uint64_t accountTransactionId;
+    string txnNO;
     uint32_t type;
     uint32_t status;
     uint64_t accountId;
     uint32_t accountType;
+
+    uint64_t vsAccountId;
+    uint32_t vsCurrencyType;
+
     uint32_t currencyType;
     int64_t amount;
     int64_t freezedAmount;
     string remark;
+
+    string dtNO;
+    string tNO;
+    string sNO;
+
     uint64_t dataVersion;
     string dataSign;
     string createTime;

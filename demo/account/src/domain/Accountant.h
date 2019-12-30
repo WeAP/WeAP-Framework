@@ -35,16 +35,16 @@ public:
                   uint64_t toAccountId,
                   uint32_t currencyType,
                   int64_t amount,
-                  const string& txnNo);
+                  const string& txnNO);
 
-void Accountant::SaveAccountTransaction(uint64_t fromAccountId, 
+    void SaveAccountTransaction(uint64_t fromAccountId, 
                                         uint64_t toAccountId,
                                         uint32_t currencyType,
                                         int64_t amount,
-                                        const string& txnNo);
+                                        const string& txnNO);
 
-    void MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNo);
-    void PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNo);
+    void MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNO);
+    void PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNO);
 
 
 protected:

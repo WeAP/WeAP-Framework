@@ -68,41 +68,41 @@ void Accountant::Transfer(uint64_t fromAccountId,
                         uint64_t toAccountId,
                         uint32_t currencyType,
                         int64_t amount,
-                        const string& txnNo)
+                        const string& txnNO)
 {
-    this->SaveAccountTransaction(fromAccountId, toAccountId, currencyType, amount, txnNo);
+    this->SaveAccountTransaction(fromAccountId, toAccountId, currencyType, amount, txnNO);
 
-    this->MinusMoney(fromAccountId, currencyType, amount, txnNo);
+    this->MinusMoney(fromAccountId, currencyType, amount, txnNO);
 
-    this->PlusMoney(toAccountId, currencyType, amount, txnNo);
+    this->PlusMoney(toAccountId, currencyType, amount, txnNO);
 }
 
 void Accountant::SaveAccountTransaction(uint64_t fromAccountId, 
                                         uint64_t toAccountId,
                                         uint32_t currencyType,
                                         int64_t amount,
-                                        const string& txnNo)
+                                        const string& txnNO)
 {
     AccountTransaction trans;
     //trans.accountTransactionId = 
-    trans.txnNO = txnNo;
+    trans.txnNO = txnNO;
     trans.type = AccountTransaction::User2User;
     trans.status = AccountTransaction::Started;
     
     trans.accountId = fromAccountId;
     trans.currencyType = currencyType;
     trans.vsAccountId = toAccountId;
-    trans.vsSurrencyType = currencyType;
+    trans.vsCurrencyType = currencyType;
     trans.amount = amount;
     trans.freezedAmount = 0;
     //trans.remark = ;
 
-    this->manger->accountTransactionDAO.Insert(accountTransacion);
+    this->manger->accountTransactionDAO.Insert(trans);
 
 }
 
 
-void Accountant::MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNo)
+void Accountant::MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNO)
 {
     MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
     trans.Begin();
@@ -110,23 +110,23 @@ void Accountant::MinusMoney(uint64_t accountId, uint32_t currencyType, int64_t a
     this->manger->accountDAO.Query(accountId, currencyType, account, trans);
 
     account.balance = account.balance - amount;
-    account.txnNo = txnNo;
+    account.txnNO = txnNO;
 
     AccountRecord accountRecord;
     accountRecord.SetAccount(account);
-    accountRecord.accountTransactionId = accountTransactionId;
+    //accountRecord.accountTransactionId = accountTransactionId;
     accountRecord.opType = AccountRecord::OP_TransferOut;
     accountRecord.opAmount = amount;
     accountRecord.opFreezedAmount = 0;
     //accountRecord.accountEvidenceId
-    accountRecord.txnNo = txnNo;
+    accountRecord.txnNO = txnNO;
 
     this->manger->accountDAO.Update(account, trans);
     this->manger->accountRecordDAO.Insert(accountRecord, trans);
     trans.Commit();
 }
 
-void Accountant::PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNo)
+void Accountant::PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t amount, const string& txnNO)
 {
     MySQLTransaction trans = this->manger->accountDAO.GetTransaction();
     trans.Begin();
@@ -135,7 +135,7 @@ void Accountant::PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t am
     this->manger->accountDAO.Query(accountId, currencyType, account, trans);
 
     account.balance = account.balance + amount;
-    account.txnNo = txnNo;
+    account.txnNO = txnNO;
 
     AccountRecord accountRecord;
     accountRecord.SetAccount(account);
@@ -143,7 +143,7 @@ void Accountant::PlusMoney(uint64_t accountId, uint32_t currencyType, int64_t am
     accountRecord.opType = AccountRecord::OP_TransferIn;
     accountRecord.opAmount = amount;
     accountRecord.opFreezedAmount = 0;
-    accountRecord.txnNo = txnNo;
+    accountRecord.txnNO = txnNO;
 
     this->manger->accountDAO.Update(account, trans);
     this->manger->accountRecordDAO.Insert(accountRecord, trans);
