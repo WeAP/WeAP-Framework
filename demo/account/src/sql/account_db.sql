@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS account
     status smallint(5) unsigned NOT NULL,
     remark varchar(128),
     dtNO varchar(64),
-    tNO varchar(64),
+    stNO varchar(64),
     sNO varchar(64),
     dataVersion bigint(20) unsigned NOT NULL,
     dataSign varchar(128) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS account_record
     accountTransactionId bigint(20) unsigned NOT NULL,
     accountEvidenceId varchar(64),
     dtNO varchar(64),
-    tNO varchar(64),
+    stNO varchar(64),
     sNO varchar(64),
     dataVersion bigint(20) unsigned NOT NULL,
     dataSign varchar(128) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS account_transaction
     remark varchar(128),
 
     dtNO varchar(64),
-    tNO varchar(64),
+    stNO smallint(5) unsigned NOT NULL,
     sNO varchar(64),
 
     dataVersion bigint(20) unsigned NOT NULL,
