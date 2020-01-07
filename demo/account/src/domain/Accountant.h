@@ -37,7 +37,7 @@ public:
                   int64_t amount,
                   const string& txnNO);
 
-    void SaveAccountTransaction(uint64_t fromAccountId, 
+    void CreateAccountTransaction(uint64_t fromAccountId, 
                                         uint64_t toAccountId,
                                         uint32_t currencyType,
                                         int64_t amount,

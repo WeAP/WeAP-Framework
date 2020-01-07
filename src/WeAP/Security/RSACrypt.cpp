@@ -1,6 +1,7 @@
 #include "RSACrypt.h"
 #include "Error.h"
 #include "Exception.h"
+#include "Logger.h"
 
 using namespace WeAP::System;
 

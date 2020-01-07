@@ -1,7 +1,7 @@
 #ifndef __WeAP_MySQLDAO_H__
 #define __WeAP_MySQLDAO_H__
 
-#include "AppObject.h"
+#include "DAO.h"
 #include "ObjectList.h"
 #include "INIConfig.h"
 #include "SQL.h"
@@ -19,7 +19,7 @@ namespace WeAP { namespace MySQL {
  * 
  * @author xzwang
  */
-class MySQLDAO : public AppObject
+class MySQLDAO : public DAO
 {
 public:
     MySQLDAO();

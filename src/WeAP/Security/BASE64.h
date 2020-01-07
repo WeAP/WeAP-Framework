@@ -12,15 +12,15 @@
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/md5.h>
-
+#include "Object.h"
 
 using namespace std;
-
+using namespace WeAP::System;
 
 namespace WeAP { namespace Security {
 
 
-class BASE64
+class BASE64: public Object
 {
 private:
     BASE64();

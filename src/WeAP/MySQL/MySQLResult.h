@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include <stdlib.h>
+#include "Object.h"
 #include "Error.h"
 #include "Exception.h"
 #include "KVMap.h"
@@ -20,7 +21,7 @@ using namespace WeAP::System;
 namespace WeAP { namespace MySQL {
 
 
-class MySQLResult
+class MySQLResult: public Object
 {
 public:
     MySQLResult();

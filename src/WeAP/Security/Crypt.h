@@ -5,9 +5,10 @@
 #include <fstream>
 #include <openssl/bn.h>
 #include <openssl/pem.h>
-
+#include "Object.h"
 
 using namespace std;
+using namespace WeAP::System;
 
 namespace WeAP { namespace Security {
 
@@ -17,7 +18,7 @@ namespace WeAP { namespace Security {
  * 
  * @author xzwang
  */
-class Crypt
+class Crypt: public Object
 {
 private:
     Crypt();

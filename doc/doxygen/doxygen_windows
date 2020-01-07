@@ -677,7 +677,12 @@ WARN_LOGFILE           =
 
 INPUT                  = ../../src/WeAP/System \
                          ../../src/WeAP/Framework \
+                         ../../src/WeAP/MySQL \
+                         ../../src/WeAP/Security \
+                         ../../src/WeAP/Thread \
                          ../../src/WeAP/Test \
+                         ../../demo/account/src/domain \
+                         ../../demo/account/test \
                          ./mainpage.h
 
 # This tag can be used to specify the character encoding of the source files 
@@ -686,7 +691,7 @@ INPUT                  = ../../src/WeAP/System \
 # into libc) for the transcoding. See http://www.gnu.org/software/libiconv for 
 # the list of possible encodings.
 
-INPUT_ENCODING         = GBK
+INPUT_ENCODING         = UTF-8
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -1046,7 +1051,7 @@ GENERATE_HTMLHELP      = YES
 # can add a path in front of the file if the result should not be 
 # written to the html output directory.
 
-CHM_FILE               = W:\workspace\WeAP-Framework\doc\wxpay_slow_server.chm
+CHM_FILE               = D:\GitHub\WeAP-Framework\doc\WeAP-Framework.chm
 
 # If the GENERATE_HTMLHELP tag is set to YES, the HHC_LOCATION tag can 
 # be used to specify the location (absolute path including file name) of 

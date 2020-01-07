@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
-
+#include "Logger.h"
 
 namespace WeAP { namespace System {
 

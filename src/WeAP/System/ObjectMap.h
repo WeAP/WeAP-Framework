@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "Error.h"
 #include "Exception.h"
+#include "Logger.h"
 
 namespace WeAP { namespace System {
 

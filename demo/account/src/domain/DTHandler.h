@@ -2,6 +2,7 @@
 #define __WeAP_DTHandler_H__
 
 #include "Handler.h"
+#include "DTContext.h"
 
 using namespace WeAP::Framework;
 
@@ -19,6 +20,8 @@ public:
 
     virtual void Finish(){};
 
+protected:
+    DTContext* dtContext;
 };
 
 

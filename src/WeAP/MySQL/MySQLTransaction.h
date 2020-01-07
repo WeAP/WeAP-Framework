@@ -2,7 +2,7 @@
 #ifndef __WeAP_MySQLTransaction_H__
 #define __WeAP_MySQLTransaction_H__
 
-
+#include "Object.h"
 #include "MySQL.h"
 
 using namespace std;
@@ -12,7 +12,7 @@ namespace WeAP { namespace MySQL {
 /**
  *
  */
-class MySQLTransaction
+class MySQLTransaction: public Object
 {
 public:
     enum Status

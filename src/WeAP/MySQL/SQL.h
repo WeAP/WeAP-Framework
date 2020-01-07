@@ -7,12 +7,14 @@
 #include <sstream>
 #include <iostream>
 #include <stdint.h>
+#include "Object.h"
 
 using namespace std;
+using namespace WeAP::System;
 
 namespace WeAP { namespace MySQL {
 
-class SQL
+class SQL: public Object
 {
 public:
     SQL();

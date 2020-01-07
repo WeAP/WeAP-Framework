@@ -20,6 +20,13 @@ public:
 
         OP_CloseAccount = 9,
     };
+
+    enum Status
+    {
+        Normal = 1,
+        Cancelled = 2,
+    };
+
 public:
     AccountRecord();
     virtual ~AccountRecord();

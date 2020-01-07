@@ -70,14 +70,14 @@ void Accountant::Transfer(uint64_t fromAccountId,
                         int64_t amount,
                         const string& txnNO)
 {
-    this->SaveAccountTransaction(fromAccountId, toAccountId, currencyType, amount, txnNO);
-
     this->MinusMoney(fromAccountId, currencyType, amount, txnNO);
+
+    this->CreateAccountTransaction(fromAccountId, toAccountId, currencyType, amount, txnNO);
 
     this->PlusMoney(toAccountId, currencyType, amount, txnNO);
 }
 
-void Accountant::SaveAccountTransaction(uint64_t fromAccountId, 
+void Accountant::CreateAccountTransaction(uint64_t fromAccountId, 
                                         uint64_t toAccountId,
                                         uint32_t currencyType,
                                         int64_t amount,

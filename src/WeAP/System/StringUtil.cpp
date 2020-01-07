@@ -205,12 +205,12 @@ string StringUtil::Left(const string& str, size_t size)
 
 string& StringUtil::Trim(string& str, const char* szTrimChar)
 {
-    StringUtil::LTrim(str, szTrimChar);
-    StringUtil::RTrim(str, szTrimChar);
+    StringUtil::TrimLeft(str, szTrimChar);
+    StringUtil::TrimRight(str, szTrimChar);
     return str;
 }
 
-string& StringUtil::LTrim(string& strSrc, const char* szTrimChar)
+string& StringUtil::TrimLeft(string& strSrc, const char* szTrimChar)
 {
     if(szTrimChar == NULL)
         szTrimChar = "\x20\t\r\n";
@@ -222,7 +222,7 @@ string& StringUtil::LTrim(string& strSrc, const char* szTrimChar)
     return strSrc;
 }
 
-string& StringUtil::RTrim(string& strSrc, const char* szTrimChar)
+string& StringUtil::TrimRight(string& strSrc, const char* szTrimChar)
 {
     if(szTrimChar == NULL)
         szTrimChar = "\x20\t\r\n";

@@ -9,10 +9,12 @@
 #include <sstream>
 #include <iostream>
 #include <stdlib.h>
+#include "Object.h"
 #include "Error.h"
 #include "Exception.h"
 #include "KVMap.h"
 #include "MySQLResult.h"
+
 
 using namespace std;
 
@@ -23,7 +25,7 @@ namespace WeAP { namespace MySQL {
  *
  * @ref https://dev.mysql.com/doc/refman/5.7/en/mysql-real-connect.html 
  */
-class MySQL
+class MySQL: public Object
 {
 public:
     MySQL();    

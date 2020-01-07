@@ -2,7 +2,7 @@
 #ifndef __WeAP_MySQLPool_H__
 #define __WeAP_MySQLPool_H__
 
-
+#include "Object.h"
 #include "Error.h"
 #include "Exception.h"
 #include "KVMap.h"
@@ -16,7 +16,7 @@ namespace WeAP { namespace MySQL {
 /**
  *
  */
-class MySQLPool
+class MySQLPool: public Object
 {
 public:
     MySQLPool();    

@@ -3,10 +3,13 @@
 
 #include <sys/shm.h>
 #include <pthread.h>
+#include "Object.h"
+
+using namespace WeAP::System;
 
 namespace WeAP { namespace Thread {
 
-class ProcessMutex
+class ProcessMutex: public Object
 {
 public:
     ProcessMutex();

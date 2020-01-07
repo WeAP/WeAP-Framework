@@ -2,7 +2,7 @@
 #define __WeAP_Object_H__
 
 #include "stdinc.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include "Defines.h"
 
 using namespace std;

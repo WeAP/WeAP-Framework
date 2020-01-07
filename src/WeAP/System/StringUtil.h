@@ -5,12 +5,8 @@
 
 namespace WeAP { namespace System {
 
-/**
- * std::string辅助操作类
- * 
- * @author xzwang
- */
-class StringUtil//: public Object
+
+class StringUtil: public Object
 {
 private:
     StringUtil();
@@ -36,8 +32,8 @@ public:
     static string Left(const string& str, size_t size);
 
     static string& Trim(string& str, const char* szTrimChar = NULL);
-    static string& LTrim(string& strSrc, const char* szTrimChar = NULL);
-    static string& RTrim(string& strSrc, const char* szTrimChar = NULL);
+    static string& TrimLeft(string& strSrc, const char* szTrimChar = NULL);
+    static string& TrimRight(string& strSrc, const char* szTrimChar = NULL);
     static string Tail(const string& str, unsigned int n); 
 
     static string ReplaceSubStr(string rawStr,const string& from, const string& to);
