@@ -1,15 +1,15 @@
-#ifndef __WeAP_AccountPlusHandler_H__
-#define __WeAP_AccountPlusHandler_H__
+#ifndef __WeAP_TransferOutHandler_H__
+#define __WeAP_TransferOutHandler_H__
 
 #include "STHandler.h"
 
 using namespace WeAP::Framework;
 
-class AccountPlusHandler : public STHandler
+class TransferOutHandler : public STHandler
 {
 public:
-    AccountPlusHandler();
-    virtual ~AccountPlusHandler();
+    TransferOutHandler();
+    virtual ~TransferOutHandler();
 
     virtual void Prepare();
 

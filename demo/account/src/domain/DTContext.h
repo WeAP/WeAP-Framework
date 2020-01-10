@@ -21,7 +21,7 @@ public:
 
 public:
     string txnNO;
-    string cmd;
+    string dtCMD;
     KVMap params;
     string dtNO;
     int32_t currentStep;

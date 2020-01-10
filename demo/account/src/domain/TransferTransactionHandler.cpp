@@ -1,22 +1,22 @@
-#include "CreateTransactionHandler.h"
+#include "TransferTransactionHandler.h"
 
 
-CreateTransactionHandler::CreateTransactionHandler()
+TransferTransactionHandler::TransferTransactionHandler()
 {
 
 }
 
-CreateTransactionHandler::~CreateTransactionHandler()
+TransferTransactionHandler::~TransferTransactionHandler()
 {
 
 }
 
-void CreateTransactionHandler::Prepare()
+void TransferTransactionHandler::Prepare()
 {
 
 }
 
-void CreateTransactionHandler::Commit()
+void TransferTransactionHandler::Commit()
 {
     uint64_t fromAccountId = this->stContext->params.GetInt64("fromAccountId");
     uint64_t toAccountId = this->stContext->params.GetInt64("toAccountId");
@@ -42,12 +42,12 @@ void CreateTransactionHandler::Commit()
 
 }
 
-void CreateTransactionHandler::Rollback()
+void TransferTransactionHandler::Rollback()
 {
 
 }
 
-void CreateTransactionHandler::Finish()
+void TransferTransactionHandler::Finish()
 {
     
 }

@@ -23,6 +23,9 @@ public:
     virtual void Finish(){};
 
 protected:
+    virtual bool HasCommitted(){ return false; };
+
+protected:
     STContext* stContext;
     AccountManager* manger;
 };

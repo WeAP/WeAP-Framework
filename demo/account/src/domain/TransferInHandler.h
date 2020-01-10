@@ -1,15 +1,15 @@
-#ifndef __WeAP_AccountMinusHandler_H__
-#define __WeAP_AccountMinusHandler_H__
+#ifndef __WeAP_TransferInHandler_H__
+#define __WeAP_TransferInHandler_H__
 
 #include "STHandler.h"
 
 using namespace WeAP::Framework;
 
-class AccountMinusHandler : public STHandler
+class TransferInHandler : public STHandler
 {
 public:
-    AccountMinusHandler();
-    virtual ~AccountMinusHandler();
+    TransferInHandler();
+    virtual ~TransferInHandler();
 
     virtual void Prepare();
 

@@ -1,26 +1,26 @@
-#include "AccountMinusHandler.h"
+#include "TransferOutHandler.h"
 
 
 using namespace WeAP::MySQL;
 
 
-AccountMinusHandler::AccountMinusHandler()
+TransferOutHandler::TransferOutHandler()
 {
 
 }
 
-AccountMinusHandler::~AccountMinusHandler()
+TransferOutHandler::~TransferOutHandler()
 {
 
 }
 
 
-void AccountMinusHandler::Prepare()
+void TransferOutHandler::Prepare()
 {
 
 }
 
-void AccountMinusHandler::Commit()
+void TransferOutHandler::Commit()
 {
     uint64_t accountId = this->stContext->params.GetInt64("accountId");
     uint32_t currencyType = this->stContext->params.GetInt32("currencyType");
@@ -49,12 +49,12 @@ void AccountMinusHandler::Commit()
     trans.Commit();
 }
 
-void AccountMinusHandler::Rollback()
+void TransferOutHandler::Rollback()
 {
 
 }
 
-void AccountMinusHandler::Finish()
+void TransferOutHandler::Finish()
 {
     
 }

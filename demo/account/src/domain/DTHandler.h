@@ -12,6 +12,8 @@ public:
     DTHandler();
     virtual ~DTHandler();
 
+    void Parse(const string& params);
+
     virtual void Prepare(){};
 
     virtual void Commit(){};
@@ -21,7 +23,8 @@ public:
     virtual void Finish(){};
 
 protected:
-    DTContext* dtContext;
+    DTContext dtContext;
+    string dtCMD;
 };
 
 

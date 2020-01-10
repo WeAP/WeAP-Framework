@@ -1,22 +1,22 @@
-#include "AccountPlusHandler.h"
+#include "TransferInHandler.h"
 
 
-AccountPlusHandler::AccountPlusHandler()
+TransferInHandler::TransferInHandler()
 {
 
 }
 
-AccountPlusHandler::~AccountPlusHandler()
+TransferInHandler::~TransferInHandler()
 {
 
 }
 
-void AccountPlusHandler::Prepare()
+void TransferInHandler::Prepare()
 {
 
 }
 
-void AccountPlusHandler::Commit()
+void TransferInHandler::Commit()
 {
     uint64_t accountId = this->stContext->params.GetInt64("accountId");
     uint32_t currencyType = this->stContext->params.GetInt32("currencyType");
@@ -45,12 +45,12 @@ void AccountPlusHandler::Commit()
     trans.Commit();
 }
 
-void AccountPlusHandler::Rollback()
+void TransferInHandler::Rollback()
 {
 
 }
 
-void AccountPlusHandler::Finish()
+void TransferInHandler::Finish()
 {
     
 }
