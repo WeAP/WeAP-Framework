@@ -23,6 +23,8 @@ public:
 
     void Init(const INIConfig& config, const string& section);
 
+    void Init(const std::string& host, int port);
+
     void Get(const string& key, string& value);
     void Set(const string& key, const string& value);
     void Del(const string& key);

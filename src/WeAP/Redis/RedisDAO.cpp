@@ -23,6 +23,11 @@ void RedisDAO::Init(const INIConfig& config, const string& section)
 
 }
 
+void RedisDAO::Init(const std::string& host, int port)
+{
+    this->redis.Init(host, port);
+}
+
 
 void RedisDAO::Get(const string& key, string& value)
 {

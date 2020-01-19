@@ -1,5 +1,5 @@
 #include "RedisCommand.h"
-
+#include "Logger.h"
 
 namespace WeAP { namespace Redis {
 
@@ -65,7 +65,12 @@ void RedisCommand::Execute(redisContext* context, const string& cmd)
     if (this->reply == NULL)
     {
         //throw Execute();
+
+        ERROR("redis cmd:%s, reply null", cmd.c_str());
     }
+
+    INFO("redis cmd:%s, reply str:%s", cmd.c_str(), this->reply->str);
+
 }
 
 
