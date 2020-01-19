@@ -1,5 +1,7 @@
 #include "RedisCommand.h"
 #include "Logger.h"
+#include "Error.h"
+#include "Exception.h"
 
 namespace WeAP { namespace Redis {
 
@@ -37,7 +39,9 @@ void RedisCommand::Execute4Int(redisContext* context, const string& cmd, int64_t
 
     if (this->reply->type != REDIS_REPLY_INTEGER)
     {
-        //throw
+        resp = this->reply->integer;
+        ERROR("redis cmd:%s, reply %lld", cmd.c_str(), this->reply->integer);
+        throw Exception(Error::Redis_Command_Int_Failed, "reply err");
     }
     resp = this->reply->integer;
 }
@@ -48,9 +52,11 @@ void RedisCommand::Execute4Str(redisContext* context, const string& cmd, string&
 
     if (this->reply->type != REDIS_REPLY_STRING)
     {
-        //throw Execute()
+        resp.assign(this->reply->str, this->reply->len);
+        ERROR("redis cmd:%s, reply %s", cmd.c_str(), this->reply->str);        
+        throw Exception(Error::Redis_Command_String_Failed, resp);
     }
-    resp.assign(reply->str, reply->len);
+    resp.assign(this->reply->str, this->reply->len);
 }
 
 void RedisCommand::Execute(redisContext* context, const string& cmd)
@@ -64,9 +70,8 @@ void RedisCommand::Execute(redisContext* context, const string& cmd)
     this->reply = (redisReply*)::redisCommand(context, cmd.c_str());
     if (this->reply == NULL)
     {
-        //throw Execute();
-
         ERROR("redis cmd:%s, reply null", cmd.c_str());
+        throw Exception(Error::Redis_Command_Failed, "reply null");
     }
 
     INFO("redis cmd:%s, reply str:%s", cmd.c_str(), this->reply->str);

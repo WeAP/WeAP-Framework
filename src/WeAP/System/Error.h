@@ -83,10 +83,13 @@ public:
     static const int Socket_Set_Nonblock_Failed       = 10209;
     static const int Socket_Gets_Failed               = 10209;
     static const int Socket_Receive_Failed            = 10209;
-    static const int Socket_ShutDown_Failed            = 10209;
+    static const int Socket_ShutDown_Failed           = 10209;
 
 
-
+    static const int Redis_Command_Failed             = 10220;
+    static const int Redis_Command_Status_Failed      = 10221;
+    static const int Redis_Command_Int_Failed         = 10222;
+    static const int Redis_Command_String_Failed      = 10223;
 
     
 
