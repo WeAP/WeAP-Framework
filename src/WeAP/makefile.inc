@@ -18,16 +18,16 @@ LIBS    += -L$(LIB_PATH)/openssl/lib -lssl
 LIBS    += -L$(LIB_PATH)/openssl/lib -lcrypto 
 
 # mysql lib
-#INCLUDE += -I$(LIB_PATH)/mysql/include
-#LIBS    += -L$(LIB_PATH)/mysql/lib -lmysqlclient
-
-#INCLUDE += -I/data/mm64/xzwang/QQMail/mm3rd/mysql
-#LIBS    += -L/data/mm64/xzwang/QQMail/mm3rd/mysql/lib64 -lmysqlclient
-
-
 INCLUDE += -I/usr/include/mysql
 LIBS    += -L/usr/lib64/mysql/ -lmysqlclient
 
+#redis
+INCLUDE += -I/usr/local/include
+#LIBS    += -L/usr/local/:/usr/local/jpeg/lib -lhiredis
+LIBS    += -L/usr/local/lib -lhiredis
+
+
+#glog
 INCLUDE += -I/usr/local/include
 LIBS    += -L/usr/local/lib/ -lglog
 

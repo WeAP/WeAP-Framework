@@ -17,14 +17,14 @@ INCLUDE += -I$(WEAP_SRC)/System
 INCLUDE += -I$(WEAP_SRC)/Security
 INCLUDE += -I$(WEAP_SRC)/Thread
 INCLUDE += -I$(WEAP_SRC)/Framework
-#INCLUDE += -I$(WEAP_SRC)/PDF
+INCLUDE += -I$(WEAP_SRC)/Redis
 INCLUDE += -I$(WEAP_SRC)/MySQL
 
 INCLUDE += -I$(TEST_SRC)/System
 INCLUDE += -I$(TEST_SRC)/Security
 INCLUDE += -I$(TEST_SRC)/Thread
 INCLUDE += -I$(TEST_SRC)/Framework
-#INCLUDE += -I$(TEST_SRC)/PDF
+INCLUDE += -I$(TEST_SRC)/Redis
 INCLUDE += -I$(TEST_SRC)/MySQL
 
 
@@ -47,7 +47,7 @@ TEST_OBJS := $(patsubst $(TEST_SRC)/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)
 			$(patsubst $(TEST_SRC)/Thread/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Thread/*.cpp)) \
 			$(patsubst $(TEST_SRC)/Framework/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Framework/*.cpp)) \
 			$(patsubst $(TEST_SRC)/MySQL/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/MySQL/*.cpp)) \
-#			$(patsubst $(TEST_SRC)/PDF/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/PDF/*.cpp)) \
+			$(patsubst $(TEST_SRC)/Redis/%.cpp,$(TEST_OBJ)/%.o,$(wildcard $(TEST_SRC)/Redis/*.cpp)) \
 
 $(TEST_MAIN) : $(WEAP_LIB) $(TEST_OBJS)
 	#$(CC) -O -lc -o $@ $(CFLAGS) $^ $(LIBS)
@@ -69,8 +69,8 @@ $(TEST_OBJ)/%.o :  $(TEST_SRC)/Thread/%.cpp
 $(TEST_OBJ)/%.o :  $(TEST_SRC)/Framework/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-#$(TEST_OBJ)/%.o :  $(TEST_SRC)/PDF/%.cpp 
-#	$(CC) $(CFLAGS) -c $< -o $@
+$(TEST_OBJ)/%.o :  $(TEST_SRC)/Redis/%.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(TEST_OBJ)/%.o :  $(TEST_SRC)/MySQL/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -81,7 +81,7 @@ WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard 
 			$(patsubst $(WEAP_SRC)/Thread/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Thread/*.cpp)) \
 			$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
 			$(patsubst $(WEAP_SRC)/MySQL/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/MySQL/*.cpp)) \
-#			$(patsubst $(WEAP_SRC)/PDF/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/PDF/*.cpp)) \
+			$(patsubst $(WEAP_SRC)/Redis/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Redis/*.cpp)) \
 
 $(WEAP_LIB) : $(WEAP_OBJS) 
 	@ar rv $@ $^
@@ -101,8 +101,8 @@ $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Framework/%.cpp
 $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/MySQL/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@	
 
-#$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/PDF/%.cpp 
-#	$(CC) $(CFLAGS) -c $< -o $@	
+$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Redis/%.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@	
 
 
 DEPS = $(patsubst %.o, .%.d, $(TEST_OBJS), $(WEAP_OBJS))
