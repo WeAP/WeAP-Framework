@@ -4,15 +4,15 @@
 
 #include "curl/curl.h"
 
-#include "KVMap.h"
 
+#include "Logger.h"
 #include "Client.h"
 #include "INIConfig.h"
 
-#include "Logger.h"
 
 using namespace WeAP::System;
 using namespace WeAP::Framework;
+
 
 namespace WeAP {  namespace CURL  {
 
@@ -28,8 +28,6 @@ public:
     
     //回调函数，将返回缓存数据写出
     //static size_t ReceiveDate(void* buffer, size_t size, size_t nmemb, void* content);
-
-
 
 public:
 

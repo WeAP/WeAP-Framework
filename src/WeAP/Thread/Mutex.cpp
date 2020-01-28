@@ -8,22 +8,22 @@ namespace WeAP { namespace Thread {
 
 Mutex::Mutex()
 {
-    this->mutex = NULL;
-    pthread_mutex_init(this->mutex, NULL);
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init(&attr);
+
+    pthread_mutex_init(&this->mutex, &attr);
+
 }
+
 Mutex::~Mutex()
 {
-    if (this->mutex != NULL)
-    {
-        pthread_mutex_destroy(this->mutex);
-    }
-
-};
+    pthread_mutex_destroy(&this->mutex);
+}
 
 
 void Mutex::Lock()
 {
-    int ret = pthread_mutex_lock(this->mutex);
+    int ret = pthread_mutex_lock(&this->mutex);
     if (ret != 0)
     {
         //cout << "lock throw " << ret << endl;
@@ -34,7 +34,7 @@ void Mutex::Lock()
 
 void Mutex::TryLock()
 {
-    int ret = pthread_mutex_trylock(this->mutex);
+    int ret = pthread_mutex_trylock(&this->mutex);
     if (ret != 0)
     {
         //cout << "lock throw " << ret << endl;
@@ -44,7 +44,7 @@ void Mutex::TryLock()
 
 void Mutex::Unlock()
 {
-    int ret = pthread_mutex_unlock(this->mutex);
+    int ret = pthread_mutex_unlock(&this->mutex);
     if (ret != 0)
     {
         //cout << "unlock throw " << ret << endl;
@@ -52,9 +52,6 @@ void Mutex::Unlock()
     }
     //cout << "=============Unlocked" << endl;
 }
-
-
-
 
 
 }}
