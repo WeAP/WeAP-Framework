@@ -2,7 +2,7 @@
 #ifndef __WeAP_RedisDAO_H__
 #define __WeAP_RedisDAO_H__
 
-#include "Object.h"
+#include "DAO.h"
 #include "Redis.h"
 #include "INIConfig.h"
 
@@ -15,7 +15,7 @@ namespace WeAP { namespace Redis {
 /**
  *
  */
-class RedisDAO: public Object
+class RedisDAO: public DAO
 {
 public:
     RedisDAO();

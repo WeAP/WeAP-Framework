@@ -2,8 +2,9 @@
 #define __WeAP_JsonText_H__
 
 
-#include "object.h"
 #include "json/json.h"
+#include "Object.h"
+
 
 using namespace std;
 using namespace WeAP::System;
@@ -29,9 +30,13 @@ public:
     int GetInt(const string& nodeName, int defaultValue = 0) const;
     uint32_t GetUInt32(const string& nodeName, uint32_t defaultValue = 0) const;
     double GetDouble(const string& nodeName, double defaultValue = 0) const;
-
     string GetDouble2String(const string& nodeName, const string& defaultValue = "") const;
 
+    std::string GetString(const string& nodeName) const;
+    int GetInt(const string& nodeName) const;
+    uint32_t GetUInt32(const string& nodeName) const;
+    double GetDouble(const string& nodeName) const;
+    string GetDouble2String(const string& nodeName) const;
     void GetObject(const string& nodeName, JsonText& jsonObject) const;
 
     void SetValue(const string& name, const char* value);

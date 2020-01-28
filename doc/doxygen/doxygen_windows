@@ -678,6 +678,8 @@ WARN_LOGFILE           =
 INPUT                  = ../../src/WeAP/System \
                          ../../src/WeAP/Framework \
                          ../../src/WeAP/MySQL \
+                         ../../src/WeAP/Redis \
+                         ../../src/WeAP/Json \
                          ../../src/WeAP/Security \
                          ../../src/WeAP/Thread \
                          ../../src/WeAP/Test \

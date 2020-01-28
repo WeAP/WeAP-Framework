@@ -2,6 +2,7 @@
 #include "Util.h"
 #include <sys/stat.h>
 #include "FileUtil.h"
+#include "StringUtil.h"
 
 namespace WeAP { namespace Framework {
 
@@ -25,9 +26,24 @@ void INIConfig::Init(const string& confFile)
     for (size_t i = 0; i < lines.size(); i++)
     {
         string line = lines[i];
+        line = StringUtil::Trim(line);
+        if (line.empty())
+        {
+            continue;
+        }
+
+        if (line[0] == '#')
+        {
+            continue;
+        }
+
         if (line[0] == '[')
         {
             size_t right = line.find(']');
+            if (right < 2)
+            {
+                throw Exception(Error::INIConfig_Formate_Error, "section name length not be less 2.")
+            }
             string section = line.substr(1, right - 1);
             currMap = this->sections.Add(section);
             //cout << "[" << section << "]"<< endl;
@@ -38,7 +54,7 @@ void INIConfig::Init(const string& confFile)
             if(pos != std::string::npos)
             {
                 string key = line.substr(0, pos);
-                string value = line.substr(pos + 1);     
+                string value = line.substr(pos + 1);
                 currMap->Set(key, value);
                 //cout << key << ":" << value << endl;
             }

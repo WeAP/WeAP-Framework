@@ -42,12 +42,15 @@ void Redis::Connect()
     {
          if (this->context) 
          {
-             //printf("Connection error: %s\n", this->context->errstr);
+             ERROR("Connection error: %s", this->context->errstr);
              this->Close();
+             throw Exception(Error::Redis_Connect_Failed, "redis connect failed.");
+
          } 
          else 
          {
-             //printf("Connection error: can't allocate redis context\n");
+             ERROR("Connection error: can't allocate redis context");
+             throw Exception(Error::Redis_Context_Is_NULL, "can't allocate redis context.");
          }
 
     }
@@ -69,7 +72,8 @@ void Redis::HSet(const string& key, const string& value)
     this->ExecuteCommand4Int(cmd, ret);
     if (ret != 1L)
     {
-        //throw
+        ERROR("redis HSet failed, ret:%lld", ret);
+        throw Exception(Error::Redis_HSet_Failed, "redis Hdel err");
     }
 }
 
@@ -87,7 +91,8 @@ void Redis::HDel(const string& key)
     this->ExecuteCommand4Int(cmd, ret);
     if (ret != 1L)
     {
-        //throw
+        ERROR("redis HDel failed, ret:%lld", ret);
+        throw Exception(Error::Redis_HDel_Failed, "redis Hdel err");
     }
 }
 
@@ -100,7 +105,8 @@ void Redis::Set(const string& key, const string& value)
 
     if (resp != "OK")
     {
-        //throw Execute();
+        ERROR("redis Set failed, err:%s", resp.c_str());
+        throw Exception(Error::Redis_Set_Failed, "redis set err");
     }
 
 }
@@ -118,7 +124,8 @@ void Redis::Del(const string& key)
     this->ExecuteCommand4Int(cmd, ret);
     if (ret != 1L)
     {
-        //throw
+        ERROR("redis Del failed, ret:%lld", ret);
+        throw Exception(Error::Redis_HDel_Failed, "redis del err");
     }
 
 }
@@ -143,7 +150,8 @@ void Redis::Ping()
     this->ExecuteCommand4Status(cmd, resp);
     if (resp != "PONG")
     {
-        //throw 
+        ERROR("redis ping failed, err:%s", resp.c_str());
+        throw Exception(Error::Redis_Ping_Failed, "redis set err");
     }
 }
 
@@ -153,7 +161,6 @@ void Redis::ExecuteCommand4Status(const string& cmd, string& resp)
 
     try
     {
-
         RedisCommand redisCommand;
         redisCommand.Execute4Status(this->context, cmd, resp);
     }
@@ -170,7 +177,6 @@ void Redis::ExecuteCommand4Int(const string& cmd, int64_t& out)
 
     try
     {
-
         RedisCommand redisCommand;
         redisCommand.Execute4Int(this->context, cmd, out);
     }
@@ -187,7 +193,6 @@ void Redis::ExecuteCommand4Str(const string& cmd, string& out)
 
     try
     {
-
         RedisCommand redisCommand;
         redisCommand.Execute4Str(this->context, cmd, out);
     }

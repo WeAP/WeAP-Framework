@@ -24,9 +24,8 @@ int JsonText::Parse(const string &jsonString)
     bool succ = reader.parse(jsonString, (*(this->jsonValue)));
     if (!succ)
     {
-        int iErr = -1;
         ERROR("Json::Reader.parse, jsonstr:%s", jsonString.c_str());
-        return iErr;
+        throw Exception(Error::JsonText_Parse_Failed, "json reader parsed failed");
     }
     return 0;
 }
@@ -37,10 +36,9 @@ int JsonText::Load(const string& jsonFilePath)
     ifstream jsonFile(jsonFilePath, ios::binary);
  
     if(!jsonFile.is_open())  
-    { 
-        int iErr = -1;
+    {
         ERROR("ifstream.is_open, jsonFilePath:%s", jsonFilePath.c_str());
-        return iErr; 
+        throw Exception(Error::JsonText_Open_File_Failed, "open json file failed.");
     }
 
     Json::Reader reader;
@@ -49,7 +47,7 @@ int JsonText::Load(const string& jsonFilePath)
     {
         int iErr = -2;
         ERROR("Json::Reader.parse, jsonFilePath:%s", jsonFilePath.c_str());
-        return iErr;
+        throw Exception(Error::JsonText_Parse_Failed, "json reader parsed failed");
     }
 
     return 0;
@@ -65,13 +63,13 @@ string JsonText::GetString(const string &nodeName, const string& defaultValue) c
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("IsNull", -2, "json node is not member or null, nodeName:%s", nodeName.c_str());        
+        WARNING("json node is not member or null, nodeName:%s", nodeName.c_str());        
         return defaultValue;        
     }
 
     if (!(*(this->jsonValue))[nodeName].isString())
     {
-        //WARNING("jsoncpp.isString", -4, "json node is not string, nodeName:%s", nodeName.c_str());        
+        WARNING("json node is not string, nodeName:%s", nodeName.c_str());        
         return defaultValue;
     }
 
@@ -82,14 +80,14 @@ int JsonText::GetInt(const string& nodeName, int defaultValue) const
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("IsNull", -2, "json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;        
     }
 
 
     if (!(*(this->jsonValue))[nodeName].isInt())
     {
-        //WARNING("jsoncpp.isInt", -4, "json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
     return (*(this->jsonValue))[nodeName].asInt();
@@ -99,13 +97,13 @@ uint32_t JsonText::GetUInt32(const string& nodeName, uint32_t defaultValue) cons
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("IsNull", -2, "json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;        
     }
 
     if (!(*(this->jsonValue))[nodeName].isUInt())
     {
-        //WARNING("jsoncpp.isInt", -4, "json node is not uint, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not uint, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
     return (*(this->jsonValue))[nodeName].asUInt();
@@ -115,13 +113,13 @@ double JsonText::GetDouble(const string& nodeName, double defaultValue) const
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("IsNull", -2, "json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
 
     if (!(*(this->jsonValue))[nodeName].isDouble())
     {
-        //WARNING("jsoncpp.isDouble", -4, "json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
     return (*(this->jsonValue))[nodeName].asDouble();
@@ -132,32 +130,84 @@ string JsonText::GetDouble2String(const string& nodeName, const string& defaultV
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("IsNull", -2, "json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        /ARNING("json node is not member or null, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
 
     if (!(*(this->jsonValue))[nodeName].isDouble())
     {
-        //WARNING("jsoncpp.isDouble", -4, "json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        WARNING("json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
         return defaultValue;
     }
     return std::to_string((*(this->jsonValue))[nodeName].asDouble());
 }
 
 
+string JsonText::GetString(const string &nodeName) const
+{
+    this->AssertNull(nodeName);
+
+    if (!(*(this->jsonValue))[nodeName].isString())
+    {
+        ERROR("json node is not string, nodeName:%s", nodeName.c_str());        
+        throw Exception(Error::JsonText_Node_Is_Not_String, "json node is not string");
+    }
+
+    return (*(this->jsonValue))[nodeName].asString();
+}
+
+int JsonText::GetInt(const string& nodeName, int defaultValue) const
+{
+    this->AssertNull(nodeName);
+
+    if (!(*(this->jsonValue))[nodeName].isInt())
+    {
+        ERROR("json node is not int, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        throw Exception(Error::JsonText_Node_Is_Not_Int, "json node is not int");
+    }
+    return (*(this->jsonValue))[nodeName].asInt();
+}
+
+uint32_t JsonText::GetUInt32(const string& nodeName, uint32_t defaultValue) const
+{
+    this->AssertNull(nodeName);
+
+    if (!(*(this->jsonValue))[nodeName].isUInt())
+    {
+        ERROR("json node is not uint, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        throw Exception(Error::JsonText_Node_Is_UInt, "json node is not uint");
+    }
+    return (*(this->jsonValue))[nodeName].asUInt();
+}
+
+double JsonText::GetDouble(const string& nodeName, double defaultValue) const
+{
+    this->AssertNull(nodeName);
+
+    if (!(*(this->jsonValue))[nodeName].isDouble())
+    {
+        ERROR("json node is not double, nodeName:%s, json_str:%s", nodeName.c_str(), this->ToString().c_str());
+        throw Exception(Error::JsonText_Node_Is_Double, "json node is not double");
+    }
+    return (*(this->jsonValue))[nodeName].asDouble();
+}
+
+
+string JsonText::GetDouble2String(const string& nodeName) const
+{
+    double val = this->GetDouble(nodeName);
+    return std::to_string(val);
+}
+
 
 void JsonText::GetObject(const string& nodeName, JsonText& jsonObject) const
 {
-    if (this->IsNull(nodeName))
-    {
-        //WARNING("IsNull, json node is not member or null, nodeName:%s", nodeName.c_str());
-        return ;
-    }
+    this->AssertNull(nodeName);
 
     if (!(*(this->jsonValue))[nodeName].isObject())
     {
-        //WARNING("jsoncpp.isObject, json node is not object, nodeName:%s", nodeName.c_str());
-        return ;
+        ERROR("json node is not object, nodeName:%s", nodeName.c_str());
+        throw Exception(Error::JsonText_Node_Is_Object, "json node is not object");
     }
 
     *(jsonObject.jsonValue) = (*(this->jsonValue))[nodeName];
@@ -188,22 +238,19 @@ void JsonText::SetValue(const string& name, const JsonText& value)
 
 void JsonText::GetArray(size_t index, const string &arrayName, JsonText& jsonText) const
 {
-    if (this->IsNull(arrayName))
-    {
-        WARNING("IsNull", -2, "json node is not member or null, arrayName:%s", arrayName.c_str());
-        return;
-    }
+    this->AssertNull(arrayName);
 
     if (!(*(this->jsonValue))[arrayName].isArray())
     {
-        WARNING("jsoncpp.isArray", -3, "json node is not array, arrayName:%s", arrayName.c_str());
-        return;
+        ERROR("json node is not array, arrayName:%s", arrayName.c_str());
+        throw Exception(Error::JsonText_Node_Is_Not_Array, "json node is not array");
     }
 
     if (!(*(this->jsonValue))[arrayName].isValidIndex(index))
     {
-        WARNING("jsoncpp.isValidIndex", -4, "json array index is not valid, arrayName:%s", arrayName.c_str());
-        return;
+        WARNING("json array index is not valid, arrayName:%s", arrayName.c_str());
+        
+        throw Exception(Error::JsonText_Array_Index_Is_Not_Valid, "json array index is not valid");
     }
 
     *(jsonText.jsonValue) = (*(this->jsonValue))[arrayName][(int)index];
@@ -211,10 +258,8 @@ void JsonText::GetArray(size_t index, const string &arrayName, JsonText& jsonTex
 
 int JsonText::GetArrayCount(const string &arrayName) const
 {
-    if (this->IsNull(arrayName))
-    {
-        return 0;
-    }
+    this->AssertNull(arrayName);
+    
     return (*(this->jsonValue))[arrayName].size();
 }
 
@@ -253,8 +298,6 @@ bool JsonText::IsNull(const string& nodeName) const
     return false;
 
 }
-
-
 
 void JsonText::AppendArray(const JsonText& item)
 {
@@ -308,7 +351,8 @@ void JsonText::AssertNullOrEmpty(const string& nodeName)
 {
     if (this->IsNullOrEmpty(nodeName))
     {
-        //WARNING("node is null, nodeName=%s", nodeName.c_str());
+        ERROR("json node is not member or null, nodeName:%s", nodeName.c_str());
+        throw Exception(Error::JsonText_Node_Is_Empty_Or_NULL, "json node is not member or null");
     } 
 }
 
@@ -316,7 +360,8 @@ void JsonText::AssertNull(const string& nodeName)
 {
     if (this->IsNull(nodeName))
     {
-        //WARNING("node is null, nodeName=%s", nodeName.c_str());
+        ERROR("json node is not member or null, nodeName:%s", nodeName.c_str());
+        throw Exception(Error::JsonText_Node_Is_NULL, "json node is not member or null");
     } 
 }
 
