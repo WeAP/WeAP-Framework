@@ -66,6 +66,16 @@ string Util::GetLocalIp()
 }
 
 
+unsigned int Util::IP2Long(const string& ip)
+{
+    vector<uint32_t> list;
+    StringUtil::Split(ip, '.', list);
+
+    unsigned int ipint = list[3] + (list[2] * 256) + (list[1] * 256 * 256) + (list[0] * 256 * 256 *256);
+
+    return ipint;
+}
+
 bool Util::RegexMatch(const string& str, const string& pattern, int cflags)
 {
     regex_t reg;

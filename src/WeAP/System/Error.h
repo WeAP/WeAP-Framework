@@ -64,9 +64,21 @@ public:
 
     static const int ProcessMutex_Lock_Failed         = 10120;
     static const int ProcessMutex_Unlock_Failed       = 10121;
-
     static const int ProcessSpin_Lock_Failed          = 10122;
     static const int ProcessSpin_Unlock_Failed        = 10123;
+
+    static const int Mutex_Lock_Failed                = 10125;
+    static const int Mutex_TryLock_Failed             = 10126;
+    static const int Mutex_Unlock_Failed              = 10127;
+
+    static const int RWLock_RLock_Failed              = 10128;
+    static const int RWLock_WLock_Failed              = 10129;
+    static const int RWLock_Unlock_Failed             = 10130;
+    
+    
+    
+    
+    
 
     static const int Socket_Create_Failed             = 10200;
     static const int Socket_Connect_Failed            = 10201;

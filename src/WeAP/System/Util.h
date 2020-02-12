@@ -16,6 +16,8 @@ public:
     static string GetLocalIpHex();
     static string GetLocalIp();
 
+    static unsigned int IP2Long(const string& ip);
+
     /**
      * @brief regex match
      * 

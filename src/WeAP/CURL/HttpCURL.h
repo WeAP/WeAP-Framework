@@ -21,7 +21,9 @@ public:
 
     void Init(const string& host, int port = 80, int timeout = 2000, int connTimeout = 2000, const string& user = "", const string& pwd = "");
 
+    void AppendHeader(const map<string, string>& headers);
     void AppendHeader(const string&  name, const string& val);
+    
 
     void GET(const string& url, const string& instr, string& outstr, bool https);
     void POST(const string& url, const string& instr, string& outstr, bool https);

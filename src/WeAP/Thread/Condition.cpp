@@ -6,40 +6,22 @@ using namespace WeAP::System;
 
 namespace WeAP { namespace Thread {
 
-CondMutex::CondMutex()
+CondMutex::CondMutex(Mutex* mutex)
 {
-    pthread_mutexattr_t attr;
-    pthread_mutexattr_init(&attr);
-    pthread_mutex_init(&this->mutex, &attr);
-
+    this->mutex = mutex->mutex;
     pthread_cond_init(&this->cond, NULL);
 }
 
 CondMutex::~CondMutex()
 {
-    pthread_mutex_destroy(&this->mutex);
     pthread_cond_destroy(&this->cond);
+    if (this->mutex != NULL)
+    {
+        this->mutex = NULL;
+    }
 }
 
 
-void CondMutex::Lock()
-{
-    int ret = pthread_mutex_lock(&this->mutex);
-    if (ret != 0)
-    {
-        //cout << "lock throw " << ret << endl;
-        throw Exception(Error::Mutex_Lock_Failed, "pthread_mutex_lock failed");
-    }
-}
-void CondMutex::Unlock()
-{
-    int ret = pthread_mutex_unlock(&this->mutex);
-    if (ret != 0)
-    {
-        //cout << "unlock throw " << ret << endl;
-        throw Exception(Error::Mutex_Unlock_Failed, "pthread_mutex_unlock failed");
-    }
-}
 
 void CondMutex::Wait()
 {

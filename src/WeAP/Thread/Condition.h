@@ -24,29 +24,33 @@ producer thread:
 condMutex.Lock();
 if (x > y)
 {
-    condMutex.Single(); //pthread_cond_signal 在多处理器上可能同时唤醒多个线程
+    condMutex.Signal(); //pthread_cond_signal 在多处理器上可能同时唤醒多个线程
 }
 condMutex.Unlock();
 
+
+使用场景：
+accept惊群
+epoll惊群
+nginx惊群
+线程池惊群
  */
 class CondMutex: public Object
 {
 public:
-    CondMutex();
+    Condition(Mutex* mutex);
     virtual ~CondMutex();
 
-    void Lock();
-    void Unlock();
 
     void Wait();
     void TimedWait(int sec, int nsec);
     void Signal();
     void Broadcast();
 
-protected:    
-    pthread_mutex_t mutex;
-    pthread_cond_t cond;
 
+protected:
+    pthread_cond_t cond;
+    pthread_mutex_t* mutex;
 };
 
 }}

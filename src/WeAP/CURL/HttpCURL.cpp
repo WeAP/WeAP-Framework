@@ -112,8 +112,11 @@ void HttpCURL::POST(const string& url, const string& instr, string& outstr, bool
     ret = curl_easy_setopt(this->curl, CURLOPT_POST, 1);
     this->this->Assert4SetOpt(code, "CURLOPT_POST");
 
-    ret = curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, instr.c_str());
+    ret = curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, const_cast<char *>(instr.c_str()));
     this->Assert4SetOpt(ret, "CURLOPT_POSTFIELDS");
+
+    ret = curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, instr.size());
+    this->Assert4SetOpt(ret, "CURLOPT_POSTFIELDSIZE");
 
     ret = curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, ReceiveData);
     this->Assert4SetOpt(ret, "CURLOPT_WRITEFUNCTION");
@@ -163,6 +166,15 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
     INFO("url:%s, req:%s, resp:%s, cost:%d", url.c_str(), instr.c_str(), outstr.c_str(), this->GetTotalTime());
 
 
+}
+
+void HttpCURL::AppendHeader(const map<string, string>& headers)
+{
+    const std::map<std::string, std::string>::const_iterator it = headers.begin();
+    for (; it != headers.end(); it++) 
+    {
+        this->AppendHeader(it->first, it->second);
+    }
 }
 
 void HttpCURL::AppendHeader(const string&  name, const string& val)

@@ -7,11 +7,14 @@
 
 using namespace WeAP::System;
 
+class Condition;
+
 namespace WeAP { namespace Thread {
 
 class Mutex: public Object
 {
 public:
+    friend class Condition;
     Mutex();
     virtual ~Mutex();
 
