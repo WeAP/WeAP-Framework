@@ -2,10 +2,10 @@
 # @author: xzwang
 ###################################################################
 
-LIB_PATH = /home/xzwang/WeAP-Framework/dependency
+LIB_PATH = /home/xzwang/WeAP-Framework/deps
 
-INCLUDE += -I/home/xzwang/WeAP-Framework/dependency/podofo-0.9.6/src
-LIBS    += -L/home/xzwang/WeAP-Framework/dependency/podofo-0.9.6/src -rdynamic -lpodofo 
+INCLUDE += -I/home/xzwang/WeAP-Framework/deps/podofo-0.9.6/src
+LIBS    += -L/home/xzwang/WeAP-Framework/deps/podofo-0.9.6/src -rdynamic -lpodofo 
 
 
 LIBS    += /usr/local/lib/libfontconfig.so /usr/local/lib/libz.so -lcrypto -lcrypto -lssl -lpthread /usr/local/lib/libfreetype.so /usr/local/lib/libpng.so /usr/local/lib/libz.so /usr/local/lib/libtiff.so -lcrypto -lcrypto -lssl -lpthread /usr/local/lib/libfreetype.so /usr/local/lib/libpng.so /usr/local/lib/libtiff.so -Wl,-rpath,/home/xzwang/WeAP-Framework/dependency/podofo-0.9.6/src:/usr/local/lib

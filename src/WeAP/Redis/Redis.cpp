@@ -2,7 +2,9 @@
 #include "RedisCommand.h"
 #include "StringUtil.h"
 #include "hiredis/hiredis.h"
-
+#include "Logger.h"
+#include "Error.h"
+#include "Exception.h"
 
 namespace WeAP { namespace Redis {
 

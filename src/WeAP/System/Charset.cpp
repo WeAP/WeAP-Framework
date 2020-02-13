@@ -1,9 +1,4 @@
 #include "Charset.h"
-
-#include <inttypes.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <assert.h>
 #include "Error.h"
 #include "Exception.h"
 #include <iconv.h>

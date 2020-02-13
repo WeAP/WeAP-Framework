@@ -42,7 +42,7 @@ void INIConfig::Init(const string& confFile)
             size_t right = line.find(']');
             if (right < 2)
             {
-                throw Exception(Error::INIConfig_Formate_Error, "section name length not be less 2.")
+                throw Exception(Error::INIConfig_Formate_Error, "section name length not be less 2.");
             }
             string section = line.substr(1, right - 1);
             currMap = this->sections.Add(section);
