@@ -1,18 +1,14 @@
 
-#ifndef __WeAP_WebClient_H__
-#define __WeAP_WebClient_H__
+#ifndef __WeAP_HttpCURL_H__
+#define __WeAP_HttpCURL_H__
 
+#include "Object.h"
 #include "curl/curl.h"
 
 using namespace WeAP::System;
-using namespace WeAP::Framework;
 
 namespace WeAP {  namespace CURL  {
 
-
-/**
- * https://blog.csdn.net/u011857683/article/details/53046295/
- */
 class HttpCURL: public Object
 {
 public:
@@ -25,8 +21,8 @@ public:
     void AppendHeader(const string&  name, const string& val);
     
 
-    void GET(const string& url, const string& instr, string& outstr, bool https);
-    void POST(const string& url, const string& instr, string& outstr, bool https);
+    void Get(const string& url, const string& instr, string& outstr, bool https);
+    void Post(const string& url, const string& instr, string& outstr, bool https);
 
 protected:
 
@@ -51,7 +47,7 @@ protected:
     string GetLastError() const;
 
 protected:
-    CURL* curl;
+    ::CURL* curl;
 
     struct curl_slist* header;
     char errbuff[CURL_ERROR_SIZE] = {0};

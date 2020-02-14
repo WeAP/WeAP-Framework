@@ -1,6 +1,8 @@
 
 #include "HttpCURL.h"
 #include "Logger.h"
+#include "Error.h"
+#include "Exception.h"
 
 namespace WeAP {  namespace CURL  {
 
@@ -21,7 +23,6 @@ int ReceiveData(char *data, size_t size, size_t nmemb, std::string *outstr)
 HttpCURL::HttpCURL() 
 {
     this->curl = curl_easy_init();
-    this->headers = NULL;
 }
 
 HttpCURL::~HttpCURL() 
@@ -51,7 +52,7 @@ void HttpCURL::Init(const string& host, int port, int timeout, int connTimeout, 
 
     if((!user.empty()) && (!pwd.empty()))
     {
-        string userPwd = this->user + ":" + this->pwd;
+        string userPwd = user + ":" + pwd;
         ret = curl_easy_setopt(this->curl, CURLOPT_USERPWD, (char*)userPwd.c_str());
         this->Assert4SetOpt(ret, "CURLOPT_FAILONERROR");
     }
@@ -74,14 +75,14 @@ void HttpCURL::Init(const string& host, int port, int timeout, int connTimeout, 
 }
 
 
-void HttpCURL::GET(const string& url, const string& instr, string& outstr, bool https)
+void HttpCURL::Get(const string& url, const string& instr, string& outstr, bool https)
 {
     this->SetHeaders();
 
     string getUrl = url + "?" + instr;
 
     CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_URL, (char*)getUrl.c_str());
-    this->Assert4SetOpt(code, "CURLOPT_URL");
+    this->Assert4SetOpt(ret, "CURLOPT_URL");
 
     ret = curl_easy_setopt(this->curl, CURLOPT_HTTPGET, 1);
     this->Assert4SetOpt(ret, "CURLOPT_HTTPGET");
@@ -101,21 +102,21 @@ void HttpCURL::GET(const string& url, const string& instr, string& outstr, bool 
 }
 
 
-void HttpCURL::POST(const string& url, const string& instr, string& outstr, bool https)
+void HttpCURL::Post(const string& url, const string& instr, string& outstr, bool https)
 {
     this->SetHeaders();
 
     CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_URL, (char*)url.c_str());
-    this->Assert4SetOpt(code, "CURLOPT_URL");
+    this->Assert4SetOpt(ret, "CURLOPT_URL");
 
     //发送数据,以及发送方式
     ret = curl_easy_setopt(this->curl, CURLOPT_POST, 1);
-    this->this->Assert4SetOpt(code, "CURLOPT_POST");
+    this->Assert4SetOpt(ret, "CURLOPT_POST");
 
     ret = curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, const_cast<char *>(instr.c_str()));
     this->Assert4SetOpt(ret, "CURLOPT_POSTFIELDS");
 
-    ret = curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, instr.size());
+    ret = curl_easy_setopt(this->curl, CURLOPT_POSTFIELDSIZE, instr.size());
     this->Assert4SetOpt(ret, "CURLOPT_POSTFIELDSIZE");
 
     ret = curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, ReceiveData);
@@ -152,13 +153,13 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
         ERROR("url:%s, req:%s, resp:%s, cost:%d, err:%s", url.c_str(), instr.c_str(), outstr.c_str(), this->GetTotalTime(), errMsg);
 
         //curl传送失败
-        if(CURLE_OPERATION_TIMEOUTE == ret)
+        if(CURLE_OPERATION_TIMEDOUT == ret)
         {
-            throw Exception(Error::CURL_Perform_Timeout, "curl perform timeout")
+            throw Exception(Error::CURL_Perform_Timeout, "curl perform timeout");
         }
         else
         {
-            throw Exception(Error::CURL_Perform_Failed, "curl perform failed")
+            throw Exception(Error::CURL_Perform_Failed, "curl perform failed");
         }
 
     }
@@ -170,7 +171,7 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
 
 void HttpCURL::AppendHeader(const map<string, string>& headers)
 {
-    const std::map<std::string, std::string>::const_iterator it = headers.begin();
+    std::map<std::string, std::string>::const_iterator it = headers.begin();
     for (; it != headers.end(); it++) 
     {
         this->AppendHeader(it->first, it->second);
@@ -188,7 +189,7 @@ void HttpCURL::AppendHeader(const string&  name, const string& val)
     this->header = curl_slist_append(this->header, item.c_str());
     if (this->header == NULL)
     {
-        throw Exception(Error::CURL_Append_Header_NULL, "append header return null.")
+        throw Exception(Error::CURL_Append_Header_NULL, "append header return null.");
     }
 }
 
@@ -224,7 +225,7 @@ void HttpCURL::GetCookies(vector<string>& cookies)
 
     while (pCookie)
     {
-        cookies.push_back(pCookie->data)
+        cookies.push_back(pCookie->data);
         pCookie = pCookie->next;
     }
 
@@ -238,7 +239,7 @@ void HttpCURL::SetReferer(const string& referer)
         return;
     }
 
-    CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_REFERER, refer.c_str());
+    CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_REFERER, referer.c_str());
     this->Assert4SetOpt(ret, "CURLOPT_REFERER");
 
 }
@@ -257,7 +258,7 @@ int HttpCURL::GetTotalTime()
 {
     int totalTime = 0;
     CURLcode ret = curl_easy_getinfo(this->curl, CURLINFO_TOTAL_TIME, &totalTime);
-    this->Assert4GetInfo(code, "CURLINFO_TOTAL_TIME");
+    this->Assert4GetInfo(ret, "CURLINFO_TOTAL_TIME");
     return totalTime;
 }
 

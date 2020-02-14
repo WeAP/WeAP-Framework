@@ -8,7 +8,7 @@ using namespace WeAP::System;
 using namespace WeAP::Framework;
 
 namespace WeAP { namespace CURL {
-
+/*
 class HttpHeader: public AppObject
 {
 public:
@@ -23,7 +23,7 @@ protected:
     struct curl_slist* header;
 
 };
-
+*/
 }}
 
 #endif

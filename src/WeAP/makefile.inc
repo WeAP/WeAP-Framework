@@ -36,7 +36,9 @@ LIBS    += -L/usr/local/lib/ -lglog
 #INCLUDE += -I/usr/local/include
 #LIBS    += -L/usr/local/lib -rdynamic -lpodofo
 
-
+#curl
+INCLUDE += -I/usr/local/include
+LIBS    += -L/usr/local/lib/ -lcurl
 
 # Setting for compile
 CC       := g++

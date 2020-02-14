@@ -6,6 +6,7 @@ using namespace WeAP::System;
 
 namespace WeAP { namespace CURL {
 
+/*
 HttpHeader::HttpHeader(CURL* curl)
 {
     this->curl = curl;
@@ -48,7 +49,7 @@ void HttpHeader::SetHeaders()
     this->Assert4SetOpt(ret, "CURLOPT_HTTPHEADER");
 }
 
-
+*/
 
 }}
 

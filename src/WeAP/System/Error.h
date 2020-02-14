@@ -129,6 +129,10 @@ public:
     static const int CURL_Init_Failed                 = 10260;
     static const int CURL_Setopt_Failed               = 10261;
     static const int CURL_Perform_Failed              = 10262;
+    static const int CURL_Append_Header_NULL          = 10263;
+    static const int CURL_Perform_Timeout             = 10264;
+    static const int CURL_GetInfo_Failed              = 10265;
+    
 
 
     static void Init(int appCode); 

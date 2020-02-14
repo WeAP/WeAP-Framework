@@ -17,6 +17,7 @@ INCLUDE += -I$(WEAP_SRC)/MySQL
 INCLUDE += -I$(WEAP_SRC)/Thread
 INCLUDE += -I$(WEAP_SRC)/Framework
 INCLUDE += -I$(WEAP_SRC)/Redis
+INCLUDE += -I$(WEAP_SRC)/CURL
 
 
 WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/System/*.cpp)) \
@@ -25,6 +26,7 @@ WEAP_OBJS := $(patsubst $(WEAP_SRC)/System/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard 
 		$(patsubst $(WEAP_SRC)/MySQL/%.cpp,   $(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/MySQL/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Framework/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Framework/*.cpp)) \
 		$(patsubst $(WEAP_SRC)/Redis/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/Redis/*.cpp)) \
+		$(patsubst $(WEAP_SRC)/CURL/%.cpp,$(WEAP_OBJ)/%.o, $(wildcard $(WEAP_SRC)/CURL/*.cpp)) \
 
 $(WEAP_LIB) : $(WEAP_OBJS) 
 	@ar rv $@ $^
@@ -45,6 +47,9 @@ $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Framework/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@	
 
 $(WEAP_OBJ)/%.o :  $(WEAP_SRC)/Redis/%.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@	
+
+$(WEAP_OBJ)/%.o :  $(WEAP_SRC)/CURL/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@	
 
 .PHONY : clean install

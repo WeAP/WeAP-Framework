@@ -148,6 +148,7 @@ bool Charset::IsUTF8(const string& str, bool includeNum, bool includeAlpha)
                 {
                     isUTF8 = false;
                     cout << "num/char:" << *start << endl;
+                    break;
                 }
             }
             else if ((*start >=0x61 && *start<=0x7A) ||  //a-z
@@ -157,6 +158,7 @@ bool Charset::IsUTF8(const string& str, bool includeNum, bool includeAlpha)
                 {
                     isUTF8 = false;
                     cout << "num/char:" << *start << endl;
+                    break;
                 }
                 
             }
@@ -164,6 +166,7 @@ bool Charset::IsUTF8(const string& str, bool includeNum, bool includeAlpha)
             {
                 cout << "not num/char:[" << *start  << "]"<< endl;
                 isUTF8 = false;
+                break;
             }
             
             start++;

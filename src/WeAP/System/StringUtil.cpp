@@ -92,33 +92,30 @@ void StringUtil::Split(const string& str, char sep, set<string>& strs)
 
 bool StringUtil::IsNumeric(const string& str)
 {
-    const char *p = str.c_str();
 
-    while(isspace(*p))  p++;
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if (!isdigit(str[i]))
+        {
+            return false;
+        }
+    }
 
-    if(*p == '-') p++;
-
-    while(isdigit(*p))  p++;
-
-    while(isspace(*p))  p++;
-
-    return !(*p);
+    return true;
 }
 
 bool StringUtil::IsAlphanumeric(const string& str)
 {
-    const char* p = str.c_str();
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if (!(isdigit(str[i]) || isalpha(str[i])))
+        {
+            return false;
+        }
+    }
 
-    while(isspace(*p)) p++;
-
-    while(isdigit(*p) || isalpha(*p)) p++;
-
-    while(isspace(*p)) p++;
-
-    return !(*p);
+    return true;
 }
-
-
 
 string StringUtil::ToLower(const string& str)
 {

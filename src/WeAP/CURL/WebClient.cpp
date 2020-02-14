@@ -1,5 +1,6 @@
 
 #include "WebClient.h"
+#include "curl/curl.h"
 #include "Convert.h"
 #include "Logger.h"
 #include "HttpCURL.h"
@@ -35,12 +36,7 @@ void WebClient::Cleanup()
         return;
     }
 
-    CURLcode ret = curl_global_cleanup();
-    if(ret != CURLE_OK)
-    {
-        INFO("curl_global_cleanup succ, ret:%d", ret);
-        throw Exception(Error::CURL_Init_Failed, "curl_global_cleanup failed");
-    }
+    ::curl_global_cleanup();
 
     hasFinished = true;
     INFO("curl_global_cleanup succ");
@@ -91,21 +87,21 @@ void WebClient::Init(const string &host,
 }
 
 
-void WebClient::GET(const string& path, const KVMap& inMap, KVMap& outMap, bool https, int tryTimes)
+void WebClient::Get(const string& path, const KVMap& inMap, KVMap& outMap, bool https, int tryTimes)
 {
     string outstr;
-    this->GET(path, inMap.ToUrlString(), outstr);
+    this->Get(path, inMap.ToUrlString(), outstr);
     outMap.Parse(outstr);
 }
-void WebClient::POST(const string& path, const KVMap& inMap, KVMap& outMap, bool https, int tryTimes)
+void WebClient::Post(const string& path, const KVMap& inMap, KVMap& outMap, bool https, int tryTimes)
 {
     string outstr;
-    this->POST(path, inMap.ToUrlString(), outstr);
+    this->Post(path, inMap.ToUrlString(), outstr);
     outMap.Parse(outstr);
 }
 
 
-void WebClient::GET(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
+void WebClient::Get(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
 {
     string url;
     if (https)
@@ -121,11 +117,12 @@ void WebClient::GET(const string& path, const string& instr, string& outstr, boo
     curl.Init(this->host, this->port, this->timeout, this->connTimeout, this->user, this->pwd);
     curl.AppendHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     
-    curl.GET(url, instr, outstr, https);
+    curl.Get(url, instr, outstr, https);
+
 }
 
 
-void WebClient::POST(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
+void WebClient::Post(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
 {
     string url;
     if (https)
@@ -140,7 +137,7 @@ void WebClient::POST(const string& path, const string& instr, string& outstr, bo
     HttpCURL curl;
     curl.Init(this->host, this->port, this->timeout, this->connTimeout, this->user, this->pwd);
     curl.AppendHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-    curl.POST(url, instr, outstr, https);
+    curl.Post(url, instr, outstr, https);
 
 }
 
