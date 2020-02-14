@@ -21,17 +21,18 @@ public:
 
     void Push(T* val)
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
+
         this->stack.push(val);
-        this->mutex.unlock();
     };
 
     T* Pop()
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
+
         T* top = this->stack.top();
         this->stack.pop();
-        this->mutex.unlock();
+
         return top;
     };
 
@@ -42,21 +43,25 @@ public:
 
     void Clear()
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
+
         while (!this->stack.empty()) 
         {
             this->stack.pop();
         }
-        this->mutex.unlock();
+
     };
 
     bool IsEmpty() const
     {
+        std::lock_guard<std::mutex> lock(this->mutex);
+        
         return this->stack.empty();
     };
-    
+
     size_t Size() const
     {
+        std::lock_guard<std::mutex> lock(this->mutex);
         return this->stack.size();
     };
 

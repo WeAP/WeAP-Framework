@@ -21,17 +21,17 @@ public:
 
     void Push(T* val)  //入队
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
         this->queue.push(val);
-        this->mutex.unlock();
     };
 
     T* Pop()  // 出队
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
+
         T* front = this->queue.front();
         this->queue.pop();
-        this->mutex.unlock();
+
         return front;
     };
 
@@ -47,21 +47,25 @@ public:
 
     void Clear()
     {
-        this->mutex.lock();
+        std::lock_guard<std::mutex> lock(this->mutex);
+
         while (!this->queue.empty()) 
         {
             this->queue.pop();
         }
-        this->mutex.unlock();
+
     };
 
     bool IsEmpty() const
     {
+        std::lock_guard<std::mutex> lock(this->mutex);
+        
         return this->queue.empty();
     };
     
     size_t Size() const
     {
+        std::lock_guard<std::mutex> lock(this->mutex);
         return this->queue.size();
     };
 
