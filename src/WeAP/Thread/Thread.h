@@ -46,7 +46,7 @@ public:
     void SetPriority(int p);
     int GetPriority();
 
-    void SetConcurrency(int level)
+    void SetConcurrency(int level);
     int GetConcurrency();
 
 

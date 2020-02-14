@@ -1,7 +1,11 @@
 #include "ThreadPoolTest.h"
 #include "DateTime.h"
+//#include "ThreadPool.h"
 
-/*
+//using namespace WeAP::Thread;
+using namespace WeAP::System;
+
+
 class LoopTask: public Task
 {
 public:
@@ -12,7 +16,7 @@ public:
     };
     virtual ~LoopTask(){};
 
-    void Run(void* arg)
+    virtual void Run(void* arg)
     {
         int* count = (int*) arg;
         for(int i = 0; i < *count; i++)
@@ -25,9 +29,9 @@ public:
 
 };
 
-*/
 
-using namespace WeAP::System;
+
+
 
 ThreadPoolTest::ThreadPoolTest()
 {

@@ -11,16 +11,16 @@ namespace WeAP { namespace Thread {
 ThreadPool::ThreadPool(int threadCount)
 {
     this->threadCount = threadCount;
-    for (size_t i = 0; i < this->threadCount; i++)
+    for (int i = 0; i < this->threadCount; i++)
     {
         Thread* worker = new Worker();
-        this->threadList.push_back(worker);
+        this->allThreads.push_back(worker);
     }
 }
 
 ThreadPool::~ThreadPool()
 {
-    while (!this->busyThreads.is_empty()) 
+    while (!this->busyThreads.IsEmpty()) 
     {
         this->MoveBusyToIdle();
     }
@@ -29,30 +29,32 @@ ThreadPool::~ThreadPool()
 
 
 
-    for (size_t i = 0; i < this->threadList.size(); i++)
+    for (size_t i = 0; i < this->allThreads.size(); i++)
     {
-        delete this->threadList[i];
+        delete this->allThreads[i];
     }
 
-    this->threadList.clear();
+    this->allThreads.clear();
 }
 
-bool ThreadPool::AddWorker(Thread * worker)
+void ThreadPool::AddWorker(Thread* worker)
 {
     this->allThreads.push_back(worker);
-    this->idleThreads.push(worker);
+    //todo this->idleThreads.Push(worker);
+
 }
-bool ThreadPool::AddTask(Task *, void *arg)
+void ThreadPool::AddTask(Task * task, void *arg)
 {
-    this->tasks.enter(task);
-    _task_args[task] = arg;
+    //this->taskList.push_back(task);
+    //_task_args[task] = arg;
 }
 
 void ThreadPool::Run()
 {
-    while (!_tasks.is_empty()) 
+    /*
+    while (!this->taskList.IsEmpty()) 
     {
-        while (_idle_threads.is_empty()) 
+        while (_idle_threads.IsEmpty()) 
         {
             retrieve_busy_to_idle();
         }
@@ -70,6 +72,7 @@ void ThreadPool::Run()
 
         worker->resume();
     }
+    */
 }
 
 
@@ -81,15 +84,15 @@ void ThreadPool::Stop()
         this->MoveBusyToIdle();
     }
 
-    while (!this->idleThreads.is_empty()) 
+    while (!this->idleThreads.IsEmpty()) 
     {
-        Thread *worker = this->idleThreads.pop();
+        Thread *worker = this->idleThreads.Pop();
         worker->Stop();
     }
 
-    for (size_t i = 0; i < this->threadList.size(); i++)
+    for (size_t i = 0; i < this->allThreads.size(); i++)
     {
-        this->threadList[i].Join();
+        this->allThreads[i]->Join();
     }
     
 }
@@ -98,12 +101,12 @@ void ThreadPool::MoveBusyToIdle()
 {
     for (auto &thread : this->allThreads) 
     {
-        if (this->busyThreads.Exist(thread)) 
+        //if (this->busyThreads.Exist(thread)) 
         {
             if (thread->GetState() == Thread::State::Suspended) 
             {
-                this->busyThreads.remove(thread);
-                this->idleThreads.push(thread);
+                //this->busyThreads.Leave(thread);
+                this->idleThreads.Push(thread);
             }
         }
     }

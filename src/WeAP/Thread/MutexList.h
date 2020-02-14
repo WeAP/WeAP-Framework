@@ -10,7 +10,7 @@ using namespace WeAP::System;
 
 namespace WeAP { namespace Thread {
 
-template<T>
+template<typename T>
 class MutexList: public Object
 {
 public:

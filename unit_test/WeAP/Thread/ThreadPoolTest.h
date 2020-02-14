@@ -2,9 +2,9 @@
 #define __WeAP_ThreadPoolTest_H__
 
 #include "ObjectTest.h"
-//#include "ThreadPool.h"
+#include "ThreadPool.h"
 
-//using namespace WeAP::Thread;
+using namespace WeAP::Thread;
 
 class ThreadPoolTest: public ObjectTest
 {

@@ -17,6 +17,10 @@ INCLUDE += -I$(LIB_PATH)/openssl/include
 LIBS    += -L$(LIB_PATH)/openssl/lib -lssl
 LIBS    += -L$(LIB_PATH)/openssl/lib -lcrypto 
 
+#pthread
+INCLUDE += -I/usr/include
+LIBS    += -L//usr/lib64/ -lpthread
+
 # mysql lib
 INCLUDE += -I/usr/include/mysql
 LIBS    += -L/usr/lib64/mysql/ -lmysqlclient

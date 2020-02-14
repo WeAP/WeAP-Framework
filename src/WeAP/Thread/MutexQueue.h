@@ -4,35 +4,72 @@
 #include <sys/shm.h>
 #include <pthread.h>
 #include "Object.h"
+#include <queue>
+#include <mutex>
 
 using namespace WeAP::System;
 
 
 namespace WeAP { namespace Thread {
 
-template<T>
+template<class T> 
 class MutexQueue: public Object
 {
 public:
     MutexQueue();
     virtual ~MutexQueue();
 
-    void Enter(T* val);
-    T* Leave();
+    void Push(T* val)  //入队
+    {
+        this->mutex.lock();
+        this->queue.push(val);
+        this->mutex.unlock();
+    };
 
-    void Push(T* val);
-    T* Pop();
+    T* Pop()  // 出队
+    {
+        this->mutex.lock();
+        T* front = this->queue.front();
+        this->queue.pop();
+        this->mutex.unlock();
+        return front;
+    };
 
-    T* Front() const;
+    T* Front() const
+    {
+        return this->queue.front();
+    };
 
-    void Clear();
+    T* Back() const
+    {
+        return this->queue.back();
+    };
 
-    bool IsEmpty() const;
-    size_t Size() const;
+    void Clear()
+    {
+        this->mutex.lock();
+        while (!this->queue.empty()) 
+        {
+            this->queue.pop();
+        }
+        this->mutex.unlock();
+    };
+
+    bool IsEmpty() const
+    {
+        return this->queue.empty();
+    };
+    
+    size_t Size() const
+    {
+        return this->queue.size();
+    };
 
 protected:
     std::queue<T*> queue;
-    Mutex mutex;
+    std::mutex mutex;
+    
+
 };
 
 }}

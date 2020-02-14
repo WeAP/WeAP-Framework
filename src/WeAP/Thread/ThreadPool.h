@@ -4,6 +4,10 @@
 #include <sys/shm.h>
 #include <pthread.h>
 #include "Object.h"
+#include "Thread.h"
+#include "MutexStack.h"
+#include "MutexQueue.h"
+
 
 using namespace WeAP::System;
 
@@ -18,10 +22,9 @@ public:
     };
     virtual ~Task()
     {
-
     };
 
-    void Run(void* arg) = 0;
+    virtual void Run(void* arg) = 0;
 
 protected:
     string taskName;
@@ -35,11 +38,11 @@ public:
     Worker(){};
     virtual ~Worker(){};
 
-    void Run()
+    virtual void Run()
     {
         if (this->task != NULL)
         {
-            int ret = this->task.Run(this->task_arg);
+            this->task->Run(this->task_arg);
         }
     }
 
@@ -68,8 +71,8 @@ public:
     ThreadPool(int threadCount);
     virtual ~ThreadPool();
 
-    bool AddWorker(Thread * worker);
-    bool AddTask(Task *, void *arg = NULL);
+    void AddWorker(Thread* worker);
+    void AddTask(Task *, void *arg = NULL);
 
     void Run();
 
@@ -83,8 +86,8 @@ protected:
     vector<Thread*> allThreads;
     vector<Task*> taskList;
 
-    MutexStack<Thread*> idleThreadsStack;
-    MutexQueue<Thread*> busyThreadsQueue;
+    MutexStack<Thread> idleThreads;
+    MutexQueue<Thread> busyThreads;
 
 };
 
