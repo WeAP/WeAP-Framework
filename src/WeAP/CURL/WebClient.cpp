@@ -103,15 +103,17 @@ void WebClient::Post(const string& path, const KVMap& inMap, KVMap& outMap, bool
 
 void WebClient::Get(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
 {
-    string url;
+    string protocol;
     if (https)
     {
-        url = StringUtil::Format("http://%s:%d//%s", this->host.c_str(), this->port, path.c_str());
+        protocol = "https";
     }
     else
     {
-        url = StringUtil::Format("https://%s:%d//%s", this->host.c_str(), this->port, path.c_str());
+        protocol = "http";
     }
+
+    string url = StringUtil::Format("%s://%s:%d%s", protocol.c_str(), this->host.c_str(), this->port, path.c_str());
 
     HttpCURL curl;
     curl.Init(this->host, this->port, this->timeout, this->connTimeout, this->user, this->pwd);

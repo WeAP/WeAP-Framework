@@ -23,6 +23,7 @@ int ReceiveData(char *data, size_t size, size_t nmemb, std::string *outstr)
 HttpCURL::HttpCURL() 
 {
     this->curl = curl_easy_init();
+    this->header = NULL;
 }
 
 HttpCURL::~HttpCURL() 
@@ -79,7 +80,13 @@ void HttpCURL::Get(const string& url, const string& instr, string& outstr, bool 
 {
     this->SetHeaders();
 
-    string getUrl = url + "?" + instr;
+    string getUrl = url;
+    if (!instr.empty())
+    {
+        getUrl += "?" + instr;
+    }
+    
+    cout << getUrl << endl;
 
     CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_URL, (char*)getUrl.c_str());
     this->Assert4SetOpt(ret, "CURLOPT_URL");
@@ -171,11 +178,10 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
 
 void HttpCURL::AppendHeader(const map<string, string>& headers)
 {
-    std::map<std::string, std::string>::const_iterator it = headers.begin();
-    for (; it != headers.end(); it++) 
-    {
-        this->AppendHeader(it->first, it->second);
-    }
+//    for (auto it = headers.cbegin(); it != headers.cend(); it++) 
+//    {
+        //this->AppendHeader(it->first, it->second);
+ //   }
 }
 
 void HttpCURL::AppendHeader(const string&  name, const string& val)
@@ -191,6 +197,7 @@ void HttpCURL::AppendHeader(const string&  name, const string& val)
     {
         throw Exception(Error::CURL_Append_Header_NULL, "append header return null.");
     }
+
 }
 
 void HttpCURL::SetHeaders()
@@ -307,8 +314,8 @@ void HttpCURL::Close()
 
     if (this->header != NULL)
     {
-        curl_slist_free_all(this->header);
-        this->header = NULL;
+        //curl_slist_free_all(this->header);
+        //this->header = NULL;
     }
 }
 

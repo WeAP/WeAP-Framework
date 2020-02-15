@@ -7,8 +7,9 @@ using namespace WeAP::CURL;
 
 WebClientTest::WebClientTest()
 {
-    //127.0.0.1:6379
-    //this->webClient.Init("127.0.0.1", 6379);
+    WebClient::Init();
+
+    this->webClient.Init("127.0.0.1", 80);
 }
 
 WebClientTest::~WebClientTest()
@@ -18,11 +19,13 @@ WebClientTest::~WebClientTest()
 
 void WebClientTest::TestGet()
 {
-
+    string instr;
+    string outstr;
+    this->webClient.Get("/index.html", instr, outstr, false);
+    cout << outstr << endl;
 }
 void WebClientTest::TestPost()
 {
-    //HttpCURL curl;
 
 }
 
