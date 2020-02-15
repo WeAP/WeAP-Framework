@@ -22,13 +22,22 @@ public:
     virtual ~RedisDAO();
 
     void Init(const INIConfig& config, const string& section);
-
     void Init(const std::string& host, int port);
+
+    string GenerateNO(const string& key);
+
+    bool Lock(const string& key, const string& val, int lockms);
+    void Unlock(const string& key, const string& val);
 
     void Get(const string& key, string& value);
     void Set(const string& key, const string& value);
+    void Append(const string& key, const string& value);
     void Del(const string& key);
     void Exists(const string& key);
+
+    int64_t Incr(const string& key);
+    int64_t IncrBy(const string& key, int step);
+    
 
 protected:
     Redis redis;

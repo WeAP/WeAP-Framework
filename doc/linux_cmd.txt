@@ -1,0 +1,220 @@
+
+service命令其实是去/etc/init.d目录下，去执行相关程序
+service redis start
+# 直接启动redis脚本
+/etc/init.d/redis start
+
+1)systemctl命令兼容了service
+即systemctl也会去/etc/init.d目录下，查看，执行相关程序
+
+
+
+2.systemctl命令
+systemd是Linux系统最新的初始化系统(init),作用是提高系统的启动速度，尽可能启动较少的进程，尽可能更多进程并发启动。
+systemd对应的进程管理命令是systemctl
+
+
+mysql:
+
+
+9.16.152.147:3306
+
+
+Shadowsocks（Sock5代理）的PAC模式与全局模式与VPN的区别
+https://www.i5seo.com/shadowsocks-sock5-pac-vpn-difference-between.html
+
+VPN技术主要应用于IP层及以下，因此不依赖与具体的应用，所以可以实现全局代理。
+你接入VPN就是接入了一个专有网络，那么你访问网络都是从这个专有网络的出口出去，好比你在家，你家路由器后面的网络设备是在同一个网络，而VPN则是让你的设备进入了另一个网络。同时你的IP地址也变成了由VPN分配的一个IP地址。通常是一个私网地址。你和VPN服务器之间的通信是否加密取决于连接VPN的具体方式/协议。
+VPN只需要ip地址和帐号密码，并不需要填写端口的，利用Win系统自带的虚拟专用连接拨号即可。
+拨号登陆VPN后，即所有网络相关数据都将通过这个私有专用通道来传输。
+
+
+Socks5是一个代理协议，位于传输层(TCP/UDP等)与应用层之间
+Socks5协议同时支持TCP及UDP代理，它主要工作与会话层，因此与上层的协议无关。但是，它无法做到全局代理。
+Sock5代理服务器则是把你的网络数据请求通过一条连接你和代理服务器之间的通道，由服务器转发到目的地。你没有加入任何新的网络，只是http/socks数据经过代理服务器的转发送出，并从代理服务器接收回应。你与代理服务器通信过程不会被额外处理，如果你用https，那本身就是加密的。
+Sock5代理通常是局部代理，只有通过代理软件运行的程序才会通过Scok5协议进行数据转发。如果想多个程序都通过代理协议运行就需要对每个程序一一设置。
+
+
+
+大部分游戏外挂是基于Sock5代理的，所以很多用外挂的客户都选用Sock5代理，但同样的游戏公司针对这个情况将Sock5代理视作外挂来源进行封锁，导致很多游戏无法使用Sock5代理，而VPN代理却可以。
+
+Sock5代理存在匿名度的问题，部分Sock5代理因匿名度太低无法真正隐藏客户端的真实ip。 5.2、VPN则工作在网络协议的底层，不存在被识别真实ip，更安全、更稳定。
+
+
+
+Shadowsokcks是一款翻墙代理软件，此软件会智能判断所访问网站是否被墙，被墙的网站会通过远端服务器进行访问，但是某些被墙的网站没有及时添加到shadowsocks的数据库中，导致这些网站依然无法访问，或者某些网站在国内可以正常访问，但是速度很慢，希望通过shadowsocks进行加速，我们可以通过手动在本地添加网址的方式解决。
+
+连接Shadowsocks需要知道IP、端口、账号密码和加密方式。但是Shadowsocks因为可以自由换端口，所以定期换端口就可以有效避免IP被封！
+
+Shadowsocks是新一代加密通讯软件服务，通过Web形式传输加密信息，用户可自行选择加密方式以及请求。Shadowsocks包括服务器和客户端两部分组成，服务器端用于接收客户请求，将消息解密并重新请求解密的网页请求，获取消息后再加密转发给客户端。Shadowsocks为Github上知名代理项目。
+Shadowsocks 专为移动设备和无线网络优化。
+
+nginx:
+netstat -tlunp | grep nginx
+
+
+netstat -ano | grep 80
+
+
+查看iptables表的规则 是否限制了80等
+iptables -nL --line-number
+
+-L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+-n 不对ip地址进行查，加上这个参数显示速度会快很多
+-v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+–line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+
+列出谁在使用某个端口
+lsof -i:80 安装root用户的才是 默认的nobody需要删除
+显示系统打开的文件
+
+firewall-cmd --state  查看防火墙firewall运行状态
+
+systemctl start firewalld.service 开启防火墙firewall
+
+启动后增加端口 通过规则
+firewall-cmd --add-port=80/tcp
+
+nginx   -s  reload  #不停止服务重读配置文件
+nginx -s stop #停止服务  #停止服务
+
+
+cat /var/run/nginx/nginx.pid   #查看nginx的pid文件，此文件保存的就是nginx的主进程id
+
+
+[root@Server1 nginx]# kill  -QUIT 13337  #平缓关闭Nginx，即不再接受新的请求，但是等当前请求处理完毕后再关闭Nginx。
+[root@Server1 nginx]# kill  -TERM  21665 #快速停止Nginx服务
+[root@Server1 nginx]# kill  -HUP 21703 #使用新的配置文件启动进程然后平缓停止原有的nginx进程，即平滑重启。 
+[root@Server1 nginx]# kill -USR1 21703   #重新打开配置文件，用于nginx 日志切割
+日期切割的脚本：
+#!/bin/bash
+PID=`cat /var/run/nginx/nginx.pid`
+mv   /var/log/nginx/access.log   /var/log/nginx/`date  +%Y_%m_%d:%H:%M:%S`.access.log
+kill -USR1 $PID
+[root@Server1 nginx]# kill -USR2 21703   #使用新版本的nginx文件启动服务，然后在平缓停止原有的nginx服务，即平滑升级。
+[root@Server1 nginx]# kill -WINCH  21703  #平滑停止nginx的工作进程，用于nginx平滑升级。
+
+
+
+开启服务systemctl start firewalld.service
+
+关闭防火墙systemctl stop firewalld.service
+
+开机自动启动systemctl enable firewalld.service
+
+关闭开机制动启动systemctl disable firewalld.service
+
+
+
+
+这里主要用案例的形式来介绍lsof 命令的使用
+
+1.列出所有打开的文件:
+
+lsof
+
+备注: 如果不加任何参数，就会打开所有被打开的文件，建议加上一下参数来具体定位
+
+2. 查看谁正在使用某个文件
+
+lsof   /filepath/file
+
+3.递归查看某个目录的文件信息
+
+lsof +D /filepath/filepath2/
+
+备注: 使用了+D，对应目录下的所有子目录和文件都会被列出
+
+4. 比使用+D选项，遍历查看某个目录的所有文件信息 的方法
+
+lsof | grep ‘/filepath/filepath2/’
+
+5. 列出某个用户打开的文件信息
+
+lsof  -u username
+
+备注: -u 选项，u其实是user的缩写
+
+6. 列出某个程序所打开的文件信息
+
+lsof -c mysql
+
+备注: -c 选项将会列出所有以mysql开头的程序的文件，其实你也可以写成lsof | grep mysql,但是第一种方法明显比第二种方法要少打几个字符了
+
+7. 列出多个程序多打开的文件信息
+
+lsof -c mysql -c apache
+
+8. 列出某个用户以及某个程序所打开的文件信息
+
+lsof -u test -c mysql
+
+9. 列出除了某个用户外的被打开的文件信息
+
+lsof   -u ^root
+
+备注：^这个符号在用户名之前，将会把是root用户打开的进程不让显示
+
+10. 通过某个进程号显示该进行打开的文件
+
+lsof -p 1
+
+11. 列出多个进程号对应的文件信息
+
+lsof -p 123,456,789
+
+12. 列出除了某个进程号，其他进程号所打开的文件信息
+
+lsof -p ^1
+
+13 . 列出所有的网络连接
+
+lsof -i
+
+14. 列出所有tcp 网络连接信息
+
+lsof  -i tcp
+
+15. 列出所有udp网络连接信息
+
+lsof  -i udp
+
+16. 列出谁在使用某个端口
+
+lsof -i :3306
+
+17. 列出谁在使用某个特定的udp端口
+
+lsof -i udp:55
+
+特定的tcp端口
+
+lsof -i tcp:80
+
+18. 列出某个用户的所有活跃的网络端口
+
+lsof  -a -u test -i
+
+19. 列出所有网络文件系统
+
+lsof -N
+
+20.域名socket文件
+
+lsof -u
+
+21.某个用户组所打开的文件信息
+
+lsof -g 5555
+
+22. 根据文件描述列出对应的文件信息
+
+lsof -d description(like 2)
+
+23. 根据文件描述范围列出文件信息
+
+lsof -d 2-3
+
+
+
+

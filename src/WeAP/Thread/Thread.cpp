@@ -1,6 +1,7 @@
 #include "Thread.h"
 #include "Exception.h"
 #include "Error.h"
+//#include "Logger.h"
 
 using namespace WeAP::System;
 
@@ -16,12 +17,13 @@ void* Thread::StartRoutine(void* arg)
 Thread::Thread(bool detached)
 {
     this->tid = 0;
-    this->isRunning = false;
+    //this->isRunning = false;
+    this->state = Thread::State::Init;
     this->detached = detached;
     int ret = pthread_attr_init( &this->attr );
     if ( 0 != ret )
     {
-        ERROR("pthread_attr_init failed");
+        //ERROR("pthread_attr_init failed");
         return;
     }
     ret = pthread_attr_setscope(&this->attr, PTHREAD_SCOPE_PROCESS);  //用户级线程, 线程与它所在的进程中的其他线程竞争处理器资源
@@ -51,13 +53,13 @@ Thread::~Thread()
 
 void Thread::Start()
 {
-    this->isRunning = true;
+    this->state = Thread::State::Started;
 
     int ret = pthread_create( &this->tid, &this->attr, Thread::StartRoutine, (void*)this );
     if ( ret != 0)
     {
-        ERROR("Start a new thread failed, ret:%d", ret);
-        return -1;
+        //ERROR("Start a new thread failed, ret:%d", ret);
+        throw Exception(-1, "");
     }
 
 
@@ -102,11 +104,11 @@ void Thread::Join()
     int ret = pthread_join(this->tid, NULL);
     if (ret != 0)
     {
-        ERROR("Join the thread failed, tid=%u", his->tid);
+        //ERROR("Join the thread failed, tid=%u", this->tid);
         return;
     }
 
-    INFO("Join the thread succ, tid=%u", this->tid);
+    //INFO("Join the thread succ, tid=%u", this->tid);
 }
 
 void Thread::Detach()
@@ -119,8 +121,8 @@ void Thread::Detach()
 
 void Thread::Cancel()
 {
-    this->isRunning = false;
     int ret = pthread_cancel(this->tid);
+    this->state = Thread::State::Cancelled;
 }
 
 void Thread::TestCancel()
@@ -130,7 +132,6 @@ void Thread::TestCancel()
 
 void Thread::Exit()
 {
-    this->isRunning = false;
     pthread_exit(NULL);
 }
 
@@ -161,7 +162,7 @@ int Thread::GetConcurrency()
     return pthread_getconcurrency();
 }
 
-State Thread::GetState()
+Thread::State Thread::GetState()
 {
     return this->state;
 }

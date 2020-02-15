@@ -28,4 +28,6 @@ void AccountManager::Init(const string& confFile)
     this->accountDAO.Init(config, "Account");
     //this->accountRecordDAO.Init(config, "T_AccountRecord");
     //this->accountTransactionDAO.Init(config, "T_AccountTransaction");
+
+    this->redisDAO.Init(config, "Redis");
 }

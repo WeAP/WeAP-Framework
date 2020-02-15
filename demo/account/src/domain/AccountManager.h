@@ -7,8 +7,10 @@
 #include "AccountRecordDAO.h"
 #include "AccountTransactionDAO.h"
 #include "KeyGenerator.h"
+#include "RedisDAO.h"
 
 using namespace WeAP::Framework;
+using namespace WeAP::Redis;
 
 
 class AccountManager : public Manager
@@ -24,6 +26,7 @@ public:
     AccountRecordDAO accountRecordDAO;
     AccountTransactionDAO accountTransactionDAO;
     KeyGenerator keyGenerator;
+    RedisDAO redisDAO;
     
 
 };

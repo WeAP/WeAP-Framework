@@ -68,6 +68,29 @@ void RedisCommand::Execute4Str(redisContext* context, const string& cmd, string&
     resp.assign(this->reply->str, this->reply->len);
 }
 
+
+void RedisCommand::Execute4Array(redisContext* context, const string& cmd, vector<string>& list)
+{
+    this->Execute(context, cmd);
+
+    if (this->reply->type != REDIS_REPLY_ARRAY)
+    {
+        string errmsg(this->reply->str, this->reply->len);
+        ERROR("redis cmd:%s, reply str: %s", cmd.c_str(), this->reply->str);        
+        throw Exception(Error::Redis_Command_Array_Failed, errmsg);
+    }
+    INFO("redis cmd:%s, reply str: %s", cmd.c_str(), this->reply->str);
+
+    redisReply **pReply = reply->element;
+    size_t len = reply->elements;
+    for (int i =0; i < len; ++i) 
+    {
+        list.push_back(pReply[i]->str);
+    }
+
+}
+
+
 void RedisCommand::Execute(redisContext* context, const string& cmd)
 {
     if (this->reply)

@@ -46,17 +46,17 @@ ThreadPoolTest::~ThreadPoolTest()
 
 void ThreadPoolTest::TestRun()
 {
-/*
-    ThreadPool pool(10);
 
-    int loopCount = 20;
+    //ThreadPool pool(10);
 
-    pool.AddTask(new LoopTask(), &loopCount);
+    //int loopCount = 20;
 
-    cout << val << endl;
+    //pool.AddTask(new LoopTask(), &loopCount);
 
-    EXPECT_EQ(value, val);
-*/
+    //cout << val << endl;
+
+    //EXPECT_EQ(value, val);
+
 }
 
 TEST_F(ThreadPoolTest, TestRun)

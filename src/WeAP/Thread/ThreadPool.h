@@ -86,8 +86,8 @@ protected:
     vector<Thread*> allThreads;
     vector<Task*> taskList;
 
-    MutexStack<Thread> idleThreads;
-    MutexQueue<Thread> busyThreads;
+    MutexStack<Thread*> idleThreads;
+    MutexQueue<Thread*> busyThreads;
 
 };
 

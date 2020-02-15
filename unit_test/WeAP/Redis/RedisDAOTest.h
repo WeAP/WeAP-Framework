@@ -15,6 +15,9 @@ public:
     void TestGet();
     void TestSet();
 
+    void TestIncr();
+    
+
 protected:
 
     RedisDAO redisDAO;

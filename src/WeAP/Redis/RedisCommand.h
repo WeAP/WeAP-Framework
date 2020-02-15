@@ -22,6 +22,7 @@ public:
     void Execute4Status(redisContext* context, const string& cmd, string& resp);
     void Execute4Int(redisContext* context, const string& cmd, int64_t& resp);
     void Execute4Str(redisContext* context, const string& cmd, string& resp);
+    void Execute4Array(redisContext* context, const string& cmd, vector<string>& list);
 
 protected:
     void Execute(redisContext* context, const string& cmd);

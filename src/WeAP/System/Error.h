@@ -104,13 +104,15 @@ public:
     static const int Redis_Command_Status_Failed      = 10221;
     static const int Redis_Command_Int_Failed         = 10222;
     static const int Redis_Command_String_Failed      = 10223;
-    static const int Redis_Set_Failed                 = 10224;
-    static const int Redis_Get_Failed                 = 10225;
-    static const int Redis_Del_Failed                 = 10226;
-    static const int Redis_HSet_Failed                = 10227;
-    static const int Redis_HGet_Failed                = 10228;
-    static const int Redis_HDel_Failed                = 10229;
-    static const int Redis_Ping_Failed                = 10230;
+    static const int Redis_Command_Array_Failed       = 10224;
+    static const int Redis_Set_Failed                 = 10225;
+    static const int Redis_Get_Failed                 = 10226;
+    static const int Redis_Del_Failed                 = 10227;
+    static const int Redis_HSet_Failed                = 10228;
+    static const int Redis_HGet_Failed                = 10229;
+    static const int Redis_HDel_Failed                = 10220;
+    static const int Redis_Ping_Failed                = 10231;
+    static const int Redis_Append_Failed              = 10232;
 
     
     static const int JsonText_Parse_Failed            = 10240;

@@ -14,8 +14,11 @@ class Thread: public Object
 public:
     enum State 
     {
-        Running = 1,
-        Suspended = 2
+        Init = 0,
+        Started = 1,
+        Running = 2,
+        Suspended = 3,
+        Cancelled,
     };
 protected:
     static void* StartRoutine(void* arg);
@@ -41,7 +44,6 @@ public:
     void TestCancel();
 
     void Exit();
-    
 
     void SetPriority(int p);
     int GetPriority();
@@ -49,9 +51,8 @@ public:
     void SetConcurrency(int level);
     int GetConcurrency();
 
-
     pthread_t GetTid() { return this->tid; };
-    State GetState();
+    Thread::State GetState();
 
 protected:
     pthread_t tid;

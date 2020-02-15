@@ -19,24 +19,24 @@ public:
     MutexStack(){};
     virtual ~MutexStack(){};
 
-    void Push(T* val)
+    void Push(T val)
     {
         std::lock_guard<std::mutex> lock(this->mutex);
 
         this->stack.push(val);
     };
 
-    T* Pop()
+    T Pop()
     {
         std::lock_guard<std::mutex> lock(this->mutex);
 
-        T* top = this->stack.top();
+        T top = this->stack.top();
         this->stack.pop();
 
         return top;
     };
 
-    T* Top() const
+    const T Top() const
     {
         return this->stack.top();
     };
@@ -52,21 +52,21 @@ public:
 
     };
 
-    bool IsEmpty() const
+    bool IsEmpty() 
     {
         std::lock_guard<std::mutex> lock(this->mutex);
-        
+
         return this->stack.empty();
     };
 
-    size_t Size() const
+    size_t Size()
     {
         std::lock_guard<std::mutex> lock(this->mutex);
         return this->stack.size();
     };
 
 protected:
-    std::stack<T*> stack;
+    std::stack<T> stack;
     std::mutex mutex;
 };
 
