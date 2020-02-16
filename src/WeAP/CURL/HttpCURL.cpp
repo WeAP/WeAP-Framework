@@ -7,13 +7,14 @@
 namespace WeAP {  namespace CURL  {
 
 
-int ReceiveData(char *data, size_t size, size_t nmemb, std::string *outstr)
+int ReceiveData(char* data, size_t size, size_t nmemb,  void* userdata)
 {
-    if (outstr == NULL)
+    if (userdata == NULL)
     {
         return 0;
     }
 
+    string* outstr = (string*)userdata;
     outstr->append(data, size * nmemb);
 
     return size * nmemb;
@@ -23,12 +24,21 @@ int ReceiveData(char *data, size_t size, size_t nmemb, std::string *outstr)
 HttpCURL::HttpCURL() 
 {
     this->curl = curl_easy_init();
-    this->header = NULL;
 }
 
 HttpCURL::~HttpCURL() 
 {
-    this->Close();
+    if (this->curl != NULL)
+    {
+        curl_easy_cleanup(this->curl);
+        this->curl = NULL;
+    }
+
+    if (this->header != NULL)
+    {
+        curl_slist_free_all(this->header);
+        this->header = NULL;
+    }
 }
 
 void HttpCURL::Init(const string& host, int port, int timeout, int connTimeout, const string& user, const string& pwd)
@@ -65,6 +75,27 @@ void HttpCURL::Init(const string& host, int port, int timeout, int connTimeout, 
     ret = curl_easy_setopt(this->curl, CURLOPT_NOSIGNAL, 1);
     this->Assert4SetOpt(ret, "CURLOPT_NOSIGNAL");
 
+    ret = curl_easy_setopt(this->curl, CURLOPT_NOPROGRESS, 1L); //默认为1, 设置该值为非零值关闭CRUL传输显示的进度条，为0表示打开。
+    this->Assert4SetOpt(ret, "CURLOPT_NOPROGRESS");
+
+    ret = curl_easy_setopt(this->curl, CURLOPT_VERBOSE, 0L);  //输出通信过程中的一些细节
+    this->Assert4SetOpt(ret, "CURLOPT_VERBOSE");
+
+    ret = curl_easy_setopt(this->curl, CURLOPT_HEADER, 0L);  //输出header
+    this->Assert4SetOpt(ret, "CURLOPT_HEADER");
+    //ret = curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, ReceiveHttpHeader);
+    //this->Assert4SetOpt(ret, "CURLOPT_HEADERFUNCTION");
+    //ret = curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, &this->respHeader);
+    //this->Assert4SetOpt(ret, "CURLOPT_HEADERDATA");
+
+    //ret = curl_easy_setopt(this->curl, CURLOPT_FOLLOWLOCATION, 1L); //设为0，则不会自动301，302跳转；
+    //this->Assert4SetOpt(ret, "CURLOPT_FOLLOWLOCATION");
+
+    //ret = curl_easy_setopt(this->curl, CURLOPT_NOBODY, 0L);  //输出中不包含body部分
+    //this->Assert4SetOpt(ret, "CURLOPT_NOBODY");
+    
+
+
     /*
     第一:默认情况下libcurl完成一个任务以后，出于重用连接的考虑不会马上关闭,如果每次目标主机不一样，这里禁止重连接
     第二:每次执行完curl_easy_perform，licurl会继续保持与服务器的连接。接下来的请求可以使用这个连接而不必创建新的连接,如果目标主机是同一个的话。
@@ -85,8 +116,6 @@ void HttpCURL::Get(const string& url, const string& instr, string& outstr, bool 
     {
         getUrl += "?" + instr;
     }
-    
-    cout << getUrl << endl;
 
     CURLcode ret = curl_easy_setopt(this->curl, CURLOPT_URL, (char*)getUrl.c_str());
     this->Assert4SetOpt(ret, "CURLOPT_URL");
@@ -150,7 +179,7 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
     CURLcode getinfoRet = curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &httpCode);
     if (getinfoRet != CURLE_OK)
     {
-        WARN("curl_easy_getinfo:CURLINFO_RESPONSE_CODE ret%d", getinfoRet);
+        WARN("curl_easy_getinfo:CURLINFO_RESPONSE_CODE, ret:%d", getinfoRet);
     }
  
     if(CURLE_OK != ret || 200 != httpCode)
@@ -163,7 +192,28 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
         if(CURLE_OPERATION_TIMEDOUT == ret)
         {
             throw Exception(Error::CURL_Perform_Timeout, "curl perform timeout");
+        }        
+        else if (ret == CURLE_UNSUPPORTED_PROTOCOL)
+        {
+            throw Exception(Error::CURL_Perform_Failed, "curl perform failed, unsupported protocol");
+            //不支持的协议，由URL的头部指定
         }
+        else if (ret == CURLE_COULDNT_CONNECT)
+        {
+            //不能连接到remote 主机或者代理
+            throw Exception(Error::CURL_Perform_Failed, "curl perform failed, couldnt connect");
+        }
+        else if (ret == CURLE_REMOTE_ACCESS_DENIED)
+        {
+            //访问被拒绝
+            throw Exception(Error::CURL_Perform_Failed, "curl perform failed, remote access denied");
+        }
+        else if (ret == CURLE_HTTP_RETURNED_ERROR)
+        {
+            //Http返回错误
+            throw Exception(Error::CURL_Perform_Failed, "curl perform failed, http returned error");
+        }
+        
         else
         {
             throw Exception(Error::CURL_Perform_Failed, "curl perform failed");
@@ -178,10 +228,10 @@ void HttpCURL::Perform(const string& url, const string& instr, string& outstr)
 
 void HttpCURL::AppendHeader(const map<string, string>& headers)
 {
-//    for (auto it = headers.cbegin(); it != headers.cend(); it++) 
-//    {
-        //this->AppendHeader(it->first, it->second);
- //   }
+    for (auto it = headers.cbegin(); it != headers.cend(); it++) 
+    {
+        this->AppendHeader(it->first, it->second);
+    }
 }
 
 void HttpCURL::AppendHeader(const string&  name, const string& val)
@@ -304,20 +354,6 @@ void HttpCURL::Assert4GetInfo(CURLcode ret, const string& info)
 
 }
 
-void HttpCURL::Close()
-{
-    if (this->curl != NULL)
-    {
-        curl_easy_cleanup(this->curl);
-        this->curl = NULL;
-    }
-
-    if (this->header != NULL)
-    {
-        //curl_slist_free_all(this->header);
-        //this->header = NULL;
-    }
-}
 
 string HttpCURL::GetLastError() const
 {

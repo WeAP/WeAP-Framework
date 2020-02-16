@@ -42,14 +42,11 @@ protected:
     void Assert4SetOpt(CURLcode code, const string& option);
     void Assert4GetInfo(CURLcode code, const string& info);
 
-    void Close();
-
     string GetLastError() const;
 
 protected:
     ::CURL* curl;
-
-    struct curl_slist* header;
+    struct curl_slist* header = NULL;
     char errbuff[CURL_ERROR_SIZE] = {0};
 
 };
