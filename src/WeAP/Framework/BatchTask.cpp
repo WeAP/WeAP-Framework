@@ -20,7 +20,6 @@ void BatchTask::DoExecute()
     this->MultiProcess();
 }
 
-
 void BatchTask::MultiProcess() 
 {
     std::vector<std::pair<int, int>> vecTableRanges;
@@ -126,7 +125,7 @@ void BatchTask::ProcessTable(int32_t iTableIndex, int32_t& iRecordCount)
 
         if (iCount > 0)
         {
-            //PLOG_RUN_EX("Query, iTableIndex:%d, iCount:%d", iTableIndex, iCount);
+            //INFO("Query, iTableIndex:%d, iCount:%d", iTableIndex, iCount);
             this->ProcessList(records);
 
             iOffset += iCount;

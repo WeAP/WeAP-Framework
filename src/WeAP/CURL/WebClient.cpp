@@ -103,18 +103,8 @@ void WebClient::Post(const string& path, const KVMap& inMap, KVMap& outMap, bool
 
 void WebClient::Get(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
 {
-    string protocol;
-    if (https)
-    {
-        protocol = "https";
-    }
-    else
-    {
-        protocol = "http";
-    }
-
-    string url = StringUtil::Format("%s://%s:%d%s", protocol.c_str(), this->host.c_str(), this->port, path.c_str());
-
+    string url = this->GetUrl(https, this->host, this->port, path);
+    
     HttpCURL curl;
     curl.Init(this->host, this->port, this->timeout, this->connTimeout, this->user, this->pwd);
     curl.AppendHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
@@ -126,15 +116,7 @@ void WebClient::Get(const string& path, const string& instr, string& outstr, boo
 
 void WebClient::Post(const string& path, const string& instr, string& outstr, bool https, int tryTimes)
 {
-    string url;
-    if (https)
-    {
-        url = StringUtil::Format("http://%s:%d//%s", this->host.c_str(), this->port, path.c_str());
-    }
-    else
-    {
-        url = StringUtil::Format("https://%s:%d//%s", this->host.c_str(), this->port, path.c_str());
-    }
+    string url = this->GetUrl(https, this->host, this->port, path);
 
     HttpCURL curl;
     curl.Init(this->host, this->port, this->timeout, this->connTimeout, this->user, this->pwd);
@@ -144,7 +126,23 @@ void WebClient::Post(const string& path, const string& instr, string& outstr, bo
 }
 
 
+string WebClient::GetUrl(bool https, const string& host, int port, const string& path)
+{
+    string protocol;
+    if (https)
+    {
+        protocol = "https";
+    }
+    else
+    {
+        protocol = "http";
+    }
 
+    string url = StringUtil::Format("%s://%s:%d%s", protocol.c_str(), host.c_str(), port, path.c_str());
+
+    return url;
+
+}
 
 
 

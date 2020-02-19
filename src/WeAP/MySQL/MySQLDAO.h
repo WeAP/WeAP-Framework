@@ -31,6 +31,8 @@ public:
 
     MySQLTransaction GetTransaction();
 
+    
+
 protected:
     void Query(const string& sql, KVMap& record);
     void Query(const string& sql, ObjectList<KVMap>& recordList);

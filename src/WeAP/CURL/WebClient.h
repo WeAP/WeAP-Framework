@@ -40,6 +40,9 @@ public:
     virtual void Post(const string& path, const string& instr, string& outstr, bool https = true, int tryTimes = 1);
 
 protected:
+    string GetUrl(bool https, const string& host, int port, const string& path);
+
+protected:
     string host;
     int port;
     int timeout;

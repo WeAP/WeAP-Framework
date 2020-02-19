@@ -19,10 +19,24 @@ WebClientTest::~WebClientTest()
 
 void WebClientTest::TestGet()
 {
+
     string instr;
     string outstr;
+
+/*
     this->webClient.Get("/index.html", instr, outstr, false);
     cout << outstr << endl;
+*/
+
+    WebClient client;
+    client.Init("www.baidu.com", 443);
+    client.Get("", instr, outstr, true);
+
+    cout << "============start" << endl;
+    cout << outstr << endl;
+    cout << "============end" << endl;
+
+
 }
 void WebClientTest::TestPost()
 {
